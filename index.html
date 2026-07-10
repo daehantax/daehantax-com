@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>대한세무법인 — 놓치면 손해인 절세정보, 가장 빠르게</title>
+  <meta name="description" content="대한세무법인은 수임 고객에게 이번달 세무일정, 절세정보, 세법개정 소식을 가장 빠르게 전달합니다. 기장대리, 양도·상속·증여 신고, 맞춤형 절세 컨설팅.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <!-- ===== 헤더 ===== -->
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo/logo-mark-crop.png" alt="대한세무법인 로고">
+        <span class="brand__name">대한세무법인</span>
+      </a>
+      <nav class="gnb" id="gnb" aria-label="주 메뉴">
+        <a href="index.html">홈</a>
+        <a href="about.html">세무법인 소개</a>
+        <a href="services.html">서비스 안내</a>
+        <a href="info.html">세무정보실</a>
+        <a class="gnb__cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
+      </nav>
+      <a class="btn btn--kakao btn--sm header-cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== 히어로 ===== -->
+    <section class="hero" aria-label="소개">
+      <div class="container container--wide">
+        <p class="eyebrow hero__label">DAEHAN TAX CORPORATION</p>
+        <h1>놓치면 손해인 절세정보,<br>고객보다 반 발 먼저 챙깁니다.</h1>
+        <p>대한세무법인은 신고 기한과 제도 변화를 기다리지 않고 먼저 알려드립니다.
+          이번달 세무일정부터 절세 포인트, 세법개정 소식까지 — 사장님이 사업에만 집중하실 수 있도록.</p>
+        <div class="hero__actions">
+          <a class="btn btn--solid" href="info.html">세무정보실 바로가기</a>
+          <a class="btn btn--kakao" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카카오톡으로 상담하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 이번달 세무일정 ===== -->
+    <section class="section" aria-labelledby="cal-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">01</span> Tax Calendar</p>
+            <h2 class="headline" id="cal-heading"><span data-current-month></span>월, 이 날짜만은<br>꼭 기억하세요.</h2>
+          </div>
+          <div class="section-head__side">
+            <a class="link-arrow" href="info.html#calendar">연간 세무일정 전체 보기</a>
+          </div>
+        </div>
+        <div class="cal-grid reveal" data-render="calendar-current">
+          <p class="data-empty">세무일정을 불러오는 중입니다…</p>
+        </div>
+        <p class="cal-note" data-cal-note>기한이 토요일·공휴일인 경우 다음 영업일까지 신고·납부할 수 있습니다.</p>
+      </div>
+    </section>
+
+    <!-- ===== 절세정보 · 세법개정 소식 ===== -->
+    <section class="section section--off section--line-top" aria-labelledby="news-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">02</span> Tax Journal</p>
+            <h2 class="headline" id="news-heading">절세정보 &amp; 세법개정 소식</h2>
+            <p class="lede">아는 만큼 줄어드는 것이 세금입니다. 고객님께 필요한 정보만 골라 쉽게 정리했습니다.</p>
+          </div>
+          <div class="section-head__side">
+            <a class="link-arrow" href="info.html#tips">전체 게시글 보기</a>
+          </div>
+        </div>
+        <div class="article-grid reveal" data-render="latest-articles">
+          <p class="data-empty">게시글을 불러오는 중입니다…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 회사 소개 티저 ===== -->
+    <section class="section" aria-labelledby="about-heading">
+      <div class="container container--wide">
+        <div class="split reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">03</span> About Us</p>
+            <h2 class="headline" id="about-heading">숫자 너머의 사정까지<br>읽는 세무 파트너</h2>
+          </div>
+          <div class="split__body">
+            <p>대한세무법인은 성남 분당에서 개인사업자와 법인의 세무를 책임지고 있는 세무법인입니다.
+              국세청 실무와 세무조사 대응 경험을 갖춘 세무사들이 장부 기장부터 양도·상속·증여 신고,
+              절세 설계까지 고객 한 분 한 분의 상황에 맞는 답을 찾아드립니다.</p>
+            <p style="margin-top:1.5rem;"><a class="link-arrow" href="about.html">세무법인 소개 보기</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 핵심 서비스 ===== -->
+    <section class="section section--tint section--line-top" aria-labelledby="svc-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">04</span> Services</p>
+            <h2 class="headline" id="svc-heading">대한세무법인이 하는 일</h2>
+          </div>
+          <div class="section-head__side">
+            <a class="link-arrow" href="services.html">서비스 안내 전체 보기</a>
+          </div>
+        </div>
+        <div class="service-grid reveal">
+          <a class="service-card" href="services.html#bookkeeping">
+            <span class="service-card__num">SERVICE 01</span>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="6" width="30" height="36" rx="2"/>
+                <path d="M16 15h16M16 22h16M16 29h9"/>
+                <path d="M30 33l3 3 5-6"/>
+              </svg>
+            </span>
+            <h3 class="service-card__title">기장대리</h3>
+            <p class="service-card__desc">개인·법인사업자의 장부 작성과 부가세·소득세·법인세 신고를 연중 책임 관리합니다.</p>
+            <span class="link-arrow">자세히 보기</span>
+          </a>
+          <a class="service-card" href="services.html#transfer">
+            <span class="service-card__num">SERVICE 02</span>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 22L24 9l16 13"/>
+                <path d="M12 20v19h24V20"/>
+                <path d="M20 39v-10h8v10"/>
+              </svg>
+            </span>
+            <h3 class="service-card__title">양도 · 상속 · 증여 신고</h3>
+            <p class="service-card__desc">부동산과 가족 자산의 이동에는 세금이 따릅니다. 신고 기한 안에 가장 유리한 방법을 찾습니다.</p>
+            <span class="link-arrow">자세히 보기</span>
+          </a>
+          <a class="service-card" href="services.html#consulting">
+            <span class="service-card__num">SERVICE 03</span>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="24" r="17"/>
+                <path d="M24 14v10l7 5"/>
+              </svg>
+            </span>
+            <h3 class="service-card__title">맞춤형 절세 컨설팅</h3>
+            <p class="service-card__desc">같은 소득이라도 설계에 따라 세금이 달라집니다. 사업과 자산 상황에 맞춘 절세 전략을 제안합니다.</p>
+            <span class="link-arrow">자세히 보기</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 카카오 상담 CTA ===== -->
+    <section class="cta-banner" aria-labelledby="cta-heading">
+      <div class="container container--wide cta-banner__inner">
+        <p class="eyebrow">Contact</p>
+        <h2 id="cta-heading">세금 고민, 검색보다<br>담당 세무사에게 물어보세요.</h2>
+        <p>카카오톡 채널을 추가하시면 신고 기한 안내와 절세 소식을 받아보실 수 있고,
+          궁금한 점은 채팅으로 바로 문의하실 수 있습니다.</p>
+        <div class="cta-banner__actions">
+          <a class="btn btn--kakao" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카카오톡 채널로 상담하기</a>
+          <a class="btn btn--ghost-light" href="tel:031-783-8877">전화 상담 031-783-8877</a>
+        </div>
+        <p class="cta-banner__tel">상담시간 외에는 메시지를 남겨 주시면 순차적으로 답변드립니다.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== 푸터 ===== -->
+  <footer class="site-footer">
+    <div class="container container--wide">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <img src="assets/img/logo/logo-white-crop.png" alt="대한세무법인 심볼">
+          <p>대한세무법인은 수임 고객에게 꼭 필요한 세무일정과 절세정보를 가장 빠르게 전하는 세무 파트너입니다.</p>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <address>
+            <ul>
+              <li>경기도 성남시 분당구 성남대로 912, 515호<br>(야탑동, BYC빌딩)</li>
+              <li><a href="tel:031-783-8877">대표전화 031-783-8877</a></li>
+              <li><a href="mailto:tax@taxdh.net">tax@taxdh.net</a></li>
+              <li><a href="http://pf.kakao.com/_ddxbxcu" target="_blank" rel="noopener">카카오톡 채널 @대한세무법인</a></li>
+            </ul>
+          </address>
+        </div>
+        <div>
+          <h3>Menu</h3>
+          <ul>
+            <li><a href="index.html">홈</a></li>
+            <li><a href="about.html">세무법인 소개</a></li>
+            <li><a href="services.html">서비스 안내</a></li>
+            <li><a href="info.html">세무정보실</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>대한세무법인 · 대표세무사 이석제</p>
+        <p>&copy; <span data-year>2026</span> Daehan Tax Corporation. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== 플로팅 카카오 버튼 ===== -->
+  <a class="kakao-float" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener" aria-label="카카오톡 채널로 상담하기">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 3C6.9 3 2.8 6.2 2.8 10.2c0 2.6 1.7 4.8 4.3 6.1l-1.1 4c-.1.4.3.7.6.5l4.7-3.1c.2 0 .5.1.7.1 5.1 0 9.2-3.2 9.2-7.2S17.1 3 12 3z"/>
+    </svg>
+    <span>카톡 상담</span>
+  </a>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/data-render.js"></script>
+</body>
+</html>

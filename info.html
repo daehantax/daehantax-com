@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>세무정보실 — 대한세무법인</title>
+  <meta name="description" content="대한세무법인 세무정보실. 연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <!-- ===== 헤더 ===== -->
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo/logo-mark-crop.png" alt="대한세무법인 로고">
+        <span class="brand__name">대한세무법인</span>
+      </a>
+      <nav class="gnb" id="gnb" aria-label="주 메뉴">
+        <a href="index.html">홈</a>
+        <a href="about.html">세무법인 소개</a>
+        <a href="services.html">서비스 안내</a>
+        <a href="info.html">세무정보실</a>
+        <a class="gnb__cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
+      </nav>
+      <a class="btn btn--kakao btn--sm header-cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== 페이지 히어로 ===== -->
+    <section class="page-hero" aria-labelledby="info-hero-heading">
+      <div class="container container--wide">
+        <p class="eyebrow">Tax Library</p>
+        <h1 id="info-hero-heading">세무정보실</h1>
+        <p>연간 세무일정과 절세정보, 세법개정 소식, 공지사항을 한곳에 모았습니다.
+          수임 고객님께서는 이 페이지만 확인하셔도 중요한 일정을 놓치지 않으실 수 있습니다.</p>
+      </div>
+    </section>
+
+    <!-- ===== 세무일정 캘린더 ===== -->
+    <section class="section" id="calendar" aria-labelledby="calendar-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">01</span> Tax Calendar 2026</p>
+            <h2 class="headline" id="calendar-heading">연간 세무일정</h2>
+            <p class="lede">월을 선택하면 해당 월의 주요 국세 신고·납부 기한이 표시됩니다.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="month-nav" data-render="month-nav" role="group" aria-label="월 선택"></div>
+          <div class="month-panel">
+            <div class="cal-grid" data-render="calendar-full">
+              <p class="data-empty">세무일정을 불러오는 중입니다…</p>
+            </div>
+          </div>
+          <p class="cal-note" data-cal-note>기한이 토요일·공휴일인 경우 다음 영업일까지 신고·납부할 수 있습니다.</p>
+        </div>
+
+        <div class="reveal" style="margin-top: var(--space-block);">
+          <h3 class="headline headline--sm" style="margin-bottom: 1.5rem;">상시 신고 항목</h3>
+          <div class="cal-grid" data-render="calendar-anytime"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 절세정보 아카이브 ===== -->
+    <section class="section section--off section--line-top" id="tips" aria-labelledby="tips-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">02</span> Tax Saving</p>
+            <h2 class="headline" id="tips-heading">절세정보</h2>
+            <p class="lede">일반적인 제도 안내이며, 개별 적용 여부는 고객님의 상황에 따라 달라질 수 있습니다.
+              자세한 내용은 상담을 통해 확인해 주세요.</p>
+          </div>
+        </div>
+        <div class="article-grid reveal" data-render="tax-tips">
+          <p class="data-empty">게시글을 불러오는 중입니다…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 세법개정 소식 ===== -->
+    <section class="section section--line-top" id="law" aria-labelledby="law-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">03</span> Law Updates</p>
+            <h2 class="headline" id="law-heading">세법개정 소식</h2>
+            <p class="lede">개정안은 국회 심의 과정에서 달라질 수 있습니다. 확정 내용 기준의 적용 여부는 담당 세무사와 상의하세요.</p>
+          </div>
+        </div>
+        <div class="article-grid reveal" data-render="law-updates">
+          <p class="data-empty">게시글을 불러오는 중입니다…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 공지사항 ===== -->
+    <section class="section section--off section--line-top" id="notice" aria-labelledby="notice-heading">
+      <div class="container container--wide">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow eyebrow--num"><span class="num">04</span> Notice</p>
+            <h2 class="headline" id="notice-heading">공지사항</h2>
+          </div>
+        </div>
+        <div class="notice-list reveal" data-render="notices">
+          <p class="data-empty">공지사항을 불러오는 중입니다…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-banner" aria-labelledby="cta-heading">
+      <div class="container container--wide cta-banner__inner">
+        <p class="eyebrow">Contact</p>
+        <h2 id="cta-heading">내 상황에는 어떻게 적용될까?</h2>
+        <p>게시글은 일반적인 안내입니다. 고객님의 사업과 자산에 실제로 어떻게 적용되는지는
+          카카오톡 채널로 문의해 주시면 담당 세무사가 확인해 드립니다.</p>
+        <div class="cta-banner__actions">
+          <a class="btn btn--kakao" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카카오톡 채널로 상담하기</a>
+          <a class="btn btn--ghost-light" href="tel:031-783-8877">전화 상담 031-783-8877</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== 푸터 ===== -->
+  <footer class="site-footer">
+    <div class="container container--wide">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <img src="assets/img/logo/logo-white-crop.png" alt="대한세무법인 심볼">
+          <p>대한세무법인은 수임 고객에게 꼭 필요한 세무일정과 절세정보를 가장 빠르게 전하는 세무 파트너입니다.</p>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <address>
+            <ul>
+              <li>경기도 성남시 분당구 성남대로 912, 515호<br>(야탑동, BYC빌딩)</li>
+              <li><a href="tel:031-783-8877">대표전화 031-783-8877</a></li>
+              <li><a href="mailto:tax@taxdh.net">tax@taxdh.net</a></li>
+              <li><a href="http://pf.kakao.com/_ddxbxcu" target="_blank" rel="noopener">카카오톡 채널 @대한세무법인</a></li>
+            </ul>
+          </address>
+        </div>
+        <div>
+          <h3>Menu</h3>
+          <ul>
+            <li><a href="index.html">홈</a></li>
+            <li><a href="about.html">세무법인 소개</a></li>
+            <li><a href="services.html">서비스 안내</a></li>
+            <li><a href="info.html">세무정보실</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>대한세무법인 · 대표세무사 이석제</p>
+        <p>&copy; <span data-year>2026</span> Daehan Tax Corporation. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== 플로팅 카카오 버튼 ===== -->
+  <a class="kakao-float" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener" aria-label="카카오톡 채널로 상담하기">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 3C6.9 3 2.8 6.2 2.8 10.2c0 2.6 1.7 4.8 4.3 6.1l-1.1 4c-.1.4.3.7.6.5l4.7-3.1c.2 0 .5.1.7.1 5.1 0 9.2-3.2 9.2-7.2S17.1 3 12 3z"/>
+    </svg>
+    <span>카톡 상담</span>
+  </a>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/data-render.js"></script>
+</body>
+</html>
