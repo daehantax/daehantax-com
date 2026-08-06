@@ -326,24 +326,84 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .modal.is-open { display: flex; }
 .modal__backdrop { position: absolute; inset: 0; background: rgba(16, 27, 69, 0.55); }
 .modal__panel {
+  --modal-pad: clamp(1.75rem, 4vw, 3rem);
   position: relative;
   background: var(--bg);
   width: min(720px, 100%);
-  max-height: min(84vh, 900px);
+  max-height: min(86vh, 900px);
   overflow-y: auto;
-  padding: clamp(1.75rem, 4vw, 3rem);
+  overscroll-behavior: contain;
+  padding: 0 var(--modal-pad) var(--modal-pad);
   border-top: 4px solid var(--navy);
+  transition: transform 0.2s ease;
 }
 @media (min-width: 720px) {
   .modal { align-items: center; padding: 2rem; }
 }
+
+/* 닫기 바 — 스크롤해도 항상 보이도록 상단에 고정.
+   (이전에는 absolute라 본문을 내리면 X가 화면 밖으로 사라졌음) */
+.modal__bar {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 56px;
+  margin-inline: calc(var(--modal-pad) * -1);
+  padding-inline: var(--modal-pad);
+  background: var(--bg);
+  box-shadow: 0 1px 0 var(--line);
+  touch-action: none;
+}
 .modal__close {
-  position: absolute; top: 0.9rem; right: 0.9rem;
-  width: 40px; height: 40px;
-  font-size: 1.4rem; line-height: 1; color: var(--gray-500);
+  position: static;
+  width: 44px; height: 44px;
+  margin-right: -0.55rem;
+  font-size: 1.5rem; line-height: 1; color: var(--gray-500);
 }
 .modal__close:hover { color: var(--navy); }
-.modal__meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+
+/* 링크 복사 — 게시글 주소를 카카오톡 등으로 바로 공유 */
+.modal__copy {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  min-height: 44px; padding: 0 0.25rem;
+  font-size: var(--fs-xs); font-weight: 700;
+  color: var(--gray-500);
+  transition: color 0.15s ease;
+}
+.modal__copy::before {
+  content: ""; width: 0.85rem; height: 0.85rem; flex-shrink: 0;
+  border: 1.5px solid currentColor; border-radius: 2px;
+  box-shadow: 3px -3px 0 -1.5px var(--bg), 4.5px -4.5px 0 -1.5px currentColor;
+}
+.modal__copy:hover { color: var(--navy); }
+.modal__copy[hidden] { display: none; }
+
+/* 모바일 바텀시트 손잡이 — 아래로 끌어내려 닫을 수 있음을 시각적으로 알림 */
+.modal__grab { display: none; }
+@media (max-width: 719px) {
+  .modal__grab {
+    display: block;
+    position: absolute; left: 50%; top: 10px;
+    transform: translateX(-50%);
+    width: 44px; height: 4px;
+    background: var(--gray-300);
+    border-radius: 2px;
+  }
+}
+
+/* 본문 끝 닫기 버튼 — 다 읽고 위로 올라갈 필요 없이 그 자리에서 닫기 */
+.modal__done {
+  display: block; width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.95rem 1rem;
+  font-size: var(--fs-small); font-weight: 700;
+  color: var(--gray-700);
+  background: var(--bg-off);
+  border: 1px solid var(--line);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.modal__done:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+.modal__meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-top: 0.5rem; }
 .modal__title { font-size: var(--fs-h3); font-weight: 900; letter-spacing: -0.02em; color: var(--navy); line-height: 1.35; margin-bottom: 1.25rem; }
 .modal__body { color: var(--gray-700); white-space: pre-line; }
 .modal__cta { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }

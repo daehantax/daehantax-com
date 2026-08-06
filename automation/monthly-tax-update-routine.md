@@ -109,19 +109,32 @@ merge anything yourself.
    ```json
    {
      "title": "...",
+     "slug": "ascii-kebab-case-unique-id",
      "date": "YYYY-MM-DD",
      "category": "절세정보" | "세법개정",
      "summary": "1-2 sentence summary, plain language",
      "body": "2-3 paragraph explanation, \n\n between paragraphs",
+     "link": { "label": "...", "url": "..." },
      "source": [{ "label": "기관명 — 페이지 설명", "url": "https://..." }],
      "verifiedDate": "today's date, YYYY-MM-DD",
      "verificationNote": "optional — only include if something wasn't directly confirmed via a .go.kr fetch, or is not yet finalized law"
    }
    ```
+   **`slug` is REQUIRED and permanent.** It becomes the public share URL for that post
+   (`info.html#post-<slug>`), which staff send to clients over KakaoTalk. Rules: lowercase ASCII,
+   hyphen-separated, descriptive of the topic in English (e.g. `late-payment-penalty-monthly`),
+   unique across BOTH json files, and **never changed once published** — changing it breaks links
+   already shared. `link` is optional; include it only when a dedicated explainer page exists.
+
    Match the tone of existing entries: plain, reassuring, never alarmist, never fabricate precise
    figures, explicitly say "확정된 내용이 아닙니다" / "상담을 통해 확인하세요" for anything not
    finalized or that depends on the client's specific situation. Look at the existing entries in both
    files first to match voice and formatting exactly.
+
+   **Wording rule:** never use the phrase "담당 세무사" anywhere in site content. At this firm a staff
+   member handles the client's question after a 세무사 reviews it, so naming a "담당 세무사" is
+   inaccurate. Write "문의해 주시면 확인해 드립니다", "상담을 통해 확인해 주세요", or
+   "대한세무법인으로 문의해 주세요" instead.
 6. If, after genuine research, nothing new or materially changed is found since the last
    `verifiedDate`, stop here — do not create a branch or PR. This is a normal, expected outcome most
    months; do not force content just to have something to show.
