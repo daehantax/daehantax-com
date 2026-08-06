@@ -8,6 +8,12 @@
 
   var DATA_BASE = "assets/data/";
 
+  /* 목록 페이지의 원래 제목. 글을 열면 글 제목으로 바꿨다가 닫을 때 되돌린다.
+     GA4가 page_view에 document.title을 함께 기록하므로, 보고서에서 영문 slug
+     대신 한글 제목으로 볼 수 있다. */
+  var BASE_TITLE = document.title;
+  var SITE_SUFFIX = " — 대한세무법인";
+
   /* ---------- 유틸 ---------- */
 
   function fetchJSON(name) {
@@ -239,6 +245,11 @@
     copyBtn.hidden = !item.slug;
     copyBtn.textContent = "링크 복사";
 
+    /* 문서 제목을 글 제목으로 교체 — 반드시 pushState 앞에서.
+       GA4는 기록 변경 시점의 document.title을 page_view에 함께 담으므로,
+       보고서에서 영문 slug 대신 한글 제목으로 볼 수 있다. */
+    document.title = item.title + SITE_SUFFIX;
+
     /* 주소창에 ?post=<slug>를 남긴다.
        - 이 글만 가리키는 공유 가능한 주소가 생기고
        - 히스토리 항목이 쌓여 뒤로가기가 사이트 이탈 대신 모달만 닫으며
@@ -262,6 +273,8 @@
     document.body.style.overflow = "";
     isOpen = false;
     currentItem = null;
+    /* 목록 제목으로 되돌리기 — 뒤이은 history 변경보다 먼저 */
+    document.title = BASE_TITLE;
     if (lastFocused && lastFocused.focus) lastFocused.focus();
     if (fromPopstate) return;
 
