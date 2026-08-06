@@ -67,6 +67,9 @@
       "  </div>" +
       '  <h3 class="modal__title" data-modal-title></h3>' +
       '  <div class="modal__body" data-modal-body></div>' +
+      '  <div class="modal__link" data-modal-link hidden>' +
+      '    <a class="btn btn--solid btn--sm" data-modal-link-a href="#"></a>' +
+      "  </div>" +
       '  <div class="modal__cta">' +
       "    <p>내 상황에 어떻게 적용되는지 궁금하시다면 카카오톡 채널로 편하게 문의해 주세요.</p>" +
       '    <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담하기</a>' +
@@ -93,6 +96,18 @@
     m.querySelector("[data-modal-date]").textContent = formatDate(item.date);
     m.querySelector("[data-modal-title]").textContent = item.title;
     m.querySelector("[data-modal-body]").textContent = item.body || item.summary || "";
+
+    /* 별도 해설 페이지가 있는 게시글이면 바로가기 버튼 노출 */
+    var linkBox = m.querySelector("[data-modal-link]");
+    var linkA = m.querySelector("[data-modal-link-a]");
+    if (item.link && item.link.url) {
+      linkA.setAttribute("href", item.link.url);
+      linkA.textContent = item.link.label || "자세히 보기";
+      linkBox.hidden = false;
+    } else {
+      linkBox.hidden = true;
+    }
+
     lastFocused = document.activeElement;
     m.classList.add("is-open");
     document.body.style.overflow = "hidden";
