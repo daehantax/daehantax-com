@@ -52,6 +52,35 @@
   var modal = null;
   var isOpen = false;
   var pushedState = false;
+  var openedFromHash = false;
+  var currentItem = null;
+
+  /* slug → 게시글. 해시(#post-<slug>)로 바로 열기 위한 색인 */
+  var articleIndex = {};
+
+  function registerArticles(list) {
+    (list || []).forEach(function (it) {
+      if (it && it.slug) articleIndex[it.slug] = it;
+    });
+  }
+
+  function slugFromHash() {
+    var m = /^#post-(.+)$/.exec(location.hash || "");
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  /* 게시글 공유 주소는 항상 세무정보실 기준으로 만든다.
+     (홈은 최신 6건만 보여주므로 옛 글 링크가 열리지 않음) */
+  function articleUrl(slug) {
+    return new URL("info.html#post-" + slug, location.href).href;
+  }
+
+  function openFromHash() {
+    var slug = slugFromHash();
+    if (!slug || isOpen || !articleIndex[slug]) return;
+    openedFromHash = true;
+    openModal(articleIndex[slug], true);
+  }
 
   function ensureModal() {
     if (modal) return modal;
@@ -63,6 +92,7 @@
       '<div class="modal__backdrop" data-close></div>' +
       '<div class="modal__panel" data-modal-panel>' +
       '  <div class="modal__bar" data-modal-bar>' +
+      '    <button type="button" class="modal__copy" data-modal-copy hidden>링크 복사</button>' +
       '    <span class="modal__grab" aria-hidden="true"></span>' +
       '    <button type="button" class="modal__close" data-close aria-label="닫기">&times;</button>' +
       "  </div>" +
@@ -94,7 +124,37 @@
       modal.querySelector("[data-modal-bar]"),
       modal.querySelector("[data-modal-panel]")
     );
+    bindCopyLink(modal.querySelector("[data-modal-copy]"));
     return modal;
+  }
+
+  /* 게시글 주소를 클립보드로 — 카카오톡 등으로 바로 공유 */
+  function bindCopyLink(btn) {
+    btn.addEventListener("click", function () {
+      if (!currentItem || !currentItem.slug) return;
+      var url = articleUrl(currentItem.slug);
+
+      function done() {
+        btn.textContent = "복사됨";
+        setTimeout(function () { btn.textContent = "링크 복사"; }, 1600);
+      }
+      function fallback() {
+        var ta = el("textarea");
+        ta.value = url;
+        ta.setAttribute("readonly", "");
+        ta.style.cssText = "position:fixed;top:-1000px;opacity:0;";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) { window.prompt("주소를 복사하세요", url); }
+        document.body.removeChild(ta);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
   }
 
   /* 모바일: 상단 손잡이를 아래로 끌어내리면 닫힘 (바텀시트 관습) */
@@ -130,8 +190,9 @@
 
   var lastFocused = null;
 
-  function openModal(item) {
+  function openModal(item, skipPush) {
     var m = ensureModal();
+    currentItem = item;
     var tag = m.querySelector("[data-modal-tag]");
     tag.textContent = item.category || "공지";
     tag.className = item.category === "세법개정" ? "tag tag--gold" : "tag";
@@ -157,15 +218,23 @@
     m.querySelector("[data-modal-panel]").scrollTop = 0;
     m.querySelector(".modal__close").focus();
 
-    /* 히스토리에 항목을 하나 쌓아, 뒤로가기가 사이트를 벗어나지 않고
-       모달만 닫도록 한다. (모바일에서 가장 흔한 이탈 원인) */
+    /* 링크 복사 버튼은 slug가 있는 게시글에서만 */
+    var copyBtn = m.querySelector("[data-modal-copy]");
+    copyBtn.hidden = !item.slug;
+    copyBtn.textContent = "링크 복사";
+
+    /* 주소창에 #post-<slug>를 남긴다.
+       - 이 글만 가리키는 공유 가능한 주소가 생기고
+       - 히스토리 항목이 쌓여 뒤로가기가 사이트 이탈 대신 모달만 닫는다 */
     if (!isOpen) {
       isOpen = true;
-      try {
-        history.pushState({ dhModal: true }, "", location.href);
-        pushedState = true;
-      } catch (err) {
-        pushedState = false;
+      if (!skipPush) {
+        try {
+          history.pushState({ dhModal: true }, "", item.slug ? "#post-" + item.slug : location.href);
+          pushedState = true;
+        } catch (err) {
+          pushedState = false;
+        }
       }
     }
   }
@@ -175,12 +244,20 @@
     modal.classList.remove("is-open");
     document.body.style.overflow = "";
     isOpen = false;
+    currentItem = null;
     if (lastFocused && lastFocused.focus) lastFocused.focus();
-    /* 닫기 버튼·배경탭·ESC로 닫은 경우, 쌓아둔 히스토리 항목도 함께 되돌린다.
-       (그래야 이후 뒤로가기가 '아무 반응 없음'이 되지 않는다) */
-    if (!fromPopstate && pushedState) {
+    if (fromPopstate) return;
+
+    if (pushedState) {
+      /* 사이트 안에서 연 경우 — 쌓아둔 히스토리 항목을 되돌린다.
+         (그래야 닫은 뒤 뒤로가기가 '아무 반응 없음'이 되지 않는다) */
       pushedState = false;
       history.back();
+    } else if (openedFromHash) {
+      /* 공유 링크로 바로 들어온 경우 — 뒤로 가면 사이트를 벗어나므로
+         주소의 해시만 지운다 */
+      openedFromHash = false;
+      history.replaceState(null, "", location.pathname + location.search);
     }
   }
 
@@ -188,6 +265,12 @@
     if (isOpen) {
       pushedState = false;
       closeModal(true);
+    }
+    /* 앞으로가기 등으로 다시 #post- 주소가 되면 해당 글을 연다 */
+    var slug = slugFromHash();
+    if (slug && articleIndex[slug] && !isOpen) {
+      openedFromHash = true;
+      openModal(articleIndex[slug], true);
     }
   });
 
@@ -221,6 +304,8 @@
   }
 
   function renderArticles(container, items, limit) {
+    /* 목록에 보이는 개수와 무관하게, 불러온 글은 모두 해시로 열 수 있게 색인 */
+    registerArticles(items);
     container.innerHTML = "";
     var list = items.slice().sort(byDateDesc);
     if (limit) list = list.slice(0, limit);
@@ -302,6 +387,7 @@
       Promise.all([fetchJSON("tax-tips"), fetchJSON("law-updates")])
         .then(function (results) {
           renderArticles(homeNews, results[0].concat(results[1]), 6);
+          openFromHash();
         })
         .catch(function () { renderEmpty(homeNews, fileProtocolMessage()); });
     }
@@ -351,7 +437,7 @@
     var tipsGrid = document.querySelector("[data-render='tax-tips']");
     if (tipsGrid) {
       fetchJSON("tax-tips")
-        .then(function (items) { renderArticles(tipsGrid, items); })
+        .then(function (items) { renderArticles(tipsGrid, items); openFromHash(); })
         .catch(function () { renderEmpty(tipsGrid, fileProtocolMessage()); });
     }
 
@@ -359,7 +445,7 @@
     var lawGrid = document.querySelector("[data-render='law-updates']");
     if (lawGrid) {
       fetchJSON("law-updates")
-        .then(function (items) { renderArticles(lawGrid, items); })
+        .then(function (items) { renderArticles(lawGrid, items); openFromHash(); })
         .catch(function () { renderEmpty(lawGrid, fileProtocolMessage()); });
     }
 

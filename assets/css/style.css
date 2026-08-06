@@ -345,7 +345,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    (이전에는 absolute라 본문을 내리면 X가 화면 밖으로 사라졌음) */
 .modal__bar {
   position: sticky; top: 0; z-index: 2;
-  display: flex; align-items: center; justify-content: flex-end;
+  display: flex; align-items: center; justify-content: space-between;
   min-height: 56px;
   margin-inline: calc(var(--modal-pad) * -1);
   padding-inline: var(--modal-pad);
@@ -360,6 +360,22 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-size: 1.5rem; line-height: 1; color: var(--gray-500);
 }
 .modal__close:hover { color: var(--navy); }
+
+/* 링크 복사 — 게시글 주소를 카카오톡 등으로 바로 공유 */
+.modal__copy {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  min-height: 44px; padding: 0 0.25rem;
+  font-size: var(--fs-xs); font-weight: 700;
+  color: var(--gray-500);
+  transition: color 0.15s ease;
+}
+.modal__copy::before {
+  content: ""; width: 0.85rem; height: 0.85rem; flex-shrink: 0;
+  border: 1.5px solid currentColor; border-radius: 2px;
+  box-shadow: 3px -3px 0 -1.5px var(--bg), 4.5px -4.5px 0 -1.5px currentColor;
+}
+.modal__copy:hover { color: var(--navy); }
+.modal__copy[hidden] { display: none; }
 
 /* 모바일 바텀시트 손잡이 — 아래로 끌어내려 닫을 수 있음을 시각적으로 알림 */
 .modal__grab { display: none; }
