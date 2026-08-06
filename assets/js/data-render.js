@@ -64,19 +64,35 @@
     });
   }
 
-  function slugFromHash() {
+  /* 게시글 주소는 해시(#)가 아니라 쿼리(?post=)를 쓴다.
+     GA4는 해시만 바뀌는 변경을 새 페이지로 보지 않아 글 조회수가 집계되지 않는다. */
+  function slugFromUrl() {
+    var q = new URLSearchParams(location.search).get("post");
+    if (q) return q;
+    /* 초기 배포분에서 쓰던 #post- 링크 호환 */
     var m = /^#post-(.+)$/.exec(location.hash || "");
     return m ? decodeURIComponent(m[1]) : null;
   }
 
-  /* 게시글 공유 주소는 항상 세무정보실 기준으로 만든다.
+  /* 현재 주소에서 post 파라미터만 갈아끼운 경로 */
+  function pathWithPost(slug) {
+    var u = new URL(location.href);
+    if (slug) u.searchParams.set("post", slug);
+    else u.searchParams.delete("post");
+    u.hash = "";
+    return u.pathname + u.search;
+  }
+
+  /* 공유용 주소는 항상 세무정보실 기준으로 만든다.
      (홈은 최신 6건만 보여주므로 옛 글 링크가 열리지 않음) */
   function articleUrl(slug) {
-    return new URL("info.html#post-" + slug, location.href).href;
+    var u = new URL("info.html", location.href);
+    u.searchParams.set("post", slug);
+    return u.href;
   }
 
   function openFromHash() {
-    var slug = slugFromHash();
+    var slug = slugFromUrl();
     if (!slug || isOpen || !articleIndex[slug]) return;
     openedFromHash = true;
     openModal(articleIndex[slug], true);
@@ -223,14 +239,15 @@
     copyBtn.hidden = !item.slug;
     copyBtn.textContent = "링크 복사";
 
-    /* 주소창에 #post-<slug>를 남긴다.
+    /* 주소창에 ?post=<slug>를 남긴다.
        - 이 글만 가리키는 공유 가능한 주소가 생기고
-       - 히스토리 항목이 쌓여 뒤로가기가 사이트 이탈 대신 모달만 닫는다 */
+       - 히스토리 항목이 쌓여 뒤로가기가 사이트 이탈 대신 모달만 닫으며
+       - GA4가 이를 새 페이지로 인식해 글별 조회수가 집계된다 */
     if (!isOpen) {
       isOpen = true;
       if (!skipPush) {
         try {
-          history.pushState({ dhModal: true }, "", item.slug ? "#post-" + item.slug : location.href);
+          history.pushState({ dhModal: true }, "", item.slug ? pathWithPost(item.slug) : location.href);
           pushedState = true;
         } catch (err) {
           pushedState = false;
@@ -255,9 +272,9 @@
       history.back();
     } else if (openedFromHash) {
       /* 공유 링크로 바로 들어온 경우 — 뒤로 가면 사이트를 벗어나므로
-         주소의 해시만 지운다 */
+         주소에서 post 파라미터만 지운다 */
       openedFromHash = false;
-      history.replaceState(null, "", location.pathname + location.search);
+      history.replaceState(null, "", pathWithPost(null));
     }
   }
 
@@ -266,8 +283,8 @@
       pushedState = false;
       closeModal(true);
     }
-    /* 앞으로가기 등으로 다시 #post- 주소가 되면 해당 글을 연다 */
-    var slug = slugFromHash();
+    /* 앞으로가기 등으로 다시 ?post= 주소가 되면 해당 글을 연다 */
+    var slug = slugFromUrl();
     if (slug && articleIndex[slug] && !isOpen) {
       openedFromHash = true;
       openModal(articleIndex[slug], true);
