@@ -50,6 +50,8 @@
   /* ---------- 아티클 모달 ---------- */
 
   var modal = null;
+  var isOpen = false;
+  var pushedState = false;
 
   function ensureModal() {
     if (modal) return modal;
@@ -59,8 +61,11 @@
     modal.setAttribute("aria-label", "게시글 내용");
     modal.innerHTML =
       '<div class="modal__backdrop" data-close></div>' +
-      '<div class="modal__panel">' +
-      '  <button type="button" class="modal__close" data-close aria-label="닫기">&times;</button>' +
+      '<div class="modal__panel" data-modal-panel>' +
+      '  <div class="modal__bar" data-modal-bar>' +
+      '    <span class="modal__grab" aria-hidden="true"></span>' +
+      '    <button type="button" class="modal__close" data-close aria-label="닫기">&times;</button>' +
+      "  </div>" +
       '  <div class="modal__meta">' +
       '    <span class="tag" data-modal-tag></span>' +
       '    <span class="article-card__date" data-modal-date></span>' +
@@ -74,6 +79,7 @@
       "    <p>내 상황에 어떻게 적용되는지 궁금하시다면 카카오톡 채널로 편하게 문의해 주세요.</p>" +
       '    <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담하기</a>' +
       "  </div>" +
+      '  <button type="button" class="modal__done" data-close>닫기</button>' +
       "</div>";
     document.body.appendChild(modal);
 
@@ -83,7 +89,43 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeModal();
     });
+
+    bindDragToClose(
+      modal.querySelector("[data-modal-bar]"),
+      modal.querySelector("[data-modal-panel]")
+    );
     return modal;
+  }
+
+  /* 모바일: 상단 손잡이를 아래로 끌어내리면 닫힘 (바텀시트 관습) */
+  function bindDragToClose(bar, panel) {
+    var startY = null;
+    var dy = 0;
+
+    bar.addEventListener("touchstart", function (e) {
+      startY = e.touches[0].clientY;
+      dy = 0;
+      panel.style.transition = "none";
+    }, { passive: true });
+
+    bar.addEventListener("touchmove", function (e) {
+      if (startY === null) return;
+      dy = Math.max(0, e.touches[0].clientY - startY);
+      panel.style.transform = "translateY(" + dy + "px)";
+    }, { passive: true });
+
+    function endDrag() {
+      if (startY === null) return;
+      var shouldClose = dy > 80;
+      panel.style.transition = "";
+      panel.style.transform = "";
+      startY = null;
+      dy = 0;
+      if (shouldClose) closeModal();
+    }
+
+    bar.addEventListener("touchend", endDrag);
+    bar.addEventListener("touchcancel", endDrag);
   }
 
   var lastFocused = null;
@@ -111,15 +153,43 @@
     lastFocused = document.activeElement;
     m.classList.add("is-open");
     document.body.style.overflow = "hidden";
+    /* 이전에 읽던 위치가 남지 않도록 항상 맨 위에서 시작 */
+    m.querySelector("[data-modal-panel]").scrollTop = 0;
     m.querySelector(".modal__close").focus();
+
+    /* 히스토리에 항목을 하나 쌓아, 뒤로가기가 사이트를 벗어나지 않고
+       모달만 닫도록 한다. (모바일에서 가장 흔한 이탈 원인) */
+    if (!isOpen) {
+      isOpen = true;
+      try {
+        history.pushState({ dhModal: true }, "", location.href);
+        pushedState = true;
+      } catch (err) {
+        pushedState = false;
+      }
+    }
   }
 
-  function closeModal() {
+  function closeModal(fromPopstate) {
     if (!modal || !modal.classList.contains("is-open")) return;
     modal.classList.remove("is-open");
     document.body.style.overflow = "";
+    isOpen = false;
     if (lastFocused && lastFocused.focus) lastFocused.focus();
+    /* 닫기 버튼·배경탭·ESC로 닫은 경우, 쌓아둔 히스토리 항목도 함께 되돌린다.
+       (그래야 이후 뒤로가기가 '아무 반응 없음'이 되지 않는다) */
+    if (!fromPopstate && pushedState) {
+      pushedState = false;
+      history.back();
+    }
   }
+
+  window.addEventListener("popstate", function () {
+    if (isOpen) {
+      pushedState = false;
+      closeModal(true);
+    }
+  });
 
   /* ---------- 아티클 카드 그리드 ---------- */
 
