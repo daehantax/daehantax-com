@@ -121,7 +121,9 @@ merge anything yourself.
    }
    ```
    **`slug` is REQUIRED and permanent.** It becomes the public share URL for that post
-   (`info.html#post-<slug>`), which staff send to clients over KakaoTalk. Rules: lowercase ASCII,
+   (`info.html?post=<slug>`), which staff send to clients over KakaoTalk. A query param is used
+   rather than a hash because GA4 does not count fragment-only URL changes as page views, so a
+   hash-based URL would make per-article view counts invisible in Analytics. Rules: lowercase ASCII,
    hyphen-separated, descriptive of the topic in English (e.g. `late-payment-penalty-monthly`),
    unique across BOTH json files, and **never changed once published** — changing it breaks links
    already shared. `link` is optional; include it only when a dedicated explainer page exists.
