@@ -648,3 +648,251 @@ a.service-card:hover { background: var(--bg-off); }
 @media print {
   .site-header, .kakao-float, .cta-banner, .nav-toggle { display: none !important; }
 }
+
+/* ============================================================
+   개정안 해설 페이지 (tax-reform-*.html)
+   ============================================================ */
+
+/* 차트 전용 색 — 브랜드 네이비/골드에서 명도를 올려 파생.
+   현행 vs 개정안 2계열 대비용(색맹 안전성·대비 검증 완료). */
+:root {
+  --chart-now: #5B6FB5;   /* 현행 */
+  --chart-new: #B5842F;   /* 개정안 */
+}
+
+/* ---------- 미확정 안내 스트립 ---------- */
+.alert-strip {
+  background: var(--bg-navy-tint);
+  border-top: 3px solid var(--gold);
+  padding: clamp(1.25rem, 3vw, 1.9rem) 0;
+}
+.alert-strip__inner { display: flex; gap: 1rem; align-items: flex-start; }
+.alert-strip__mark {
+  flex-shrink: 0;
+  width: 2rem; height: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--gold); color: #fff;
+  font-weight: 900; font-size: 1.05rem; line-height: 1;
+}
+.alert-strip h2 {
+  font-size: var(--fs-body); font-weight: 800; color: var(--navy);
+  letter-spacing: -0.01em; margin-bottom: 0.4rem;
+}
+.alert-strip p { font-size: var(--fs-small); color: var(--gray-700); max-width: 62em; }
+.alert-strip p + p { margin-top: 0.5rem; }
+
+/* ---------- 목차 칩 ---------- */
+.chip-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip-nav a {
+  display: inline-flex; align-items: baseline; gap: 0.45rem;
+  border: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+  font-size: var(--fs-small); font-weight: 700; color: var(--gray-700);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.chip-nav a:hover { border-color: var(--navy); color: var(--navy); background: var(--bg); }
+.chip-nav a .n { font-size: var(--fs-xs); font-weight: 800; color: var(--gold); }
+
+/* ---------- 개정 항목 블록 ---------- */
+.reform-item { border-top: 1px solid var(--line); padding-block: clamp(1.75rem, 3.5vw, 2.75rem); }
+.reform-item:first-of-type { border-top: 2px solid var(--navy); }
+.reform-item__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 1rem; margin-bottom: 0.9rem; }
+.reform-item__title {
+  font-size: clamp(1.1rem, 1.9vw, 1.35rem); font-weight: 800;
+  letter-spacing: -0.02em; color: var(--navy); line-height: 1.35;
+}
+.reform-item__law { font-size: var(--fs-xs); color: var(--gray-500); font-weight: 600; }
+.reform-item__body { color: var(--gray-700); font-size: var(--fs-small); max-width: 60em; }
+.reform-item__body p + p { margin-top: 0.75rem; }
+.reform-item__body strong { color: var(--ink); font-weight: 800; }
+
+/* 시행일 배지 */
+.pill {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  background: var(--bg-navy-tint); color: var(--navy);
+  white-space: nowrap;
+}
+.pill--gold { background: #F5EBD8; color: #8A6420; }
+.pill--warn { background: #F6EAE6; color: #8C3B22; }
+
+/* ---------- 현행 → 개정 요약 카드 ---------- */
+.kpi-row {
+  display: grid; gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-block: 1.4rem;
+}
+.kpi { background: var(--bg); padding: 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.55rem; }
+.kpi__label { font-size: var(--fs-xs); font-weight: 700; color: var(--gray-500); letter-spacing: 0.02em; }
+.kpi__change { display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap; }
+.kpi__now { font-size: 1rem; font-weight: 600; color: var(--gray-500); text-decoration: line-through; text-decoration-thickness: 1px; }
+.kpi__arrow { color: var(--gold); font-weight: 800; }
+.kpi__new { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 900; letter-spacing: -0.02em; color: var(--navy); }
+.kpi__note { font-size: var(--fs-xs); color: var(--gray-500); }
+
+/* ---------- 비교 표 ---------- */
+.tbl-wrap { overflow-x: auto; margin-block: 1.4rem; border: 1px solid var(--line); }
+.cmp-tbl { width: 100%; min-width: 520px; border-collapse: collapse; font-size: var(--fs-small); }
+.cmp-tbl caption {
+  text-align: left; font-size: var(--fs-xs); font-weight: 700; color: var(--gray-500);
+  padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); background: var(--bg-off);
+}
+.cmp-tbl th, .cmp-tbl td { padding: 0.75rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.cmp-tbl thead th { font-weight: 800; color: var(--navy); background: var(--bg-off); white-space: nowrap; }
+.cmp-tbl tbody th { font-weight: 700; color: var(--ink); }
+.cmp-tbl tbody tr:last-child th, .cmp-tbl tbody tr:last-child td { border-bottom: 0; }
+.cmp-tbl .is-now { color: var(--gray-500); }
+.cmp-tbl .is-new { color: var(--navy); font-weight: 700; background: rgba(200, 150, 62, 0.06); }
+.cmp-tbl .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ---------- 막대 비교 차트 ---------- */
+.figure { margin-block: 1.6rem; }
+.figure__title { font-size: var(--fs-small); font-weight: 800; color: var(--ink); margin-bottom: 0.9rem; }
+.figure figcaption { margin-top: 0.85rem; font-size: var(--fs-xs); color: var(--gray-500); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; margin-bottom: 1rem; }
+.legend__key { display: inline-flex; align-items: center; gap: 0.45rem; font-size: var(--fs-xs); color: var(--gray-700); font-weight: 600; }
+.legend__swatch { width: 0.75rem; height: 0.75rem; flex-shrink: 0; }
+.legend__swatch--now { background: var(--chart-now); }
+.legend__swatch--new { background: var(--chart-new); }
+
+.barcmp { display: grid; gap: 1.15rem; }
+.barcmp__row { display: grid; gap: 0.4rem; }
+.barcmp__label { font-size: var(--fs-xs); font-weight: 700; color: var(--gray-700); }
+.barcmp__bars { display: grid; gap: 2px; }
+.barcmp__bar { display: flex; align-items: center; gap: 0.5rem; }
+.barcmp__fill {
+  height: 0.85rem;
+  border-radius: 0 4px 4px 0;
+  flex-shrink: 0;
+  min-width: 2px;
+}
+.barcmp__bar--now .barcmp__fill { background: var(--chart-now); }
+.barcmp__bar--new .barcmp__fill { background: var(--chart-new); }
+.barcmp__val { font-size: var(--fs-xs); font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.barcmp__bar--now .barcmp__val { font-weight: 600; color: var(--gray-500); }
+
+/* ---------- 절차/시행일 타임라인 ---------- */
+.timeline { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+@media (min-width: 860px) { .timeline { grid-template-columns: repeat(var(--tl-cols, 5), 1fr); } }
+.timeline__step { background: var(--bg); padding: 1.25rem 1.35rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.timeline__step--done { background: var(--bg-off); }
+.timeline__when { font-size: var(--fs-xs); font-weight: 800; letter-spacing: 0.04em; color: var(--gold); }
+.timeline__what { font-size: var(--fs-small); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; }
+.timeline__desc { font-size: var(--fs-xs); color: var(--gray-500); }
+.timeline__step--now { border-left: 3px solid var(--gold); }
+@media (min-width: 860px) {
+  .timeline__step--now { border-left: 0; border-top: 3px solid var(--gold); padding-top: calc(1.25rem - 3px); }
+}
+
+/* ---------- 요점 목록 ---------- */
+.point-list { display: grid; gap: 0.6rem; margin-top: 1rem; }
+.point-list li {
+  position: relative; padding-left: 1.35rem;
+  font-size: var(--fs-small); color: var(--gray-700);
+}
+.point-list li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 0.45rem; height: 0.45rem; background: var(--gold);
+}
+.point-list strong { color: var(--ink); font-weight: 800; }
+
+/* ---------- 각주 ---------- */
+.footnote {
+  margin-top: 1rem; padding: 0.9rem 1.1rem;
+  background: var(--bg-off);
+  border-left: 3px solid var(--gray-300);
+  font-size: var(--fs-xs); color: var(--gray-500);
+}
+
+/* ---------- 모달 내 바로가기 버튼 ---------- */
+.modal__link { margin-top: 1.5rem; }
+
+/* ---------- 특집 콘텐츠 바로가기 배너 ---------- */
+.promo-banner {
+  background: var(--navy);
+  border-bottom: 3px solid var(--gold);
+}
+.promo-banner__inner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1.1rem 2.5rem;
+  padding-block: clamp(1.35rem, 3vw, 2rem);
+}
+.promo-banner__text { display: flex; flex-direction: column; gap: 0.5rem; min-width: min(100%, 20em); }
+.promo-banner__badge {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+  padding: 0.25rem 0.6rem;
+  background: var(--gold); color: #fff;
+}
+.promo-banner__title {
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-weight: 900; letter-spacing: -0.025em; line-height: 1.3;
+  color: #fff;
+}
+.promo-banner__desc { font-size: var(--fs-small); color: rgba(255,255,255,0.72); max-width: 44em; }
+.promo-banner .btn { flex-shrink: 0; }
+
+/* 단계가 많은 타임라인(추진일정)은 2줄로 나눠 가독성 확보 */
+@media (min-width: 860px) {
+  .timeline--7 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ---------- 세로형 타임라인 (추진일정 등 시간 흐름) ---------- */
+.timeline--vert {
+  display: block;
+  position: relative;
+  background: transparent;
+  border: 0;
+  padding-left: 0.4rem;
+}
+.timeline--vert::before {
+  content: "";
+  position: absolute;
+  left: 0.72rem; top: 0.7rem; bottom: 0.7rem;
+  width: 2px;
+  background: var(--line);
+}
+.timeline--vert .timeline__step {
+  position: relative;
+  background: transparent;
+  border: 0;
+  padding: 0 0 1.9rem 2.3rem;
+  gap: 0.3rem;
+}
+.timeline--vert .timeline__step:last-child { padding-bottom: 0; }
+.timeline--vert .timeline__step::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem; top: 0.35rem;
+  width: 0.95rem; height: 0.95rem;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--gray-300);
+  box-sizing: border-box;
+}
+.timeline--vert .timeline__step--done::before {
+  background: var(--gray-300);
+  border-color: var(--gray-300);
+}
+.timeline--vert .timeline__step--now::before {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(200, 150, 62, 0.2);
+}
+.timeline--vert .timeline__when {
+  font-size: var(--fs-small);
+  letter-spacing: 0;
+}
+.timeline--vert .timeline__step--now .timeline__what { color: var(--navy); }
+.timeline--vert .timeline__what { font-size: var(--fs-h3); }
+.timeline--vert .timeline__desc { max-width: 46em; }
+/* 세로형은 화면 폭과 무관하게 항상 세로 */
+@media (min-width: 860px) {
+  .timeline--vert { grid-template-columns: none; }
+  .timeline--vert .timeline__step--now { border-top: 0; padding-top: 0; }
+}
