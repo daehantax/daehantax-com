@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- 예전 게시글 공유 주소(?post=… / #post-…)를 새 글 페이지로 넘겨준다.
+       직원들이 카카오톡으로 이미 보낸 링크가 깨지지 않도록 하는 장치이며,
+       GTM보다 먼저 실행해 목록 페이지 조회수가 중복 집계되지 않게 한다. -->
+  <script>
+  (function () {
+    var m = /[?&]post=([^&#]+)/.exec(location.search) || /^#post-(.+)$/.exec(location.hash);
+    if (!m) return;
+    var slug = decodeURIComponent(m[1]);
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return;
+    location.replace("post/" + slug + ".html");
+  })();
+  </script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -10,13 +22,56 @@
   <!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>세무정보실 — 대한세무법인</title>
-  <meta name="description" content="대한세무법인 세무정보실. 연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <title>세무정보실 | 대한세무법인 — 세무일정·절세정보·세법개정</title>
+  <meta name="description" content="대한세무법인 세무정보실. 2026년 연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
   <!-- 게시글 공유 주소(?post=…)가 중복 페이지로 잡히지 않도록 -->
   <link rel="canonical" href="https://daehantax.com/info.html">
+
+  <!-- 공유 미리보기 (카카오톡·페이스북·네이버 블로그 등) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="대한세무법인">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://daehantax.com/info.html">
+  <meta property="og:title" content="세무정보실 | 대한세무법인">
+  <meta property="og:description" content="연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <meta property="og:image" content="https://daehantax.com/assets/img/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="대한세무법인">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="세무정보실 | 대한세무법인">
+  <meta name="twitter:description" content="연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <meta name="twitter:image" content="https://daehantax.com/assets/img/og-default.png">
+
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- 구조화 데이터 — 자료 모음 페이지 + 이동경로 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://daehantax.com/info.html#webpage",
+        "url": "https://daehantax.com/info.html",
+        "name": "세무정보실 | 대한세무법인",
+        "description": "연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항.",
+        "inLanguage": "ko-KR",
+        "isPartOf": { "@id": "https://daehantax.com/#website" },
+        "publisher": { "@id": "https://daehantax.com/#organization" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://daehantax.com/" },
+          { "@type": "ListItem", "position": 2, "name": "세무정보실", "item": "https://daehantax.com/info.html" }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
