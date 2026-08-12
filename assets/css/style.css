@@ -947,3 +947,34 @@ a.service-card:hover { background: var(--bg-off); }
 .post__cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 .post__back { margin-top: 2.5rem; }
+
+/* ---------- 이전·다음 글 ---------- */
+.post-nav {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding-top: 1.5rem; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.post-nav__item {
+  display: flex; flex-direction: column; gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  color: inherit; text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.post-nav__item:hover { border-color: var(--navy); background: var(--bg-off); }
+.post-nav__item.is-empty { border: 0; padding: 0; }
+.post-nav__item--next { text-align: right; }
+.post-nav__label {
+  font-size: var(--fs-xs); font-weight: 800; letter-spacing: 0.06em; color: var(--gold);
+}
+.post-nav__title {
+  font-size: var(--fs-small); font-weight: 700; color: var(--ink); line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.post-nav__item:hover .post-nav__title { color: var(--navy); }
+
+@media (max-width: 560px) {
+  .post-nav { grid-template-columns: 1fr; }
+  .post-nav__item--next { text-align: left; }
+  .post-nav__item.is-empty { display: none; }
+}

@@ -58,6 +58,34 @@ function formatDate(iso) {
 /* 게시글 본문의 상대 링크는 post/ 하위에서 한 단계 올라가야 한다 */
 const rebase = (url) => (/^(https?:)?\/\/|^mailto:|^tel:|^#/.test(url) ? url : "../" + url);
 
+const catName = (a) => a.category || "공지";
+const catAnchor = (a) => (a.category === "세법개정" ? "law" : "tips");
+const tagClass = (a) => (a.category === "세법개정" ? "tag tag--gold" : "tag");
+
+/* 대략적인 낱말 수 — Article.wordCount 용 */
+const wordCount = (a) => String(a.body || a.summary || "").trim().split(/\s+/).filter(Boolean).length;
+
+/* 관련 글 3건.
+   예전에는 같은 카테고리의 '최신 3건'을 늘 골랐는데, 그러면 오래된 글은
+   어느 페이지에서도 링크되지 않아 글끼리 연결이 끊긴다(28건 중 17건이 고립됐었다).
+   지금은 자기 위치를 기준으로 앞뒤 이웃을 번갈아 골라 링크를 고르게 퍼뜨린다. */
+function relatedPicks(a, all) {
+  const same = all.filter((x) => x.category === a.category);
+  const idx = same.findIndex((x) => x.slug === a.slug);
+  const picks = [];
+
+  for (let d = 1; picks.length < 3 && d <= same.length; d++) {
+    if (same[idx + d]) picks.push(same[idx + d]);
+    if (picks.length < 3 && same[idx - d]) picks.push(same[idx - d]);
+  }
+  /* 같은 카테고리로 못 채우면 다른 카테고리 최신글로 보충 */
+  for (const x of all) {
+    if (picks.length >= 3) break;
+    if (x.slug !== a.slug && !picks.includes(x)) picks.push(x);
+  }
+  return picks.slice(0, 3);
+}
+
 /* ---------- 데이터 ---------- */
 
 function loadArticles() {
@@ -141,7 +169,8 @@ ${JSON.stringify(
           datePublished: a.date,
           dateModified: a.verifiedDate || a.date,
           inLanguage: "ko-KR",
-          articleSection: a.category || "세무정보",
+          articleSection: catName(a),
+          wordCount: wordCount(a),
           author: { "@id": `${ORIGIN}/#organization` },
           publisher: { "@id": `${ORIGIN}/#organization` },
           isPartOf: { "@id": `${ORIGIN}/#website` },
@@ -149,12 +178,14 @@ ${JSON.stringify(
             ? { citation: a.source.map((s) => ({ "@type": "CreativeWork", name: s.label, url: s.url })) }
             : {}),
         },
+        /* 화면에 보이는 이동경로와 항목·순서가 정확히 일치해야 한다.
+           (예전에는 화면엔 카테고리를, 구조화 데이터엔 글 제목을 넣어 어긋나 있었다) */
         {
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "홈", item: `${ORIGIN}/` },
             { "@type": "ListItem", position: 2, name: "세무정보실", item: `${ORIGIN}/info.html` },
-            { "@type": "ListItem", position: 3, name: a.title, item: url },
+            { "@type": "ListItem", position: 3, name: catName(a), item: `${ORIGIN}/info.html#${catAnchor(a)}` },
           ],
         },
       ],
@@ -292,10 +323,32 @@ ${a.source
   return { paras, linkBtn, sources, verified };
 }
 
+/* 날짜순 바로 앞뒤 글로 가는 링크.
+   관련 글만으로는 이어지지 않는 글이 생길 수 있어, 28건 전체가 하나의 사슬로
+   연결되도록 보장한다 — 크롤러가 목록 페이지를 거치지 않고도 모든 글에 닿는다. */
+function postNavHTML(a, all) {
+  const i = all.findIndex((x) => x.slug === a.slug);
+  const newer = all[i - 1]; // all은 최신순이므로 앞이 더 새 글
+  const older = all[i + 1];
+  if (!newer && !older) return "";
+
+  const item = (p, label, mod) =>
+    p
+      ? `          <a class="post-nav__item post-nav__item--${mod}" href="${esc(p.slug)}.html" rel="${mod === "prev" ? "prev" : "next"}">
+            <span class="post-nav__label">${label}</span>
+            <span class="post-nav__title">${esc(p.title)}</span>
+          </a>`
+      : `          <span class="post-nav__item post-nav__item--${mod} is-empty" aria-hidden="true"></span>`;
+
+  return `
+        <nav class="post-nav" aria-label="이전·다음 글">
+${item(older, "이전 글", "prev")}
+${item(newer, "다음 글", "next")}
+        </nav>`;
+}
+
 function relatedHTML(a, all) {
-  const same = all.filter((x) => x.slug !== a.slug && x.category === a.category);
-  const other = all.filter((x) => x.slug !== a.slug && x.category !== a.category);
-  const picks = same.concat(other).slice(0, 3);
+  const picks = relatedPicks(a, all);
   if (!picks.length) return "";
   return `
     <!-- ===== 함께 보면 좋은 글 ===== -->
@@ -315,7 +368,7 @@ ${picks
     .map(
       (p) => `          <a class="article-card" href="${esc(p.slug)}.html">
             <div class="article-card__meta">
-              <span class="${p.category === "세법개정" ? "tag tag--gold" : "tag"}">${esc(p.category || "공지")}</span>
+              <span class="${tagClass(p)}">${esc(catName(p))}</span>
               <span class="article-card__date">${esc(formatDate(p.date))}</span>
             </div>
             <h3 class="article-card__title">${esc(p.title)}</h3>
@@ -342,13 +395,13 @@ ${HEADER}
         <nav class="breadcrumb" aria-label="현재 위치">
           <a href="../index.html">홈</a>
           <span aria-hidden="true">›</span>
-          <a href="../info.html#${a.category === "세법개정" ? "law" : "tips"}">세무정보실</a>
+          <a href="../info.html">세무정보실</a>
           <span aria-hidden="true">›</span>
-          <span aria-current="page">${esc(a.category || "공지")}</span>
+          <a href="../info.html#${catAnchor(a)}">${esc(catName(a))}</a>
         </nav>
 
         <div class="post__meta">
-          <span class="${a.category === "세법개정" ? "tag tag--gold" : "tag"}">${esc(a.category || "공지")}</span>
+          <span class="${tagClass(a)}">${esc(catName(a))}</span>
           <time class="post__date" datetime="${esc(a.date)}">${esc(formatDate(a.date))}</time>
         </div>
 
@@ -369,7 +422,9 @@ ${linkBtn}${sources}${verified}
           </div>
         </div>
 
-        <p class="post__back"><a class="link-arrow" href="../info.html#${a.category === "세법개정" ? "law" : "tips"}">세무정보실 목록으로</a></p>
+${postNavHTML(a, all)}
+
+        <p class="post__back"><a class="link-arrow" href="../info.html#${catAnchor(a)}">세무정보실 목록으로</a></p>
 
       </div>
     </article>
