@@ -148,6 +148,7 @@ const head = (a) => {
   <meta name="twitter:description" content="${esc(desc)}">
   <meta name="twitter:image" content="${ORIGIN}/assets/img/og-default.png">
 
+  <link rel="alternate" type="application/rss+xml" title="대한세무법인 세무정보" href="../rss.xml">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -433,6 +434,55 @@ ${relatedHTML(a, all)}
 ${FOOTER}`;
 }
 
+/* ---------- RSS ---------- */
+
+/* 네이버 서치어드바이저는 RSS를 새 글 발견 경로로 쓴다.
+   피드에 담는 최대 글 수 — 글이 계속 쌓여도 피드가 무한정 커지지 않게 한다. */
+const RSS_MAX_ITEMS = 30;
+
+const RFC822_DAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const RFC822_MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/* "2026-07-01" → "Wed, 01 Jul 2026 09:00:00 +0900"
+   JSON에는 시각이 없으므로 매일 09:00 KST로 고정한다. 현재 시각을 쓰면
+   빌드할 때마다 파일이 바뀌어 Action이 의미 없는 커밋을 남긴다. */
+function rfc822(iso) {
+  const [y, m, d] = String(iso).split("-").map(Number);
+  const dow = RFC822_DAY[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  return `${dow}, ${String(d).padStart(2, "0")} ${RFC822_MON[m - 1]} ${y} 09:00:00 +0900`;
+}
+
+function renderRSS(all) {
+  const items = all.slice(0, RSS_MAX_ITEMS);
+  const newest = items.length ? items[0].date : "2026-01-01";
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 파일은 automation/build-posts.js 가 생성합니다. 직접 수정하지 마세요. -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>대한세무법인 세무정보</title>
+    <link>${ORIGIN}/info.html</link>
+    <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
+    <language>ko</language>
+    <lastBuildDate>${rfc822(newest)}</lastBuildDate>
+    <atom:link href="${ORIGIN}/rss.xml" rel="self" type="application/rss+xml"/>
+${items
+    .map((a) => {
+      const url = `${ORIGIN}/post/${a.slug}.html`;
+      return `    <item>
+      <title>${esc(a.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <description>${esc(clip(a.summary || a.body, 300))}</description>
+      <category>${esc(catName(a))}</category>
+      <pubDate>${rfc822(a.date)}</pubDate>
+    </item>`;
+    })
+    .join("\n")}
+  </channel>
+</rss>
+`;
+}
+
 /* ---------- sitemap ---------- */
 
 function renderSitemap(all) {
@@ -494,13 +544,20 @@ function main() {
     }
   }
 
-  const smPath = path.join(ROOT, "sitemap.xml");
-  const sm = renderSitemap(all);
-  const smPrev = fs.existsSync(smPath) ? fs.readFileSync(smPath, "utf8") : null;
-  if (smPrev !== sm) fs.writeFileSync(smPath, sm, "utf8");
+  /* 내용이 같으면 다시 쓰지 않는다 — Action이 의미 없는 커밋을 남기지 않도록 */
+  function writeIfChanged(name, next) {
+    const p = path.join(ROOT, name);
+    const prev = fs.existsSync(p) ? fs.readFileSync(p, "utf8") : null;
+    if (prev !== next) fs.writeFileSync(p, next, "utf8");
+    return prev !== next;
+  }
+
+  const smChanged = writeIfChanged("sitemap.xml", renderSitemap(all));
+  const rssChanged = writeIfChanged("rss.xml", renderRSS(all));
 
   console.log(`게시글 ${all.length}건 → post/*.html (변경 ${written}건)`);
-  console.log(`sitemap.xml → URL ${all.length + 5}개${smPrev !== sm ? " (갱신)" : " (변경 없음)"}`);
+  console.log(`sitemap.xml → URL ${all.length + 5}개${smChanged ? " (갱신)" : " (변경 없음)"}`);
+  console.log(`rss.xml → 최근 ${Math.min(all.length, RSS_MAX_ITEMS)}건${rssChanged ? " (갱신)" : " (변경 없음)"}`);
 }
 
 main();

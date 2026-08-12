@@ -38,13 +38,13 @@ jobs:
 
       - name: 변경분 커밋
         run: |
-          if [ -z "$(git status --porcelain post sitemap.xml)" ]; then
+          if [ -z "$(git status --porcelain post sitemap.xml rss.xml)" ]; then
             echo "변경사항 없음 — 커밋 생략"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add post sitemap.xml
+          git add post sitemap.xml rss.xml
           # [skip ci] 로 이 커밋이 워크플로를 다시 트리거하지 않게 한다
           git commit -m "게시글 페이지·sitemap 자동 생성 [skip ci]"
           git push
