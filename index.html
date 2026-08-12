@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- 예전 게시글 공유 주소(?post=… / #post-…)를 새 글 페이지로 넘겨준다.
+       직원들이 카카오톡으로 이미 보낸 링크가 깨지지 않도록 하는 장치이며,
+       GTM보다 먼저 실행해 홈 조회수가 중복 집계되지 않게 한다. -->
+  <script>
+  (function () {
+    var m = /[?&]post=([^&#]+)/.exec(location.search) || /^#post-(.+)$/.exec(location.hash);
+    if (!m) return;
+    var slug = decodeURIComponent(m[1]);
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return;
+    location.replace("post/" + slug + ".html");
+  })();
+  </script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -10,11 +22,90 @@
   <!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>대한세무법인 — 놓치면 손해인 절세정보, 가장 빠르게</title>
-  <meta name="description" content="대한세무법인은 수임 고객에게 이번달 세무일정, 절세정보, 세법개정 소식을 가장 빠르게 전달합니다. 기장대리, 양도·상속·증여 신고, 맞춤형 절세 컨설팅.">
+  <title>대한세무법인 | 분당·성남 세무사 — 기장대리·상속·증여·양도세 신고</title>
+  <meta name="description" content="경기 성남시 분당구 야탑동 대한세무법인. 개인·법인 기장대리, 양도·상속·증여 신고, 맞춤형 절세 컨설팅. 이번달 세무일정과 세법개정 소식을 가장 빠르게 전해드립니다.">
+  <link rel="canonical" href="https://daehantax.com/">
+
+  <!-- 검색엔진 소유확인 태그 자리 (발급받은 태그로 교체해 주세요)
+       Google Search Console: <meta name="google-site-verification" content="…">
+       네이버 서치어드바이저:  <meta name="naver-site-verification" content="…"> -->
+
+  <!-- 공유 미리보기 (카카오톡·페이스북·네이버 블로그 등) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="대한세무법인">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://daehantax.com/">
+  <meta property="og:title" content="대한세무법인 | 분당·성남 세무사">
+  <meta property="og:description" content="기장대리, 양도·상속·증여 신고, 맞춤형 절세 컨설팅. 이번달 세무일정과 세법개정 소식을 가장 빠르게 전해드립니다.">
+  <meta property="og:image" content="https://daehantax.com/assets/img/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="대한세무법인">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="대한세무법인 | 분당·성남 세무사">
+  <meta name="twitter:description" content="기장대리, 양도·상속·증여 신고, 맞춤형 절세 컨설팅. 이번달 세무일정과 세법개정 소식을 가장 빠르게 전해드립니다.">
+  <meta name="twitter:image" content="https://daehantax.com/assets/img/og-default.png">
+
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- 구조화 데이터 — 검색결과의 사업체 정보(지도·전화·주소) 노출용 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AccountingService",
+        "@id": "https://daehantax.com/#organization",
+        "name": "대한세무법인",
+        "alternateName": "Daehan Tax Corporation",
+        "url": "https://daehantax.com/",
+        "logo": "https://daehantax.com/assets/img/logo/logo-full-crop.png",
+        "image": "https://daehantax.com/assets/img/og-default.png",
+        "description": "경기 성남시 분당구 야탑동에 위치한 세무법인. 개인·법인 기장대리, 양도·상속·증여 신고, 맞춤형 절세 컨설팅을 제공합니다.",
+        "telephone": "+82-31-783-8877",
+        "email": "tax@taxdh.net",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "성남대로 912, 515호 (야탑동, BYC빌딩)",
+          "addressLocality": "성남시 분당구",
+          "addressRegion": "경기도",
+          "addressCountry": "KR"
+        },
+        "areaServed": [
+          { "@type": "City", "name": "성남시" },
+          { "@type": "City", "name": "용인시" },
+          { "@type": "City", "name": "광주시" },
+          { "@type": "AdministrativeArea", "name": "경기도" }
+        ],
+        "employee": [
+          { "@type": "Person", "name": "이석제", "jobTitle": "대표세무사" },
+          { "@type": "Person", "name": "임성진", "jobTitle": "세무사 · 상속증여양도세 부문장" }
+        ],
+        "knowsAbout": ["기장대리", "부가가치세 신고", "종합소득세 신고", "법인세 신고", "양도소득세", "상속세", "증여세", "세무조사 대응", "절세 컨설팅"],
+        "sameAs": ["http://pf.kakao.com/_ddxbxcu"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "세무 서비스",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "기장대리", "description": "개인·법인사업자의 장부 작성과 부가세·소득세·법인세 신고를 연중 책임 관리합니다." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "양도 · 상속 · 증여 신고", "description": "부동산과 가족 자산 이동에 따른 세금을 신고 기한 안에 가장 유리한 방법으로 처리합니다." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "맞춤형 절세 컨설팅", "description": "사업과 자산 상황에 맞춘 절세 전략을 설계합니다." } }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://daehantax.com/#website",
+        "url": "https://daehantax.com/",
+        "name": "대한세무법인",
+        "inLanguage": "ko-KR",
+        "publisher": { "@id": "https://daehantax.com/#organization" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->

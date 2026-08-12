@@ -293,6 +293,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex; flex-direction: column; gap: 0.8rem;
   cursor: pointer;
   transition: border-color 0.2s ease;
+  /* 카드는 글 페이지로 가는 <a> 링크다 — 링크 기본 장식을 걷어낸다 */
+  color: inherit; text-decoration: none;
+}
+.article-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 .article-card:hover { border-top-color: var(--gold); }
 .article-card__meta { display: flex; align-items: center; gap: 0.75rem; }
@@ -316,98 +322,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   margin-top: auto; padding-top: 0.5rem;
   font-size: var(--fs-xs); font-weight: 700; color: var(--gold); letter-spacing: 0.05em;
 }
-
-/* ---------- Article modal ---------- */
-.modal {
-  position: fixed; inset: 0; z-index: 300;
-  display: none;
-  align-items: flex-end; justify-content: center;
-}
-.modal.is-open { display: flex; }
-.modal__backdrop { position: absolute; inset: 0; background: rgba(16, 27, 69, 0.55); }
-.modal__panel {
-  --modal-pad: clamp(1.75rem, 4vw, 3rem);
-  position: relative;
-  background: var(--bg);
-  width: min(720px, 100%);
-  max-height: min(86vh, 900px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 0 var(--modal-pad) var(--modal-pad);
-  border-top: 4px solid var(--navy);
-  transition: transform 0.2s ease;
-}
-@media (min-width: 720px) {
-  .modal { align-items: center; padding: 2rem; }
-}
-
-/* 닫기 바 — 스크롤해도 항상 보이도록 상단에 고정.
-   (이전에는 absolute라 본문을 내리면 X가 화면 밖으로 사라졌음) */
-.modal__bar {
-  position: sticky; top: 0; z-index: 2;
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: 56px;
-  margin-inline: calc(var(--modal-pad) * -1);
-  padding-inline: var(--modal-pad);
-  background: var(--bg);
-  box-shadow: 0 1px 0 var(--line);
-  touch-action: none;
-}
-.modal__close {
-  position: static;
-  width: 44px; height: 44px;
-  margin-right: -0.55rem;
-  font-size: 1.5rem; line-height: 1; color: var(--gray-500);
-}
-.modal__close:hover { color: var(--navy); }
-
-/* 링크 복사 — 게시글 주소를 카카오톡 등으로 바로 공유 */
-.modal__copy {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  min-height: 44px; padding: 0 0.25rem;
-  font-size: var(--fs-xs); font-weight: 700;
-  color: var(--gray-500);
-  transition: color 0.15s ease;
-}
-.modal__copy::before {
-  content: ""; width: 0.85rem; height: 0.85rem; flex-shrink: 0;
-  border: 1.5px solid currentColor; border-radius: 2px;
-  box-shadow: 3px -3px 0 -1.5px var(--bg), 4.5px -4.5px 0 -1.5px currentColor;
-}
-.modal__copy:hover { color: var(--navy); }
-.modal__copy[hidden] { display: none; }
-
-/* 모바일 바텀시트 손잡이 — 아래로 끌어내려 닫을 수 있음을 시각적으로 알림 */
-.modal__grab { display: none; }
-@media (max-width: 719px) {
-  .modal__grab {
-    display: block;
-    position: absolute; left: 50%; top: 10px;
-    transform: translateX(-50%);
-    width: 44px; height: 4px;
-    background: var(--gray-300);
-    border-radius: 2px;
-  }
-}
-
-/* 본문 끝 닫기 버튼 — 다 읽고 위로 올라갈 필요 없이 그 자리에서 닫기 */
-.modal__done {
-  display: block; width: 100%;
-  margin-top: 1.5rem;
-  padding: 0.95rem 1rem;
-  font-size: var(--fs-small); font-weight: 700;
-  color: var(--gray-700);
-  background: var(--bg-off);
-  border: 1px solid var(--line);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-.modal__done:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
-
-.modal__meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-top: 0.5rem; }
-.modal__title { font-size: var(--fs-h3); font-weight: 900; letter-spacing: -0.02em; color: var(--navy); line-height: 1.35; margin-bottom: 1.25rem; }
-.modal__body { color: var(--gray-700); white-space: pre-line; }
-.modal__cta { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
-.modal__cta p { font-size: var(--fs-small); color: var(--gray-500); flex: 1 1 16em; }
 
 /* ---------- Notices list ---------- */
 .notice-list { border-top: 2px solid var(--navy); }
@@ -868,9 +782,6 @@ a.service-card:hover { background: var(--bg-off); }
   font-size: var(--fs-xs); color: var(--gray-500);
 }
 
-/* ---------- 모달 내 바로가기 버튼 ---------- */
-.modal__link { margin-top: 1.5rem; }
-
 /* ---------- 특집 콘텐츠 바로가기 배너 ---------- */
 .promo-banner {
   background: var(--navy);
@@ -960,3 +871,79 @@ a.service-card:hover { background: var(--bg-off); }
   .timeline--vert { grid-template-columns: none; }
   .timeline--vert .timeline__step--now { border-top: 0; padding-top: 0; }
 }
+
+/* ============================================================
+   게시글 페이지 (post/<slug>.html)
+   automation/build-posts.js 가 생성하는 개별 글 페이지용
+   ============================================================ */
+
+.post {
+  padding-block: clamp(2rem, 5vw, 3.5rem) var(--space-section);
+}
+.post .container { max-width: 46rem; }
+
+/* ---------- 이동경로 ---------- */
+.breadcrumb {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  font-size: var(--fs-xs); color: var(--gray-500);
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+.breadcrumb a { color: var(--gray-500); text-decoration: none; }
+.breadcrumb a:hover { color: var(--navy); text-decoration: underline; }
+.breadcrumb [aria-current="page"] { color: var(--ink); font-weight: 700; }
+
+/* ---------- 머리말 ---------- */
+.post__meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.1rem; }
+.post__date { font-size: var(--fs-xs); color: var(--gray-500); }
+.post__title {
+  font-size: clamp(1.75rem, 4.2vw, 2.6rem);
+  font-weight: 900; line-height: 1.3; letter-spacing: -0.03em;
+  color: var(--navy);
+}
+.post__summary {
+  margin-top: 1.25rem; padding-left: 1rem;
+  border-left: 3px solid var(--gold);
+  font-size: var(--fs-body-lg); color: var(--gray-700); line-height: 1.65;
+}
+
+/* ---------- 본문 ---------- */
+.post__body {
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+  color: var(--gray-700); font-size: var(--fs-body-lg); line-height: 1.85;
+}
+.post__body p + p { margin-top: 1.5rem; }
+.post__body strong { color: var(--ink); font-weight: 800; }
+
+.post__cta-link { margin-top: 2rem; }
+
+/* ---------- 출처 ---------- */
+.post__sources {
+  margin-top: clamp(2.25rem, 5vw, 3rem);
+  padding-top: 1.5rem; border-top: 1px solid var(--line);
+}
+.post__sources h2 {
+  font-size: var(--fs-small); font-weight: 800; letter-spacing: 0.06em;
+  color: var(--navy); margin-bottom: 0.85rem;
+}
+.post__sources ul { list-style: none; display: grid; gap: 0.5rem; }
+.post__sources li { font-size: var(--fs-small); }
+.post__sources a { color: var(--gray-700); text-underline-offset: 3px; }
+.post__sources a:hover { color: var(--navy); }
+
+.post__verified {
+  margin-top: 1.25rem; padding: 0.9rem 1.1rem;
+  background: var(--bg-off); border-left: 3px solid var(--gray-300);
+  font-size: var(--fs-xs); color: var(--gray-500); line-height: 1.7;
+}
+
+/* ---------- 상담 유도 ---------- */
+.post__cta {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding: clamp(1.5rem, 3.5vw, 2rem);
+  background: var(--bg-navy-tint);
+  border-top: 2px solid var(--navy);
+}
+.post__cta p { font-size: var(--fs-small); color: var(--gray-700); margin-bottom: 1.1rem; }
+.post__cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.post__back { margin-top: 2.5rem; }

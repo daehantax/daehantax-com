@@ -1,0 +1,5 @@
+# automation/build-posts.js 가 생성하는 파일들은 항상 LF로 체크아웃한다.
+# (윈도우에서 CRLF로 받으면 스크립트가 매번 전부 다시 쓴 것처럼 보인다.
+#  GitHub Action은 리눅스에서 도므로 CI와 로컬 결과가 어긋나지 않게 맞춘다.)
+post/*.html text eol=lf
+sitemap.xml text eol=lf

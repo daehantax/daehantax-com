@@ -120,13 +120,20 @@ merge anything yourself.
      "verificationNote": "optional — only include if something wasn't directly confirmed via a .go.kr fetch, or is not yet finalized law"
    }
    ```
-   **`slug` is REQUIRED and permanent.** It becomes the public share URL for that post
-   (`info.html?post=<slug>`), which staff send to clients over KakaoTalk. A query param is used
-   rather than a hash because GA4 does not count fragment-only URL changes as page views, so a
-   hash-based URL would make per-article view counts invisible in Analytics. Rules: lowercase ASCII,
-   hyphen-separated, descriptive of the topic in English (e.g. `late-payment-penalty-monthly`),
-   unique across BOTH json files, and **never changed once published** — changing it breaks links
-   already shared. `link` is optional; include it only when a dedicated explainer page exists.
+   **`slug` is REQUIRED and permanent.** It becomes the post's own page and public share URL
+   (`https://daehantax.com/post/<slug>.html`), which staff send to clients over KakaoTalk. That page
+   is generated automatically from this JSON by `automation/build-posts.js` — a GitHub Action runs it
+   on every push to `master` that touches these files, so you do NOT need to create or edit any HTML
+   yourself, and you should NOT commit anything under `post/` or edit `sitemap.xml`. Rules for the
+   slug: lowercase ASCII, hyphen-separated, descriptive of the topic in English (e.g.
+   `late-payment-penalty-monthly`), unique across BOTH json files, and **never changed once
+   published** — changing it breaks links already shared and orphans the old page.
+   `link` is optional; include it only when a dedicated explainer page exists.
+
+   Because each entry becomes a standalone page that must stand on its own in search results, write
+   `body` as at least 3 substantial paragraphs where the topic supports it, and always fill `source`
+   with the official `.go.kr` page(s) you confirmed the figures against — those are rendered as a
+   visible 출처 section on the page.
 
    Match the tone of existing entries: plain, reassuring, never alarmist, never fabricate precise
    figures, explicitly say "확정된 내용이 아닙니다" / "상담을 통해 확인하세요" for anything not
