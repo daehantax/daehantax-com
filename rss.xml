@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 파일은 automation/build-posts.js 가 생성합니다. 직접 수정하지 마세요. -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>대한세무법인 세무정보</title>
+    <link>https://daehantax.com/info.html</link>
+    <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
+    <language>ko</language>
+    <lastBuildDate>Thu, 06 Aug 2026 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>세제개편안 ③ 부가가치세 — 세율은 그대로, 카드매출 세액공제는 절반으로</title>
+      <link>https://daehantax.com/post/tax-reform-2026-vat.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/tax-reform-2026-vat.html</guid>
+      <description>부가가치세율 변경은 없습니다. 다만 신용카드 매출 세액공제의 우대 한도가 연 1,000만원에서 500만원으로 줄고, 세금계산서의 &#39;작성 연월일&#39;이 &#39;공급 연월일&#39;로 바뀝니다. 확정 전 정부안입니다.</description>
+      <category>세법개정</category>
+      <pubDate>Thu, 06 Aug 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>세제개편안 ② 법인세 — 지방에 있으면 더 주고, 중소기업 졸업은 천천히</title>
+      <link>https://daehantax.com/post/tax-reform-2026-corporate.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/tax-reform-2026-corporate.html</guid>
+      <description>R&amp;D·투자 세액공제에 지방우대계수(1.0~1.5)가 신설되고 접대비 적격증빙 기준이 3만원에서 5만원으로 오릅니다. 중소기업 졸업 시 감면이 한 번에 끊기지 않도록 &#39;점감구조&#39;도 도입됩니다. 확정 전 정부안입니다.</description>
+      <category>세법개정</category>
+      <pubDate>Thu, 06 Aug 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>세제개편안 ① 소득세 — 부양가족 공제 문턱은 낮아지고, 신용카드 공제는 줄어듭니다</title>
+      <link>https://daehantax.com/post/tax-reform-2026-income.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/tax-reform-2026-income.html</guid>
+      <description>부양가족 기본공제 소득요건이 100만원에서 300만원으로 완화되고 월세 세액공제 한도가 늘어나는 반면, 신용카드 소득공제 추가공제 대상에서 &#39;대중교통&#39;이 빠지고 혼인·출산 세액공제는 종료되는 안입니다. 확정 전 정부안입니다.</description>
+      <category>세법개정</category>
+      <pubDate>Wed, 05 Aug 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>2026년 세제개편안 발표 — 아직 ‘확정된 세법’이 아닙니다</title>
+      <link>https://daehantax.com/post/tax-reform-2026-announced.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/tax-reform-2026-announced.html</guid>
+      <description>정부가 2026년 8월 3일 세제개편안을 발표했습니다. 다만 이는 정부가 제안한 ‘개정안’일 뿐 확정된 법률이 아니며, 앞으로 국회 심의 과정에서 내용이 바뀔 수 있습니다.</description>
+      <category>세법개정</category>
+      <pubDate>Tue, 04 Aug 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>중고자동차 매입세액공제, 공제한도 신설 — 2026년 7월부터 적용</title>
+      <link>https://daehantax.com/post/used-car-input-vat-limit.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/used-car-input-vat-limit.html</guid>
+      <description>중고자동차를 매입해 되파는 사업자의 의제매입세액공제(10/110)에 공제한도가 새로 생기고, 초과분은 1년간 이월공제가 허용됩니다. 2026년 7월 1일 이후 개시하는 과세기간분부터 적용됩니다.</description>
+      <category>세법개정</category>
+      <pubDate>Fri, 10 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>해외 플랫폼도 국세청에 거래자료 제출 — 2025년 7월부터 시행 중</title>
+      <link>https://daehantax.com/post/overseas-platform-reporting.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/overseas-platform-reporting.html</guid>
+      <description>국내 사업자의 판매·결제를 대행·중개하는 해외 플랫폼(비거주자·외국법인)도 국세청에 거래 자료를 제출해야 합니다. 2025년 7월 1일 이후 대행·중개분부터 이미 적용 중입니다.</description>
+      <category>세법개정</category>
+      <pubDate>Thu, 09 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>거짓세금계산서 가산세, 공급가액의 4%로 인상</title>
+      <link>https://daehantax.com/post/false-tax-invoice-penalty.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/false-tax-invoice-penalty.html</guid>
+      <description>실제 거래 없이 가공 세금계산서를 발급·수취하는 행위에 대한 가산세율이 공급가액의 3%에서 4%로 인상되었습니다. 2026년 1월 1일 이후 발급·수취분부터 적용됩니다.</description>
+      <category>세법개정</category>
+      <pubDate>Wed, 08 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>현금매출명세서 제출 의무, &#39;미디어 콘텐츠 창작업&#39;까지 확대</title>
+      <link>https://daehantax.com/post/cash-sales-media-creators.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/cash-sales-media-creators.html</guid>
+      <description>유튜버·인플루언서 등 미디어 콘텐츠 창작업도 2026년 4월 1일 이후 신고분부터 현금매출명세서 제출 대상에 포함됩니다.</description>
+      <category>세법개정</category>
+      <pubDate>Tue, 07 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>2026년 세제개편안, 이달 말 발표 예정</title>
+      <link>https://daehantax.com/post/tax-reform-2026-preview.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/tax-reform-2026-preview.html</guid>
+      <description>지난해 &#39;2025년 세제개편안&#39;이 7월 31일 발표되어 2026년 1월부터 시행된 것처럼, &#39;2026년 세제개편안&#39;도 이달 말 발표되어 국회 심의를 거쳐 2027년 시행이 예상됩니다. 사업 계획에 영향이 큰 항목은 미리 챙겨 안내드리겠습니다.</description>
+      <category>세법개정</category>
+      <pubDate>Mon, 06 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>음식점업 등 의제매입세액공제 우대한도, 2027년까지 연장</title>
+      <link>https://daehantax.com/post/restaurant-deemed-input-vat.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/restaurant-deemed-input-vat.html</guid>
+      <description>면세농산물을 구입해 쓰는 음식점업 등에 적용되는 의제매입세액공제 우대 공제한도의 적용기한이 2027년 12월 31일까지 연장되었습니다.</description>
+      <category>세법개정</category>
+      <pubDate>Sat, 04 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>병·캔 포장 단순가공식료품, 2026년부터 부가가치세 과세 전환</title>
+      <link>https://daehantax.com/post/packaged-food-vat-taxable.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/packaged-food-vat-taxable.html</guid>
+      <description>두부·메주·간장·된장·고추장 등 병·캔에 포장된 단순가공식료품에 한시적으로 적용되던 부가가치세 면제가 2025년 12월 31일자로 종료되어, 2026년 거래분부터 과세로 전환됩니다.</description>
+      <category>세법개정</category>
+      <pubDate>Fri, 03 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>수입 미가공식료품(커피·코코아두) 부가가치세 면제, 2027년까지 연장</title>
+      <link>https://daehantax.com/post/imported-food-vat-extended.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/imported-food-vat-extended.html</guid>
+      <description>카페·제과업 등에서 원료로 쓰는 수입 커피두·코코아두 등의 부가가치세 면제 혜택이 2025년 말 종료 예정에서 2027년 12월 31일까지 2년 연장되었습니다.</description>
+      <category>세법개정</category>
+      <pubDate>Thu, 02 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>노란우산공제 납입한도, 7월 1일부터 분기 300만원→연 1,800만원 자유납입으로 확대</title>
+      <link>https://daehantax.com/post/noran-umbrella-limit-expanded.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/noran-umbrella-limit-expanded.html</guid>
+      <description>노란우산공제의 부금 납입 방식이 분기별 300만원(연 1,200만원) 한도에서 연간 1,800만원 한도 내 자유 납입으로 바뀌었습니다. 소득공제 한도(사업소득 구간별 200만~600만원)는 별도로 그대로입니다.</description>
+      <category>절세정보</category>
+      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>7월 부가가치세 확정신고, 매입세액 빠짐없이 챙기세요</title>
+      <link>https://daehantax.com/post/july-vat-input-checklist.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/july-vat-input-checklist.html</guid>
+      <description>신용카드 매입, 전자세금계산서, 현금영수증 등 공제 가능한 매입 자료를 신고 전에 한 번 더 점검하면 납부세액을 줄일 수 있습니다.</description>
+      <category>절세정보</category>
+      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>납부지연가산세 산출방식, 일 단위에서 월 단위로 전환</title>
+      <link>https://daehantax.com/post/late-payment-penalty-monthly.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/late-payment-penalty-monthly.html</guid>
+      <description>국세를 지정납부기한까지 내지 못했을 때 붙는 납부지연가산세의 계산 방식이 일(日) 단위에서 월(月) 단위로 바뀌었습니다. 2026년 7월 1일 이후 지정납부기한이 도래하는 분부터 적용됩니다.</description>
+      <category>세법개정</category>
+      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>경기도 소상공인 사업정리 지원사업 — 재기장려금 200만원</title>
+      <link>https://daehantax.com/post/gyeonggi-closure-support.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/gyeonggi-closure-support.html</guid>
+      <description>경기도 내 사업장을 6개월 이상 운영하고 2025년 1월 1일 이후 폐업(예정 포함)한 소상공인은 재기장려금 200만원과 1:1 컨설팅을 받을 수 있습니다.</description>
+      <category>경영지원</category>
+      <pubDate>Thu, 18 Jun 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>간이과세 유지·전환 기준, 매년 점검이 필요합니다</title>
+      <link>https://daehantax.com/post/simplified-vat-eligibility.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/simplified-vat-eligibility.html</guid>
+      <description>간이과세 적용 기준은 연 매출 1억 400만원 미만(부동산임대업·과세유흥장소는 4,800만원 미만)입니다. 전환 통지를 받았다면 세부담 변화를 미리 계산해 보세요.</description>
+      <category>절세정보</category>
+      <pubDate>Mon, 15 Jun 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>서울시 &#39;새 길 여는 폐업지원&#39; — 폐업 예정이라면 확인하세요</title>
+      <link>https://daehantax.com/post/seoul-closure-support.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/seoul-closure-support.html</guid>
+      <description>서울 소재 사업장으로 폐업을 앞두고 있다면(이미 폐업한 경우는 해당 없음) 최대 300만원의 폐업 실비를 지원받을 수 있습니다.</description>
+      <category>경영지원</category>
+      <pubDate>Wed, 10 Jun 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>새출발기금 — 소상공인 채무조정 지원제도</title>
+      <link>https://daehantax.com/post/fresh-start-fund.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/fresh-start-fund.html</guid>
+      <description>2020.4~2025.6 사업을 운영한 소상공인 중 3개월 이상 연체된 분은 원금 0~80%(취약계층 최대 90%) 감면과 장기분할상환을 받을 수 있습니다.</description>
+      <category>경영지원</category>
+      <pubDate>Tue, 02 Jun 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>상속세, &#39;유산세&#39;에서 &#39;유산취득세&#39;로 — 정부 개편안 발표</title>
+      <link>https://daehantax.com/post/inheritance-acquisition-based.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/inheritance-acquisition-based.html</guid>
+      <description>기획재정부가 2025년 3월 상속세를 유산세 방식에서 유산취득세 방식으로 바꾸는 개편안을 발표했습니다. 국회 통과 시 이르면 2028년부터 시행될 예정으로, 아직 확정된 법은 아닙니다.</description>
+      <category>세법개정</category>
+      <pubDate>Thu, 28 May 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>성실신고확인 대상인지 미리 확인하고 준비하세요</title>
+      <link>https://daehantax.com/post/honest-filing-target-check.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/honest-filing-target-check.html</guid>
+      <description>직전 연도 수입금액이 업종별로 도소매업 등 15억원, 제조업 등 7.5억원, 서비스업 등 5억원 이상이면 성실신고확인 대상입니다. 대상 여부를 미리 알면 가산세 위험과 신고 부담을 줄일 수 있습니다.</description>
+      <category>절세정보</category>
+      <pubDate>Wed, 20 May 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>2025년 결혼했다면, 혼인세액공제 100만원을 챙기세요</title>
+      <link>https://daehantax.com/post/marriage-tax-credit.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/marriage-tax-credit.html</guid>
+      <description>2024~2026년 중 혼인신고를 했다면, 부부가 각각 50만원씩 생애 1회 종합소득세 세액공제를 받을 수 있습니다.</description>
+      <category>절세정보</category>
+      <pubDate>Fri, 08 May 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>자녀세액공제, 2025년 귀속분부터 최대 10만원씩 늘었습니다</title>
+      <link>https://daehantax.com/post/child-tax-credit-increase.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/child-tax-credit-increase.html</guid>
+      <description>8세 이상 자녀 세액공제액이 첫째 15만→25만원, 둘째 20만→30만원, 셋째 이상 30만→40만원으로 올랐습니다. 2025년 귀속(2026년 신고분)부터 적용됩니다.</description>
+      <category>절세정보</category>
+      <pubDate>Fri, 08 May 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>노란우산공제, 사업자의 기본 소득공제 수단입니다</title>
+      <link>https://daehantax.com/post/noran-umbrella-deduction.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/noran-umbrella-deduction.html</guid>
+      <description>사업소득 구간별로 연 200만~600만원까지 소득공제가 되고, 2025년 개정으로 구간별 한도가 늘었습니다. 2026년부터는 연간 납입 한도도 1,200만원에서 1,800만원으로 늘었습니다.</description>
+      <category>절세정보</category>
+      <pubDate>Fri, 10 Apr 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>2026년 간이과세 배제기준 고시 개정 — 지역별 기준 재조정</title>
+      <link>https://daehantax.com/post/simplified-vat-exclusion-2026.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/simplified-vat-exclusion-2026.html</guid>
+      <description>간이과세 적용 기준 금액(1억 400만원)은 그대로지만, 2026년 1월 1일 시행 고시에서 전국 64개 지역의 간이과세 배제기준이 재조정되었습니다. 사업장 위치에 따라 적용 여부가 달라질 수 있습니다.</description>
+      <category>세법개정</category>
+      <pubDate>Wed, 18 Mar 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>가족 간 증여, 10년 단위 증여재산공제를 활용하세요</title>
+      <link>https://daehantax.com/post/family-gift-deduction.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/family-gift-deduction.html</guid>
+      <description>배우자 6억원, 성년 자녀 5천만원, 미성년 자녀 2천만원 등 관계별 공제 한도가 10년 단위로 적용됩니다. 혼인·출산 시에는 추가 공제도 받을 수 있습니다.</description>
+      <category>절세정보</category>
+      <pubDate>Thu, 05 Mar 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>적격증빙 관리가 절세의 출발점입니다</title>
+      <link>https://daehantax.com/post/proper-evidence-management.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/proper-evidence-management.html</guid>
+      <description>세금계산서·신용카드·현금영수증 등 적격증빙 없이 지출한 비용은 경비로 인정받기 어렵거나 가산세 대상이 될 수 있습니다.</description>
+      <category>절세정보</category>
+      <pubDate>Thu, 12 Feb 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>연말정산·소득공제 항목, 매년 달라지는 부분을 확인하세요</title>
+      <link>https://daehantax.com/post/year-end-settlement-changes.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/year-end-settlement-changes.html</guid>
+      <description>신용카드 사용분 공제, 주거 관련 공제, 자녀 관련 공제 등은 해마다 한도와 요건이 조정되는 대표적인 항목입니다.</description>
+      <category>세법개정</category>
+      <pubDate>Tue, 20 Jan 2026 09:00:00 +0900</pubDate>
+    </item>
+  </channel>
+</rss>
