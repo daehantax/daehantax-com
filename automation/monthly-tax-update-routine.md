@@ -10,8 +10,26 @@
 ## 등록 정보
 
 - **taskId**: `daehantax-monthly-tax-update`
-- **description**: 매월 1일, 국세청·법령정보센터 등 공식 소스로 세법 변경사항을 리서치해 대한세무법인 사이트 콘텐츠 PR 생성
-- **cronExpression**: `0 9 1 * *` (매월 1일 오전 9시, 로컬 시간 기준)
+- **description**: 매월 1·11·21일(휴일이면 다음 영업일) 오전 9시, 국세청·법령정보센터 등 공식 소스로 세법 변경사항을 리서치해 대한세무법인 사이트 콘텐츠 PR 생성
+- **cronExpression**: `0 9 1-7,11-17,21-27 * *` (로컬 시간 기준)
+
+> **taskId와 파일명에 'monthly'가 남아 있는 이유**
+> 2026년 8월부터 월 3회(10일 간격)로 바뀌었지만, 이름을 바꾸면 각 PC에 등록된 예약 작업을
+> 전부 다시 등록해야 하므로 그대로 둡니다. 실제 주기는 위 cronExpression과 아래
+> "실행일 판정"이 결정합니다.
+
+### 왜 cron이 1·11·21일이 아니라 1-7·11-17·21-27일인가
+
+cron으로는 "휴일이면 다음 영업일"을 표현할 수 없습니다. 그래서 **기준일 이후 7일간 매일
+트리거하고, 실제 실행 여부는 프롬프트 안의 "Step 0 — 실행일 판정"이 결정**합니다.
+실행일이 아닌 날은 아무 작업도 하지 않고 즉시 종료합니다.
+
+7일 창인 이유는 설·추석 연휴가 주말과 겹치면 기준일에서 최대 5~6일까지 밀릴 수 있기 때문입니다.
+
+- 한 달에 21회 트리거되고 그중 3회만 실제로 리서치합니다.
+- 나머지 18회는 몇 초 안에 종료되지만, 실행 기록에는 남습니다.
+- 이 방식이 부담스러우면 cron을 `0 9 1,11,21 * *`로 바꾸고 아래 Step 0을 제거하면 됩니다.
+  대신 기준일이 휴일이면 그날 그대로 실행됩니다(리서치 자체는 휴일에도 무해합니다).
 
 ## 새 PC에 등록할 때 그대로 붙여넣을 요청 문구
 
@@ -45,9 +63,14 @@ JSON schema to follow, branch/PR conventions, everything (see its "리서치 지
 been edited since this task was originally set up, so always treat whatever is currently in that file
 as authoritative, not any prior memory of it.
 
-## Step 3 — execute
-Follow the instructions in that file's 리서치 지침 section exactly, start to finish. Do not push
-directly to master and do not merge any PR yourself.
+## Step 3 — check whether today is actually a run day
+This task is triggered on many days but only runs on three. Perform "Step 0 — 실행일 판정" from that
+file's 리서치 지침 section FIRST. If today is not the run day, print one line saying so and stop —
+do not research, do not create a branch, do not open a PR.
+
+## Step 4 — execute
+If today IS the run day, follow the rest of the 리서치 지침 section exactly, start to finish. Do not
+push directly to master and do not merge any PR yourself.
 
 ## Output
 End with the short summary format specified in that file (either "변경사항 없음, PR 생성 안 함", or
@@ -70,6 +93,38 @@ Claude Code의 예약 작업은 **각 PC의 로컬 폴더**(`~/.claude/scheduled
 ```
 You are updating the content for a Korean tax accounting firm's website (대한세무법인, daehantax.com).
 
+## Step 0 — 실행일 판정 (다른 어떤 작업보다 먼저)
+
+This routine runs 3 times a month, but cron triggers it on ~21 days. Decide whether today is a real
+run day BEFORE doing anything else. If it is not, stop immediately — no research, no branch, no PR.
+
+기준일은 매월 **1일 · 11일 · 21일**이다. 기준일이 토요일·일요일이거나 대한민국 공휴일이면,
+그 다음 영업일이 실행일이 된다.
+
+판정 절차:
+
+1. 오늘 날짜(로컬 기준)로 이번 주기의 기준일 D를 정한다.
+   - 오늘이 1~7일 → D = 1
+   - 오늘이 11~17일 → D = 11
+   - 오늘이 21~27일 → D = 21
+   - 그 외 날짜 → 실행일 아님. 종료.
+2. D부터 하루씩 뒤로 이동하면서 **토요일·일요일·대한민국 공휴일을 건너뛴** 첫 날짜를 구한다.
+   이것이 이번 주기의 실행일이다.
+3. 오늘이 그 실행일과 같으면 계속 진행한다. 다르면 아래 한 줄만 출력하고 종료한다.
+   `실행일 아님 (이번 주기 실행일: M월 D일) — 종료`
+
+공휴일 범위: 신정, 설 연휴, 삼일절, 어린이날, 부처님오신날, 현충일, 광복절, 추석 연휴,
+개천절, 한글날, 성탄절, 대체공휴일, 임시공휴일·선거일 등 관공서 공휴일.
+
+**공휴일 여부가 확실하지 않으면 "공휴일이 아니다"로 보고 실행하는 쪽을 택한다.**
+한 번 더 실행되는 것은 무해하지만(변경사항이 없으면 PR을 만들지 않음), 건너뛰면 그 주기를
+통째로 놓친다.
+
+참고: 실행일에 PC가 꺼져 있어 트리거되지 못했다면 그 주기는 건너뛴다. 10일 간격이므로
+다음 주기에 누적된 변경사항을 함께 확인하게 되며, 별도 보정은 하지 않는다.
+
+---
+
 Repo: GitHub `daehantax/daehantax-com`, default branch `master`. If a local clone doesn't already
 exist on this machine, clone it first (e.g. `git clone https://github.com/daehantax/daehantax-com.git`
 into a working directory) — otherwise use the existing local clone and run
@@ -85,6 +140,8 @@ merge anything yourself.
 
 ## Steps
 
+0. **Step 0(실행일 판정)을 통과했는지 먼저 확인한다.** 실행일이 아니면 아래 단계를 하나도
+   수행하지 않는다.
 1. Get the repo to the latest `master` state (clone or pull, as above).
 2. Read `assets/data/tax-tips.json` and `assets/data/law-updates.json`. Note the most recent
    `verifiedDate` values already present — you're looking for what's changed or been newly announced
@@ -178,3 +235,15 @@ one-line list of what was added.
 이 문서 수정만으로는 반영되지 않습니다 — 그건 각 PC에서 `update_scheduled_task`로 직접
 바꿔야 합니다. 이 문서가 자동으로 다시 읽어오는 건 "무엇을, 어떻게" 부분이고, "언제"는
 예약 작업 자체의 스케줄 설정이라 별개입니다.)
+
+**기준일(1·11·21일)만 바꾸는 경우는 예외로 이 문서만 고치면 됩니다.** 기준일과 휴일 보정은
+cron이 아니라 "Step 0 — 실행일 판정"이 결정하기 때문입니다. 다만 기준일을 크게 옮겨
+cron 트리거 창(1-7, 11-17, 21-27일) 밖으로 나가면 cron도 함께 바꿔야 합니다.
+
+## 변경 이력
+
+- **2026-08-11** — 월 1회(매월 1일)에서 **월 3회(1·11·21일, 휴일이면 다음 영업일)** 로 변경.
+  cron을 `0 9 1 * *` → `0 9 1-7,11-17,21-27 * *` 로 바꾸고, 휴일 보정을 위한
+  "Step 0 — 실행일 판정"을 리서치 지침에 추가함.
+  ※ 다른 PC에도 등록해 두셨다면 **그 PC에서 cronExpression을 직접 바꿔야** 합니다
+  (Step 0은 문서에서 읽어오므로 자동 반영되지만, cron은 아닙니다).
