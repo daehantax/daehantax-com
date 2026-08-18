@@ -807,10 +807,6 @@ a.service-card:hover { background: var(--bg-off); }
 }
 .promo-banner__desc { font-size: var(--fs-small); color: rgba(255,255,255,0.72); max-width: 44em; }
 .promo-banner .btn { flex-shrink: 0; }
-/* 배너가 연달아 올 때 사이의 구분선은 금색 대신 페이지 배경색(히어로 아래쪽 색)으로 둔다.
-   금색 선이 두 번 반복되면 시선이 분산돼서다.
-   (배너 순서를 바꾸면 이 클래스도 위쪽 배너로 옮겨야 한다) */
-.promo-banner--seamless { border-bottom-color: var(--bg-off); }
 
 /* 단계가 많은 타임라인(추진일정)은 2줄로 나눠 가독성 확보 */
 @media (min-width: 860px) {
