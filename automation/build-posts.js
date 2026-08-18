@@ -220,7 +220,6 @@ const HEADER = `<body>
         <a href="../about.html">세무법인 소개</a>
         <a href="../services.html">서비스 안내</a>
         <a href="../info.html" aria-current="page">세무정보실</a>
-        <a href="https://fund.daehantax.com" target="_blank" rel="noopener">정책자금 조회</a>
         <a class="gnb__cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
       </nav>
       <a class="btn btn--kakao btn--sm header-cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
