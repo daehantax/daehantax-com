@@ -419,7 +419,9 @@ a.service-card:hover { background: var(--bg-off); }
 /* ---------- People (about) ---------- */
 .people-grid {
   display: grid; gap: clamp(1.5rem, 3vw, 2.5rem);
-  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  /* 구성원 4명이 3+1로 갈라져 한 명만 둘째 줄에 남지 않도록 기준폭을 넉넉히 둔다.
+     (넓은 화면 2열 → 2x2, 태블릿 이하 1열) */
+  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
 }
 .person-card {
   border: 1px solid var(--line);
@@ -466,11 +468,19 @@ a.service-card:hover { background: var(--bg-off); }
 }
 
 /* ---------- Why-us cards ---------- */
+/* 카드 수가 열 수의 배수가 아니면 빈 칸이 생긴다. 예전에는 그리드 배경을
+   회색(--line)으로 깔고 1px 간격으로 구분선을 만들었는데, 그러면 빈 칸이
+   회색 상자로 그대로 드러났다(카드 5개 · 4열 → 빈 칸 3개).
+   이제는 카드마다 box-shadow로 1px 선을 두르고 그리드 배경은 비워서,
+   빈 칸이 페이지 배경색으로 남게 한다. */
 .why-grid {
-  display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line);
+  display: grid; gap: 1px; background: transparent;
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
 }
-.why-card { background: var(--bg); padding: clamp(1.5rem, 3vw, 2.25rem); display: flex; flex-direction: column; gap: 0.85rem; }
+.why-card {
+  background: var(--bg); box-shadow: 0 0 0 1px var(--line);
+  padding: clamp(1.5rem, 3vw, 2.25rem); display: flex; flex-direction: column; gap: 0.85rem;
+}
 .why-card__num {
   font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 900; letter-spacing: -0.03em;
   color: transparent; -webkit-text-stroke: 1.5px var(--gold);
