@@ -3,13 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://daehantax.com/</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://daehantax.com/info.html</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -30,6 +30,18 @@
     <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://daehantax.com/post/tax-reform-2026-cabinet-approved.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daehantax.com/post/tax-reform-2026-real-estate-tax.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://daehantax.com/post/tax-reform-2026-vat.html</loc>
