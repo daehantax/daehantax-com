@@ -148,6 +148,14 @@ merge anything yourself.
    with the official `.go.kr` page(s) you confirmed the figures against — those are rendered as a
    visible 출처 section on the page.
 
+   **시점 의존 표현 금지 (중요).** "현재 이 단계입니다", "이번 주", "곧", "다음 달"처럼 읽는
+   시점에 따라 참·거짓이 달라지는 표현을 쓰지 말고, **항상 날짜로 서술**한다. PR이 열린 뒤
+   검토·병합까지 며칠에서 몇 주가 걸리는 일이 흔하고, 그 사이 문구가 사실과 어긋나게 된다.
+   실제로 2026-09-02에 작성된 PR이 8일 뒤 검토될 때 타임라인의 "현재 이 단계"가 이미 지난
+   단계를 가리키고 있었다. 진행 단계를 표시해야 한다면 날짜를 함께 적고, 기간이 긴 단계
+   (예: "가을~12월 국회 심의")를 현재 단계로 두어 며칠 지나도 유효하도록 쓴다.
+   같은 이유로 게시글 `body`에도 "지난주", "이번 달" 대신 구체적 날짜를 쓴다.
+
    Match the tone of existing entries: plain, reassuring, never alarmist, never fabricate precise
    figures, explicitly say "확정된 내용이 아닙니다" / "상담을 통해 확인하세요" for anything not
    finalized or that depends on the client's specific situation. Look at the existing entries in both
