@@ -311,14 +311,9 @@ ${a.source
         </section>`
       : "";
 
-  const verified = a.verifiedDate
-    ? `
-        <p class="post__verified">이 글의 내용은 ${esc(formatDate(a.verifiedDate))} 기준으로 확인했습니다.${
-        a.verificationNote ? " " + esc(a.verificationNote) : ""
-      }</p>`
-    : a.verificationNote
-    ? `\n        <p class="post__verified">${esc(a.verificationNote)}</p>`
-    : "";
+  // verifiedDate/verificationNote는 화면에는 표시하지 않고 데이터로만 보관한다
+  // (dateModified/lastmod 계산에는 계속 쓰인다). 필요해지면 아래에서 복원.
+  const verified = "";
 
   return { paras, linkBtn, sources, verified };
 }
