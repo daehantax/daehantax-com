@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <header>
   <div class="brand">당신의세무사 · 대한세무법인</div>
   <h1>내 체납 세금,<br>줄이거나 없앨 방법이 있을까?</h1>
-  <p>5가지만 체크하면 1분 안에 확인됩니다</p>
+  <p>6가지만 체크하면 1분 안에 확인됩니다</p>
 </header>
 
 <div class="wrap">
@@ -81,12 +81,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <form id="quiz" class="card" novalidate>
     <div class="q">
       <div class="q-title">1. 밀린 세금은 어떤 세금인가요?</div>
-      <div class="q-hint">여러 개면 가장 큰 것 하나</div>
+      <div class="q-hint">해당되는 것 모두 선택</div>
       <div class="opts">
-        <label class="opt"><input type="radio" name="tax" value="종합소득세">종합소득세</label>
-        <label class="opt"><input type="radio" name="tax" value="부가가치세">부가가치세</label>
-        <label class="opt"><input type="radio" name="tax" value="법인세">법인세</label>
-        <label class="opt"><input type="radio" name="tax" value="기타">기타 / 잘 모르겠음</label>
+        <label class="opt"><input type="checkbox" name="tax" value="종합소득세">종합소득세</label>
+        <label class="opt"><input type="checkbox" name="tax" value="부가가치세">부가가치세</label>
+        <label class="opt"><input type="checkbox" name="tax" value="법인세">법인세</label>
+        <label class="opt"><input type="checkbox" name="tax" value="양도소득세">양도소득세</label>
+        <label class="opt"><input type="checkbox" name="tax" value="상속세·증여세">상속세·증여세</label>
+        <label class="opt"><input type="checkbox" name="tax" value="기타·모름">기타 / 잘 모르겠음</label>
       </div>
     </div>
     <div class="q">
@@ -114,10 +116,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="q-title">5. 지금 어떤 일이 있나요?</div>
       <div class="q-hint">해당되는 것 모두 선택</div>
       <div class="opts">
-        <label class="opt"><input type="checkbox" name="status" value="통장 압류됨">통장(예금)이 압류됐다</label>
-        <label class="opt"><input type="checkbox" name="status" value="독촉장·압류 통지 받음">독촉장이나 압류 통지를 받았다</label>
+        <label class="opt"><input type="checkbox" name="status" value="독촉장·고지서 받음">독촉장이나 납부 고지서를 받았다</label>
+        <label class="opt"><input type="checkbox" name="status" value="재산 압류됨">재산이 압류됐다 (압류 통지를 받았다)</label>
         <label class="opt"><input type="checkbox" name="status" value="공매 예정">공매(재산 매각) 예정이다</label>
         <label class="opt"><input type="checkbox" name="status" value="아직 조치 없음">아직 아무 조치도 없다</label>
+      </div>
+    </div>
+    <div class="q">
+      <div class="q-title">6. 현재 압류된 재산은 무엇인가요?</div>
+      <div class="q-hint">해당되는 것 모두 선택 (압류된 재산이 없으면 건너뛰세요)</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="seized" value="부동산">부동산</label>
+        <label class="opt"><input type="checkbox" name="seized" value="보험">보험</label>
+        <label class="opt"><input type="checkbox" name="seized" value="증권계좌">증권계좌</label>
+        <label class="opt"><input type="checkbox" name="seized" value="보통예금">보통예금</label>
+        <label class="opt"><input type="checkbox" name="seized" value="기타">기타</label>
       </div>
     </div>
     <button class="btn" type="submit">결과 확인하기</button>
@@ -173,6 +186,7 @@ const TYPES = {
   E: { title:'잘못된 압류 — 무효이거나 취소될 수 있습니다',
     text:'압류를 당하면 대부분 그냥 받아들이십니다. 하지만 압류도 법에 정해진 절차와 요건을 지켜야 하고, 이를 어긴 압류는 효력이 없거나 취소될 수 있습니다. 이미 소멸시효가 지난 세금으로 한 압류, 독촉 절차 없이 바로 들어온 압류, 체납액에 비해 지나치게 많이 묶은 압류, 남의 재산을 잘못 묶은 압류는 다툴 수 있습니다. 문제는 이런 하자가 겉으로 드러나지 않는다는 점입니다. 시효가 지났는지, 송달이 적법했는지는 서류를 하나하나 뜯어봐야 보입니다.' }
 };
+const LABEL = { D:'D 긴급(압류·공매 진행)', B:'B 생계형 체납액 소멸', A:'A 소멸시효 완성', C:'C 영세사업자 징수특례', E:'E 압류 하자(무효·취소)' };
 const FALLBACK = { title:'지금 점검해 두시길 권합니다',
   text:'현재는 바로 해당되는 제도가 없어 보입니다. 하지만 체납은 시간이 지날수록 납부지연가산세가 붙고, 압류가 들어오면 선택지가 줄어듭니다. 지금 상황을 점검해 두시면 불이익을 미리 막을 수 있습니다.' };
 
@@ -186,21 +200,22 @@ let answers = null, matched = [];
 
 // 판정: 해당 유형 전부, 순서 D → B → A → C → E
 function judge(a) {
-  const st = a.status, out = [];
-  if (st.includes('통장 압류됨') || st.includes('공매 예정')) out.push('D');
+  const st = a.status, seized = a.seized.length > 0 || st.includes('재산 압류됨'), out = [];
+  if (seized || st.includes('공매 예정')) out.push('D');
   if (a.amount === '5천만 원 이하' && a.biz === '폐업') out.push('B');
   if (thisYear - Number(a.year) >= 5) out.push('A');
   if (a.biz === '폐업 후 재개업·재취업') out.push('C');
-  if (st.includes('통장 압류됨') || st.includes('독촉장·압류 통지 받음')) out.push('E');
+  if (seized || st.includes('독촉장·고지서 받음')) out.push('E');
   return out;
 }
 
 document.getElementById('quiz').addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target, val = n => (f.querySelector(`input[name=${n}]:checked`) || {}).value;
-  const a = { tax: val('tax'), amount: val('amount'), year: yearSel.value, biz: val('biz'),
-              status: [...f.querySelectorAll('input[name=status]:checked')].map(i => i.value) };
-  if (!a.tax || !a.amount || !a.year || !a.biz || !a.status.length) {
+  const all = n => [...f.querySelectorAll(`input[name=${n}]:checked`)].map(i => i.value);
+  const a = { tax: all('tax'), amount: val('amount'), year: yearSel.value, biz: val('biz'),
+              status: all('status'), seized: all('seized') };
+  if (!a.tax.length || !a.amount || !a.year || !a.biz || !a.status.length) {
     document.getElementById('quizErr').style.display = 'block'; return;
   }
   document.getElementById('quizErr').style.display = 'none';
@@ -237,9 +252,10 @@ document.getElementById('contact').addEventListener('submit', async e => {
   err.style.display = 'none'; btn.disabled = true; btn.textContent = '접수 중…';
 
   const fmt = phone.replace(/^(\d{3})(\d{3,4})(\d{4})$/, '$1-$2-$3');
-  const payload = { name, phone: fmt, tax: answers.tax, amount: answers.amount,
+  const payload = { name, phone: fmt, tax: answers.tax.join(', '), amount: answers.amount,
     year: answers.year == thisYear - 30 ? `${thisYear - 26}년 이전` : answers.year,
-    biz: answers.biz, status: answers.status.join(', '), result: matched.join(',') || '없음', source: src };
+    biz: answers.biz, status: answers.status.join(', '), seized: answers.seized.join(', ') || '없음',
+    result: matched.length ? matched.map(k => LABEL[k]).join(' / ') : '해당 없음(점검 권장)', source: src };
   try {
     await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
