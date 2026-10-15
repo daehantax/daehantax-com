@@ -59,7 +59,11 @@ function formatDate(iso) {
 const rebase = (url) => (/^(https?:)?\/\/|^mailto:|^tel:|^#/.test(url) ? url : "../" + url);
 
 const catName = (a) => a.category || "공지";
-const catAnchor = (a) => (a.category === "세법개정" ? "law" : "tips");
+const catAnchor = (a) => (a.category === "세법개정" ? "law" : a.youtubeId ? "videos" : "tips");
+
+/* 영상 해설 글 — YouTube Video ID 가 있으면 영상 글로 본다 (assets/data/videos.json) */
+const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const ogImage = (a) => (a.youtubeId ? ytThumb(a.youtubeId) : `${ORIGIN}/assets/img/og-default.png`);
 const tagClass = (a) => (a.category === "세법개정" ? "tag tag--gold" : "tag");
 
 /* 대략적인 낱말 수 — Article.wordCount 용 */
@@ -89,10 +93,12 @@ function relatedPicks(a, all) {
 /* ---------- 데이터 ---------- */
 
 function loadArticles() {
-  const files = ["tax-tips.json", "law-updates.json"];
+  const files = ["tax-tips.json", "law-updates.json", "videos.json"];
   const all = [];
   for (const f of files) {
-    const items = JSON.parse(fs.readFileSync(path.join(DATA, f), "utf8"));
+    const file = path.join(DATA, f);
+    if (f === "videos.json" && !fs.existsSync(file)) continue; // 영상 글은 아직 없을 수 있다
+    const items = JSON.parse(fs.readFileSync(file, "utf8"));
     if (!Array.isArray(items)) throw new Error(`${f} 이 배열이 아닙니다.`);
     all.push(...items);
   }
@@ -102,6 +108,7 @@ function loadArticles() {
     if (!a.slug) throw new Error(`slug 없는 게시글: "${a.title}"`);
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(a.slug)) throw new Error(`slug 형식 오류: "${a.slug}" (소문자 ASCII + 하이픈만)`);
     if (seen.has(a.slug)) throw new Error(`slug 중복: "${a.slug}"`);
+    if (a.youtubeId && !/^[A-Za-z0-9_-]{6,20}$/.test(a.youtubeId)) throw new Error(`youtubeId 형식 오류(${a.slug}): "${a.youtubeId}"`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(a.date || "")) throw new Error(`date 형식 오류(${a.slug}): "${a.date}"`);
     seen.set(a.slug, a);
   }
@@ -137,16 +144,16 @@ const head = (a) => {
   <meta property="og:url" content="${url}">
   <meta property="og:title" content="${esc(a.title)}">
   <meta property="og:description" content="${esc(desc)}">
-  <meta property="og:image" content="${ORIGIN}/assets/img/og-default.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image" content="${ogImage(a)}">
+  <meta property="og:image:width" content="${a.youtubeId ? 480 : 1200}">
+  <meta property="og:image:height" content="${a.youtubeId ? 360 : 630}">
   <meta property="og:image:alt" content="대한세무법인">
   <meta property="article:published_time" content="${esc(a.date)}">
   <meta property="article:section" content="${esc(a.category || "세무정보")}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(a.title)}">
   <meta name="twitter:description" content="${esc(desc)}">
-  <meta name="twitter:image" content="${ORIGIN}/assets/img/og-default.png">
+  <meta name="twitter:image" content="${ogImage(a)}">
 
   <link rel="alternate" type="application/rss+xml" title="대한세무법인 세무정보" href="../rss.xml">
   <link rel="icon" type="image/png" href="../favicon.png">
@@ -166,7 +173,7 @@ ${JSON.stringify(
           description: clip(a.summary || a.body, 300),
           url,
           mainEntityOfPage: url,
-          image: `${ORIGIN}/assets/img/og-default.png`,
+          image: ogImage(a),
           datePublished: a.date,
           dateModified: a.verifiedDate || a.date,
           inLanguage: "ko-KR",
@@ -179,6 +186,22 @@ ${JSON.stringify(
             ? { citation: a.source.map((s) => ({ "@type": "CreativeWork", name: s.label, url: s.url })) }
             : {}),
         },
+        ...(a.youtubeId
+          ? [
+              {
+                "@type": "VideoObject",
+                "@id": `${url}#video`,
+                name: a.title,
+                description: clip(a.summary || a.body, 300),
+                thumbnailUrl: ytThumb(a.youtubeId),
+                uploadDate: a.date,
+                embedUrl: `https://www.youtube.com/embed/${a.youtubeId}`,
+                contentUrl: `https://www.youtube.com/watch?v=${a.youtubeId}`,
+                inLanguage: "ko-KR",
+                publisher: { "@id": `${ORIGIN}/#organization` },
+              },
+            ]
+          : []),
         /* 화면에 보이는 이동경로와 항목·순서가 정확히 일치해야 한다.
            (예전에는 화면엔 카테고리를, 구조화 데이터엔 글 제목을 넣어 어긋나 있었다) */
         {
@@ -287,8 +310,24 @@ function bodyHTML(a) {
     .split(/\n{2,}/)
     .map((p) => p.trim())
     .filter(Boolean)
-    .map((p) => `          <p>${esc(p).replace(/\n/g, "<br>")}</p>`)
+    .map((p) =>
+      /^##\s+/.test(p)
+        ? `          <h2>${esc(p.replace(/^##\s+/, ""))}</h2>`
+        : `          <p>${esc(p).replace(/\n/g, "<br>")}</p>`
+    )
     .join("\n");
+
+  const video = a.youtubeId
+    ? `
+        <figure class="post__video">
+          <div class="post__video-frame">
+            <iframe src="https://www.youtube-nocookie.com/embed/${esc(a.youtubeId)}" title="${esc(a.title)}"
+              loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <figcaption><a href="https://www.youtube.com/watch?v=${esc(a.youtubeId)}" target="_blank" rel="noopener">유튜브에서 보기</a> · 아래는 영상 나레이션 전문입니다.</figcaption>
+        </figure>`
+    : "";
 
   const linkBtn =
     a.link && a.link.url
@@ -315,7 +354,7 @@ ${a.source
   // (dateModified/lastmod 계산에는 계속 쓰인다). 필요해지면 아래에서 복원.
   const verified = "";
 
-  return { paras, linkBtn, sources, verified };
+  return { paras, linkBtn, sources, verified, video };
 }
 
 /* 날짜순 바로 앞뒤 글로 가는 링크.
@@ -379,7 +418,7 @@ ${picks
 }
 
 function renderPost(a, all) {
-  const { paras, linkBtn, sources, verified } = bodyHTML(a);
+  const { paras, linkBtn, sources, verified, video } = bodyHTML(a);
   return `${head(a)}
 ${HEADER}
   <main id="main">
@@ -401,7 +440,7 @@ ${HEADER}
         </div>
 
         <h1 class="post__title">${esc(a.title)}</h1>
-${a.summary ? `        <p class="post__summary">${esc(a.summary)}</p>` : ""}
+${a.summary ? `        <p class="post__summary">${esc(a.summary)}</p>` : ""}${video}
 
         <div class="post__body">
 ${paras}

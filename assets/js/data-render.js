@@ -15,6 +15,11 @@
 
   /* ---------- 유틸 ---------- */
 
+  /* 영상 글(videos.json)은 아직 없을 수 있으므로 없으면 빈 목록으로 본다 */
+  function fetchOptional(name) {
+    return fetchJSON(name).catch(function () { return []; });
+  }
+
   function fetchJSON(name) {
     return fetch(DATA_BASE + name + ".json", { cache: "no-cache" }).then(function (res) {
       if (!res.ok) throw new Error(name + ".json 로드 실패 (" + res.status + ")");
@@ -62,10 +67,17 @@
     meta.appendChild(el("span", item.category === "세법개정" ? "tag tag--gold" : "tag", item.category || "공지"));
     meta.appendChild(el("span", "article-card__date", formatDate(item.date)));
 
+    if (item.youtubeId) {
+      var thumb = el("img", "article-card__thumb");
+      thumb.setAttribute("src", "https://i.ytimg.com/vi/" + item.youtubeId + "/hqdefault.jpg");
+      thumb.setAttribute("alt", "");
+      thumb.setAttribute("loading", "lazy");
+      card.appendChild(thumb);
+    }
     card.appendChild(meta);
     card.appendChild(el("h3", "article-card__title", item.title));
     if (item.summary) card.appendChild(el("p", "article-card__summary", item.summary));
-    card.appendChild(el("span", "article-card__more", "자세히 보기 +"));
+    card.appendChild(el("span", "article-card__more", item.youtubeId ? "영상 보기 +" : "자세히 보기 +"));
     return card;
   }
 
@@ -148,8 +160,8 @@
     /* 홈: 최신 절세정보 + 세법개정 통합 그리드 */
     var homeNews = document.querySelector("[data-render='latest-articles']");
     if (homeNews) {
-      Promise.all([fetchJSON("tax-tips"), fetchJSON("law-updates")])
-        .then(function (results) { renderArticles(homeNews, results[0].concat(results[1]), 6); })
+      Promise.all([fetchJSON("tax-tips"), fetchJSON("law-updates"), fetchOptional("videos")])
+        .then(function (results) { renderArticles(homeNews, results[0].concat(results[1], results[2]), 6); })
         .catch(function () { renderEmpty(homeNews, fileProtocolMessage()); });
     }
 
@@ -208,6 +220,17 @@
       fetchJSON("law-updates")
         .then(function (items) { renderArticles(lawGrid, items); })
         .catch(function () { renderEmpty(lawGrid, fileProtocolMessage()); });
+    }
+
+    /* 정보실: 영상 해설 — 글이 하나도 없으면 섹션째 숨겨 둔다 */
+    var videoGrid = document.querySelector("[data-render='videos']");
+    if (videoGrid) {
+      fetchOptional("videos").then(function (items) {
+        var section = document.querySelector("[data-section='videos']");
+        if (!items.length) return;
+        if (section) section.hidden = false;
+        renderArticles(videoGrid, items);
+      });
     }
 
     /* 정보실: 공지사항 */
