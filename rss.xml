@@ -6,8 +6,16 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Tue, 01 Sep 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 05 Oct 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>10월 부가가치세 예정신고·고지 — 법인 10월 26일, 개인 고지분 11월 2일까지</title>
+      <link>https://daehantax.com/post/vat-preliminary-2026-2nd-schedule.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/vat-preliminary-2026-2nd-schedule.html</guid>
+      <description>2026년 2기 예정분(7월~9월) 부가가치세는 법인이 2026년 10월 26일(월)까지 신고·납부하고, 개인 일반과세자와 소규모 법인은 예정고지 세액을 2026년 11월 2일(월)까지 내면 됩니다. 호우 피해지역과 홈플러스 관련 사업자는 납부기한이 2026년 12월 28일까지 직권 연장됩니다.</description>
+      <category>세법개정</category>
+      <pubDate>Mon, 05 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>2026년 세제개편안, 9월 1일 국무회의 통과 — 종합부동산세·ISA는 원안보다 완화</title>
       <link>https://daehantax.com/post/tax-reform-2026-cabinet-approved.html</link>
@@ -239,14 +247,6 @@
       <description>배우자 6억원, 성년 자녀 5천만원, 미성년 자녀 2천만원 등 관계별 공제 한도가 10년 단위로 적용됩니다. 혼인·출산 시에는 추가 공제도 받을 수 있습니다.</description>
       <category>절세정보</category>
       <pubDate>Thu, 05 Mar 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>적격증빙 관리가 절세의 출발점입니다</title>
-      <link>https://daehantax.com/post/proper-evidence-management.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/proper-evidence-management.html</guid>
-      <description>세금계산서·신용카드·현금영수증 등 적격증빙 없이 지출한 비용은 경비로 인정받기 어렵거나 가산세 대상이 될 수 있습니다.</description>
-      <category>절세정보</category>
-      <pubDate>Thu, 12 Feb 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
 </rss>
