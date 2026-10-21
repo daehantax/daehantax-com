@@ -59,6 +59,22 @@
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
+  /* ---------- 전화 클릭 추적 ----------
+     GA4 향상된 측정의 '이탈 클릭'은 http(s) 링크만 집계해서 tel: 은 빠진다.
+     전화 상담이 주요 전환이므로 직접 dataLayer 로 올린다.
+     (GTM의 "전화 클릭" 트리거 → GA4 phone_click 이벤트로 이어진다)
+
+     문서에 위임해 두면 나중에 추가되는 전화 링크도 따로 손대지 않아도 된다. */
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+    if (!a) return;
+    (window.dataLayer = window.dataLayer || []).push({
+      event: "phone_click",
+      phone_number: (a.getAttribute("href") || "").replace(/^tel:/, ""),
+      phone_label: (a.textContent || "").replace(/\s+/g, " ").trim().slice(0, 100)
+    });
+  });
+
   /* ---------- 푸터 연도 ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = String(new Date().getFullYear());
