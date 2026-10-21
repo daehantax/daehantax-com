@@ -7,7 +7,8 @@
  *
  * [붙이는 방법 — 한 번만, 5분]
  *  1. 구글 시트 「체납 자가진단 접수명단」 → 확장 프로그램 → Apps Script
- *  2. doPost 함수 안, 아래 줄 바로 밑에
+ *  2. doPost 함수 안, 아래 줄 바로 밑에 (시트에 v7 이 아직 배포 안 됐으면 이 줄이 없습니다 →
+ *     그 위 줄 if (d.form === 'inherit-file') … 바로 밑에)
  *        if (d.form === 'inherit-review') return reviewSave(ss, d);
  *     이 한 줄을 추가합니다.
  *        if (d.form === 'blog') return blogIntake(ss, d);           // ── 홈페이지 블로그 글 문의
