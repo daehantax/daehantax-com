@@ -62,6 +62,16 @@ const catName = (a) => a.category || "공지";
 const catAnchor = (a) => (a.youtubeId ? "video" : a.category === "세법개정" ? "law" : "tips");
 const tagClass = (a) => (a.youtubeId ? "tag tag--video" : a.category === "세법개정" ? "tag tag--gold" : "tag");
 
+/* 영상 글의 글쓴이 — 검색엔진·AI 가 "누가 쓴 전문 글인지" 판단하는 근거 (E-E-A-T) */
+const AUTHOR = {
+  "@type": "Person",
+  name: "이석제",
+  jobTitle: "세무사",
+  description: "대한세무법인 대표세무사 · 유튜브 「당신의 세무사」 운영",
+  worksFor: { "@id": `${ORIGIN}/#organization` },
+  url: `${ORIGIN}/about.html`,
+};
+
 /* 영상 글(videos.json — YT 오토메이션이 대표님 승인 후 올림)은 유튜브 썸네일을 대표 이미지로 쓴다 */
 const ogImage = (a) =>
   a.youtubeId ? `https://i.ytimg.com/vi/${a.youtubeId}/hqdefault.jpg` : `${ORIGIN}/assets/img/og-default.png`;
@@ -134,7 +144,9 @@ const head = (a) => {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
-  <link rel="canonical" href="${url}">
+  <link rel="canonical" href="${url}">${Array.isArray(a.tags) && a.tags.length ? `
+  <meta name="keywords" content="${esc(a.tags.join(", "))}">` : ""}${a.youtubeId ? `
+  <meta name="author" content="이석제 세무사 (대한세무법인)">` : ""}
 
   <!-- 공유 미리보기 (카카오톡·페이스북·네이버 블로그 등) -->
   <meta property="og:type" content="article">
@@ -174,11 +186,12 @@ ${JSON.stringify(
           mainEntityOfPage: url,
           image: ogImage(a),
           datePublished: a.date,
-          dateModified: a.verifiedDate || a.date,
+          dateModified: a.updated || a.verifiedDate || a.date,
           inLanguage: "ko-KR",
           articleSection: catName(a),
           wordCount: wordCount(a),
-          author: { "@id": `${ORIGIN}/#organization` },
+          author: a.youtubeId ? AUTHOR : { "@id": `${ORIGIN}/#organization` },
+          ...(Array.isArray(a.tags) && a.tags.length ? { keywords: a.tags.join(", ") } : {}),
           publisher: { "@id": `${ORIGIN}/#organization` },
           isPartOf: { "@id": `${ORIGIN}/#website` },
           ...(Array.isArray(a.source) && a.source.length
@@ -197,6 +210,19 @@ ${JSON.stringify(
                 embedUrl: `https://www.youtube.com/embed/${a.youtubeId}`,
                 contentUrl: `https://www.youtube.com/watch?v=${a.youtubeId}`,
                 publisher: { "@id": `${ORIGIN}/#organization` },
+              },
+            ]
+          : []),
+        ...(faqPairs(a).length
+          ? [
+              {
+                "@type": "FAQPage",
+                "@id": `${url}#faq`,
+                mainEntity: faqPairs(a).map((f) => ({
+                  "@type": "Question",
+                  name: f.q,
+                  acceptedAnswer: { "@type": "Answer", text: f.a },
+                })),
               },
             ]
           : []),
@@ -311,33 +337,111 @@ function inlineMD(t) {
 }
 function markdownHTML(md) {
   const out = [];
-  for (const block of String(md || "").split(/\n{2,}/)) {
-    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
-    if (!lines.length) continue;
-    let para = [];
-    let list = [];
-    const flushP = () => {
-      if (para.length) out.push(`          <p>${para.map(inlineMD).join("<br>")}</p>`);
-      para = [];
-    };
-    const flushL = () => {
-      if (list.length) out.push(`          <ul>\n${list.map((l) => `            <li>${inlineMD(l)}</li>`).join("\n")}\n          </ul>`);
-      list = [];
-    };
-    for (const l of lines) {
-      let m;
-      if ((m = /^(#{2,3})\s+(.+)$/.exec(l))) {
-        flushP(); flushL();
-        out.push(`          <h${m[1].length}>${inlineMD(m[2])}</h${m[1].length}>`);
-      } else if ((m = /^[-*·]\s+(.+)$/.exec(l))) {
-        flushP(); list.push(m[1]);
-      } else {
-        flushL(); para.push(l);
-      }
+  const lines = String(md || "").split("\n");
+  let para = [], list = [], olist = [], quote = [], table = [];
+  let h2n = 0;
+  const cells = (l) => l.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+  const flushP = () => { if (para.length) out.push(`          <p>${para.map(inlineMD).join("<br>")}</p>`); para = []; };
+  const flushL = () => {
+    if (list.length) out.push(`          <ul>\n${list.map((l) => `            <li>${inlineMD(l)}</li>`).join("\n")}\n          </ul>`);
+    if (olist.length) out.push(`          <ol>\n${olist.map((l) => `            <li>${inlineMD(l)}</li>`).join("\n")}\n          </ol>`);
+    list = []; olist = [];
+  };
+  /* "> " 줄 = 한눈에 보기 상자. 첫 줄이 "**제목**" 이면 상자 제목으로 쓴다 */
+  const flushQ = () => {
+    if (!quote.length) return;
+    let title = "";
+    const m = /^\*\*(.+?)\*\*$/.exec(quote[0]);
+    if (m) { title = m[1]; quote = quote.slice(1); }
+    const items = quote.filter((q) => /^[-*·]\s+/.test(q)).map((q) => q.replace(/^[-*·]\s+/, ""));
+    const rest = quote.filter((q) => !/^[-*·]\s+/.test(q));
+    out.push(`          <aside class="post-box">${title ? `\n            <p class="post-box__title">${inlineMD(title)}</p>` : ""}${
+      rest.length ? `\n            <p>${rest.map(inlineMD).join("<br>")}</p>` : ""}${
+      items.length ? `\n            <ul>\n${items.map((t) => `              <li>${inlineMD(t)}</li>`).join("\n")}\n            </ul>` : ""}
+          </aside>`);
+    quote = [];
+  };
+  /* "| 가 | 나 |" 표. 둘째 줄 "|---|---|" 는 구분선. 표 바로 위 "**표 제목**" 은 caption 으로 */
+  const flushT = () => {
+    if (!table.length) return;
+    const rows = table.filter((l) => !/^\|?\s*:?-{2,}/.test(l)).map(cells);
+    const [head, ...body] = rows;
+    let caption = "";
+    const prev = out[out.length - 1] || "";
+    const cm = /^\s*<p><strong>([^<]+)<\/strong><\/p>$/.exec(prev);
+    if (cm) { caption = cm[1]; out.pop(); }
+    out.push(`          <div class="post-table" role="region" aria-label="${caption || "표"}" tabindex="0">
+            <table>${caption ? `\n              <caption>${caption}</caption>` : ""}
+              <thead><tr>${head.map((c) => `<th scope="col">${inlineMD(c)}</th>`).join("")}</tr></thead>
+              <tbody>
+${body.map((r) => `                <tr>${r.map((c, k) => (k === 0 && head.length > 2 ? `<th scope="row">${inlineMD(c)}</th>` : `<td>${inlineMD(c)}</td>`)).join("")}</tr>`).join("\n")}
+              </tbody>
+            </table>
+          </div>`);
+    table = [];
+  };
+  const flushAll = () => { flushP(); flushL(); flushQ(); flushT(); };
+
+  for (const raw of lines) {
+    const l = raw.trim();
+    let m;
+    if (!l) { flushAll(); continue; }
+    if (l.startsWith("|")) { flushP(); flushL(); flushQ(); table.push(l); continue; }
+    if (table.length) flushT();
+    if ((m = /^>\s?(.*)$/.exec(l))) { flushP(); flushL(); if (m[1]) quote.push(m[1]); continue; }
+    if (quote.length) flushQ();
+    if ((m = /^(#{2,3})\s+(.+)$/.exec(l))) {
+      flushP(); flushL();
+      const lv = m[1].length;
+      out.push(lv === 2 ? `          <h2 id="s${++h2n}">${inlineMD(m[2])}</h2>` : `          <h3>${inlineMD(m[2])}</h3>`);
+    } else if ((m = /^[-*·]\s+(.+)$/.exec(l))) {
+      flushP(); if (olist.length) flushL(); list.push(m[1]);
+    } else if ((m = /^\d+[.)]\s+(.+)$/.exec(l))) {
+      flushP(); if (list.length) flushL(); olist.push(m[1]);
+    } else {
+      flushL(); para.push(l);
     }
-    flushP(); flushL();
   }
+  flushAll();
   return out.join("\n");
+}
+
+/* 영상 글의 "## 소제목" 목록 → 목차 (4개 이상일 때) */
+function tocHTML(a) {
+  if (!a.youtubeId) return "";
+  const hs = [];
+  let n = 0;
+  for (const l of String(a.body || "").split("\n")) {
+    const m = /^##\s+(.+)$/.exec(l.trim());
+    if (m) hs.push({ id: `s${++n}`, t: m[1].replace(/\*\*/g, "") });
+  }
+  if (hs.length < 4) return "";
+  return `
+        <nav class="post-toc" aria-label="목차">
+          <p class="post-toc__title">목차</p>
+          <ol>
+${hs.map((h) => `            <li><a href="#${h.id}">${esc(h.t)}</a></li>`).join("\n")}
+          </ol>
+        </nav>`;
+}
+
+/* "## 자주 묻는 질문" 아래 "### 질문" + 답 문단 → FAQPage 구조화 데이터 (구글·AI 답변이 그대로 인용하기 좋다) */
+function faqPairs(a) {
+  if (!a.youtubeId) return [];
+  const lines = String(a.body || "").split("\n");
+  const pairs = [];
+  let inFaq = false, q = null, ans = [];
+  const push = () => { if (q && ans.length) pairs.push({ q, a: ans.join(" ").replace(/\*\*/g, "").trim() }); q = null; ans = []; };
+  for (const raw of lines) {
+    const l = raw.trim();
+    if (/^##\s+/.test(l)) { push(); inFaq = /자주\s*묻는|FAQ|궁금/.test(l); continue; }
+    if (!inFaq) continue;
+    const m = /^###\s+(.+)$/.exec(l);
+    if (m) { push(); q = m[1].replace(/^Q[.:]\s*/, "").replace(/\*\*/g, ""); continue; }
+    if (q && l) ans.push(l.replace(/^[-*·]\s+/, "").replace(/^A[.:]\s*/, ""));
+  }
+  push();
+  return pairs;
 }
 
 /* 유튜브 영상 — 클릭 전엔 썸네일만 보여 주어 페이지가 가볍다 (assets/js/inquiry.js 가 재생기로 바꿈) */
@@ -511,12 +615,13 @@ ${HEADER}
 
         <div class="post__meta">
           <span class="${tagClass(a)}">${esc(catName(a))}</span>
-          <time class="post__date" datetime="${esc(a.date)}">${esc(formatDate(a.date))}</time>
+          <time class="post__date" datetime="${esc(a.date)}">${esc(formatDate(a.date))}</time>${a.youtubeId ? `
+          <span class="post__byline">글 · 이석제 세무사 (대한세무법인 대표)</span>` : ""}
         </div>
 
         <h1 class="post__title">${esc(a.title)}</h1>
 ${a.summary ? `        <p class="post__summary">${esc(a.summary)}</p>` : ""}
-${videoHTML(a)}
+${videoHTML(a)}${tocHTML(a)}
 
         <div class="post__body">
 ${paras}
@@ -597,7 +702,7 @@ function renderSitemap(all) {
     { loc: `${ORIGIN}/tax-reform-2026.html`, lastmod: STATIC_LASTMOD["tax-reform-2026.html"], changefreq: "monthly", priority: "0.7" },
     ...all.map((a) => ({
       loc: `${ORIGIN}/post/${a.slug}.html`,
-      lastmod: a.verifiedDate && a.verifiedDate > a.date ? a.verifiedDate : a.date,
+      lastmod: [a.date, a.verifiedDate, a.updated].filter(Boolean).sort().pop(),
       changefreq: "yearly",
       priority: "0.6",
     })),
