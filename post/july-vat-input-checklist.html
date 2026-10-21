@@ -141,20 +141,47 @@
         <h1 class="post__title">7월 부가가치세 확정신고, 매입세액 빠짐없이 챙기세요</h1>
         <p class="post__summary">신용카드 매입, 전자세금계산서, 현금영수증 등 공제 가능한 매입 자료를 신고 전에 한 번 더 점검하면 납부세액을 줄일 수 있습니다.</p>
 
+
         <div class="post__body">
           <p>부가가치세는 매출세액에서 매입세액을 뺀 금액을 납부하는 구조이므로, 공제 가능한 매입 자료를 얼마나 빠짐없이 반영하느냐가 곧 절세로 이어집니다.</p>
           <p>사업용 신용카드가 홈택스에 등록되어 있는지, 전자세금계산서가 정상 발급·수취되었는지, 사업 관련 현금 지출에 대해 지출증빙용 현금영수증을 받았는지 확인해 보세요. 차량 관련 비용이나 접대성 지출처럼 공제가 제한되는 항목도 있으므로, 애매한 항목은 신고 전에 문의해 주시는 것이 안전합니다.</p>
         </div>
 
 
-        <div class="post__cta">
+        <section class="post__cta inquiry" aria-labelledby="inq-heading">
+          <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
           <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            카카오톡 채널로 문의해 주시면 확인해 드립니다.</p>
-          <div class="post__cta-actions">
-            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-          </div>
-        </div>
+            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <form class="inquiry__form" data-inquiry novalidate
+                data-post-title="7월 부가가치세 확정신고, 매입세액 빠짐없이 챙기세요" data-post-slug="july-vat-input-checklist" data-post-category="절세정보">
+            <div class="inquiry__row">
+              <label class="inquiry__field">
+                <span>성함</span>
+                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
+              </label>
+              <label class="inquiry__field">
+                <span>휴대폰 번호</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
+              </label>
+            </div>
+            <label class="inquiry__field">
+              <span>문의 내용</span>
+              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
+            </label>
+            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="inquiry__agree">
+              <input type="checkbox" name="agree">
+              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
+            </label>
+            <p class="inquiry__err" role="alert" hidden></p>
+            <div class="post__cta-actions">
+              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
+              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+            </div>
+          </form>
+          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+        </section>
 
 
         <nav class="post-nav" aria-label="이전·다음 글">
@@ -264,5 +291,6 @@
   </a>
 
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/inquiry.js"></script>
 </body>
 </html>

@@ -148,6 +148,7 @@
         <h1 class="post__title">10월 부가가치세 예정신고·고지 — 법인 10월 26일, 개인 고지분 11월 2일까지</h1>
         <p class="post__summary">2026년 2기 예정분(7월~9월) 부가가치세는 법인이 2026년 10월 26일(월)까지 신고·납부하고, 개인 일반과세자와 소규모 법인은 예정고지 세액을 2026년 11월 2일(월)까지 내면 됩니다. 호우 피해지역과 홈플러스 관련 사업자는 납부기한이 2026년 12월 28일까지 직권 연장됩니다.</p>
 
+
         <div class="post__body">
           <p>국세청은 2026년 10월 5일 보도참고자료에서 2026년 2기 부가가치세 예정신고·납부 일정을 안내했습니다. 부가가치세 과세사업을 하는 법인사업자는 2026년 10월 1일부터 10월 26일(월)까지 2026년 7월 1일~9월 30일 사업실적을 신고하고 세금을 납부해야 합니다. 홈택스 신고화면에는 매출·매입 자료가 미리 채워지는 &#39;미리채움&#39; 서비스가 제공되지만, 채워진 자료가 실제 거래와 일치하는지는 신고 전에 꼭 확인해야 합니다.</p>
           <p>개인 일반과세자와 소규모 법인(직전 과세기간 공급가액 합계 1억 5천만원 미만)은 따로 신고하지 않고, 직전 과세기간 납부세액의 2분의 1로 계산된 예정고지 세액을 내면 됩니다. 2026년 10월 초 개천절·한글날 등 휴일이 몰려 고지서 송달이 늦어질 수 있어 국세청이 납부기한을 10월 말일로 일괄 연장했고, 10월 31일이 토요일이어서 실제 납부기한은 2026년 11월 2일(월)입니다. 다만 2026년 7월~9월 매출액이나 납부세액이 직전 과세기간의 3분의 1에 못 미치거나 조기환급 사유가 생겼다면 예정신고를 할 수 있고, 예정신고를 하면 예정고지는 취소됩니다. 사업 실적이 크게 줄었다면 고지 세액을 그대로 내기 전에 예정신고가 유리한지 확인해 보세요.</p>
@@ -161,14 +162,40 @@
           </ul>
         </section>
 
-        <div class="post__cta">
+        <section class="post__cta inquiry" aria-labelledby="inq-heading">
+          <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
           <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            카카오톡 채널로 문의해 주시면 확인해 드립니다.</p>
-          <div class="post__cta-actions">
-            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-          </div>
-        </div>
+            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <form class="inquiry__form" data-inquiry novalidate
+                data-post-title="10월 부가가치세 예정신고·고지 — 법인 10월 26일, 개인 고지분 11월 2일까지" data-post-slug="vat-preliminary-2026-2nd-schedule" data-post-category="세법개정">
+            <div class="inquiry__row">
+              <label class="inquiry__field">
+                <span>성함</span>
+                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
+              </label>
+              <label class="inquiry__field">
+                <span>휴대폰 번호</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
+              </label>
+            </div>
+            <label class="inquiry__field">
+              <span>문의 내용</span>
+              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
+            </label>
+            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="inquiry__agree">
+              <input type="checkbox" name="agree">
+              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
+            </label>
+            <p class="inquiry__err" role="alert" hidden></p>
+            <div class="post__cta-actions">
+              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
+              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+            </div>
+          </form>
+          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+        </section>
 
 
         <nav class="post-nav" aria-label="이전·다음 글">
@@ -275,5 +302,6 @@
   </a>
 
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/inquiry.js"></script>
 </body>
 </html>

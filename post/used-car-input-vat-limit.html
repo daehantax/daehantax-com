@@ -141,20 +141,47 @@
         <h1 class="post__title">중고자동차 매입세액공제, 공제한도 신설 — 2026년 7월부터 적용</h1>
         <p class="post__summary">중고자동차를 매입해 되파는 사업자의 의제매입세액공제(10/110)에 공제한도가 새로 생기고, 초과분은 1년간 이월공제가 허용됩니다. 2026년 7월 1일 이후 개시하는 과세기간분부터 적용됩니다.</p>
 
+
         <div class="post__body">
           <p>중고자동차를 매입해 되파는 사업자에게 적용되는 의제매입세액공제(공제율 10/110) 제도에 조세특례제한법 제108조 개정으로 공제한도가 새로 생겼습니다. 한도를 초과한 공제분은 1년간 이월공제가 허용되고, 신고서에 자동차등록번호·차대번호를 기재해야 합니다. 제도 자체의 적용기한은 2028년 12월 31일까지 연장되었습니다.</p>
           <p>이번 2026년 1기 확정신고(1월~6월 실적)는 종전 규정대로 신고하며, 새로 생긴 공제한도·이월공제 규정은 2026년 7월 1일 이후 개시하는 과세기간분, 즉 다음 확정신고(2기)부터 적용됩니다. 중고차 매매업을 하신다면 이번 하반기부터 달라지는 부분을 미리 챙겨두시는 것이 좋습니다.</p>
         </div>
 
 
-        <div class="post__cta">
+        <section class="post__cta inquiry" aria-labelledby="inq-heading">
+          <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
           <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            카카오톡 채널로 문의해 주시면 확인해 드립니다.</p>
-          <div class="post__cta-actions">
-            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-          </div>
-        </div>
+            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <form class="inquiry__form" data-inquiry novalidate
+                data-post-title="중고자동차 매입세액공제, 공제한도 신설 — 2026년 7월부터 적용" data-post-slug="used-car-input-vat-limit" data-post-category="세법개정">
+            <div class="inquiry__row">
+              <label class="inquiry__field">
+                <span>성함</span>
+                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
+              </label>
+              <label class="inquiry__field">
+                <span>휴대폰 번호</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
+              </label>
+            </div>
+            <label class="inquiry__field">
+              <span>문의 내용</span>
+              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
+            </label>
+            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="inquiry__agree">
+              <input type="checkbox" name="agree">
+              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
+            </label>
+            <p class="inquiry__err" role="alert" hidden></p>
+            <div class="post__cta-actions">
+              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
+              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+            </div>
+          </form>
+          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+        </section>
 
 
         <nav class="post-nav" aria-label="이전·다음 글">
@@ -264,5 +291,6 @@
   </a>
 
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/inquiry.js"></script>
 </body>
 </html>

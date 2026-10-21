@@ -11,6 +11,7 @@ on:
     paths:
       - "assets/data/tax-tips.json"
       - "assets/data/law-updates.json"
+      - "assets/data/videos.json"
       - "automation/build-posts.js"
       - ".github/workflows/build-posts.yml"
   workflow_dispatch:

@@ -984,3 +984,79 @@ a.service-card:hover { background: var(--bg-off); }
   .post-nav__item--next { text-align: left; }
   .post-nav__item.is-empty { display: none; }
 }
+
+/* ============================================================
+   영상 해설 글 (videos.json) · 글 하단 문의 폼
+   ============================================================ */
+.tag--video { color: #fff; background: var(--navy); }
+
+/* 목록 카드의 영상 썸네일 */
+.article-card__thumb {
+  position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden;
+  background: var(--bg-off);
+}
+.article-card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.article-card__thumb::after {
+  content: ""; position: absolute; right: 0.75rem; bottom: 0.75rem;
+  width: 2.25rem; height: 2.25rem; border-radius: 50%;
+  background: rgba(16, 27, 69, 0.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") center / 55% no-repeat;
+}
+
+/* 글 안의 영상 */
+.post__video {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+  aspect-ratio: 16 / 9; background: var(--navy-deep); overflow: hidden;
+}
+.post__video-link, .post__video iframe { display: block; width: 100%; height: 100%; border: 0; position: relative; }
+.post__video-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.post__video-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 4.25rem; height: 4.25rem; border-radius: 50%;
+  background: rgba(200, 150, 62, 0.95) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") 56% 50% / 50% no-repeat;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease;
+}
+.post__video-link:hover .post__video-play { transform: translate(-50%, -50%) scale(1.08); }
+.post__video-note { margin-top: 0.75rem; font-size: var(--fs-xs); color: var(--gray-500); }
+
+/* 영상 글 본문 (마크다운) */
+.post__body h2 {
+  margin-top: clamp(2.25rem, 5vw, 3rem); margin-bottom: 1rem;
+  padding-top: 1.25rem; border-top: 1px solid var(--line);
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem); font-weight: 800; line-height: 1.4;
+  letter-spacing: -0.02em; color: var(--navy);
+}
+.post__body h3 {
+  margin-top: 1.75rem; margin-bottom: 0.6rem;
+  font-size: var(--fs-body-lg); font-weight: 800; color: var(--ink);
+}
+.post__body h2 + p, .post__body h3 + p { margin-top: 0; }
+.post__body ul { margin: 1.25rem 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; }
+.post__body li::marker { color: var(--gold); }
+.post__body ul + p, .post__body p + ul { margin-top: 1.25rem; }
+
+/* 글 하단 문의 폼 — 「체납 자가진단 접수명단」 시트로 접수 */
+.inquiry__title {
+  font-size: var(--fs-body-lg); font-weight: 800; color: var(--navy); margin-bottom: 0.5rem;
+}
+.inquiry__form { display: grid; gap: 0.9rem; }
+.inquiry__row { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.inquiry__field { display: grid; gap: 0.35rem; font-size: var(--fs-xs); font-weight: 700; color: var(--gray-700); }
+.inquiry__field input, .inquiry__field textarea {
+  width: 100%; font: inherit; font-size: 1rem; font-weight: 400; color: var(--ink);
+  padding: 0.7rem 0.85rem; background: #fff;
+  border: 1px solid var(--gray-300); border-radius: var(--radius);
+}
+.inquiry__field textarea { resize: vertical; min-height: 6.5rem; line-height: 1.6; }
+.inquiry__field input:focus, .inquiry__field textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.inquiry__agree { display: flex; gap: 0.55rem; align-items: flex-start; font-size: var(--fs-xs); color: var(--gray-500); line-height: 1.6; }
+.inquiry__agree input { margin-top: 0.3rem; flex-shrink: 0; accent-color: var(--navy); }
+.inquiry__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.inquiry__err { font-size: var(--fs-small); color: #B3261E; font-weight: 700; margin: 0; }
+.inquiry__done {
+  padding: 1rem 1.1rem; background: #fff; border-left: 3px solid var(--gold);
+  font-size: var(--fs-small); color: var(--ink); font-weight: 600;
+}
+.inquiry .post__cta-actions { margin-top: 0.25rem; }
+.inquiry p { margin-bottom: 1.1rem; }
+.inquiry .inquiry__err, .inquiry .inquiry__done { margin-bottom: 0; }

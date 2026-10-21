@@ -148,6 +148,7 @@
         <h1 class="post__title">간이과세 배제지역, 26년 만에 전면 재정비 — 7월부터 544곳 해제</h1>
         <p class="post__summary">국세청이 2000년 지역기준 도입 이후 처음으로 간이과세 배제지역을 원점에서 전면 재검토해, 전국 1,176개 배제지역 중 544개(46.3%)를 해제하는 내용의 고시(국세청고시 제2026-19호)를 2026년 7월 1일부터 시행하고 있습니다. 해당 지역 영세사업자는 2026년 2기 과세기간부터 간이과세를 적용받을 수 있습니다.</p>
 
+
         <div class="post__body">
           <p>간이과세 배제기준에는 매출액 기준 외에도 &#39;지역기준&#39;이 있어, 세무서별로 지정된 백화점·할인점·중심상업지역 등에 사업장이 있으면 매출이 간이과세 기준금액(1억 400만원) 미만이어도 간이과세를 적용받지 못했습니다. 이 지역기준이 2000년 도입된 이후 한 번도 전면적으로 재검토되지 않고 부분 조정만 이어져 왔는데, 국세청이 유동인구·상권 규모·공실률·매출 수준 등을 종합 분석해 올해 처음으로 전국 단위 전면 재검토를 실시했습니다. 그 결과가 국세청고시 제2026-19호(간이과세 배제기준, 폐지제정)이며 2026년 7월 1일부터 시행되고 있습니다(국가법령정보센터 행정규칙 현행 고시로 확인).</p>
           <p>보도된 바에 따르면 재검토 결과 전국 1,176개 배제지역 가운데 544개(46.3%)가 해제되었고, 유형별로는 전통시장 182곳 중 98곳, 집단상가·할인점 728곳 중 317곳, 호텔·백화점 266곳 중 129곳이 각각 배제 대상에서 제외된 것으로 전해집니다. 이 유형별 세부 수치는 언론 보도를 통해 확인한 것으로, 국세청 보도자료 원문 대조는 하지 못했습니다.</p>
@@ -161,14 +162,40 @@
           </ul>
         </section>
 
-        <div class="post__cta">
+        <section class="post__cta inquiry" aria-labelledby="inq-heading">
+          <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
           <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            카카오톡 채널로 문의해 주시면 확인해 드립니다.</p>
-          <div class="post__cta-actions">
-            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-          </div>
-        </div>
+            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <form class="inquiry__form" data-inquiry novalidate
+                data-post-title="간이과세 배제지역, 26년 만에 전면 재정비 — 7월부터 544곳 해제" data-post-slug="simplified-vat-exclusion-area-overhaul-2026" data-post-category="세법개정">
+            <div class="inquiry__row">
+              <label class="inquiry__field">
+                <span>성함</span>
+                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
+              </label>
+              <label class="inquiry__field">
+                <span>휴대폰 번호</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
+              </label>
+            </div>
+            <label class="inquiry__field">
+              <span>문의 내용</span>
+              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
+            </label>
+            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="inquiry__agree">
+              <input type="checkbox" name="agree">
+              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
+            </label>
+            <p class="inquiry__err" role="alert" hidden></p>
+            <div class="post__cta-actions">
+              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
+              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+            </div>
+          </form>
+          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+        </section>
 
 
         <nav class="post-nav" aria-label="이전·다음 글">
@@ -278,5 +305,6 @@
   </a>
 
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/inquiry.js"></script>
 </body>
 </html>

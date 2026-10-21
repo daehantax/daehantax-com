@@ -58,8 +58,18 @@
     var card = el("a", "article-card reveal is-visible");
     card.setAttribute("href", POST_BASE + item.slug + ".html");
 
+    if (item.youtubeId) {
+      var thumb = el("span", "article-card__thumb");
+      var img = el("img");
+      img.src = "https://i.ytimg.com/vi/" + item.youtubeId + "/hqdefault.jpg";
+      img.alt = "";
+      img.loading = "lazy";
+      thumb.appendChild(img);
+      card.appendChild(thumb);
+    }
+
     var meta = el("div", "article-card__meta");
-    meta.appendChild(el("span", item.category === "세법개정" ? "tag tag--gold" : "tag", item.category || "공지"));
+    meta.appendChild(el("span", item.youtubeId ? "tag tag--video" : item.category === "세법개정" ? "tag tag--gold" : "tag", item.category || "공지"));
     meta.appendChild(el("span", "article-card__date", formatDate(item.date)));
 
     card.appendChild(meta);
@@ -148,8 +158,8 @@
     /* 홈: 최신 절세정보 + 세법개정 통합 그리드 */
     var homeNews = document.querySelector("[data-render='latest-articles']");
     if (homeNews) {
-      Promise.all([fetchJSON("tax-tips"), fetchJSON("law-updates")])
-        .then(function (results) { renderArticles(homeNews, results[0].concat(results[1]), 6); })
+      Promise.all([fetchJSON("tax-tips"), fetchJSON("law-updates"), fetchJSON("videos").catch(function () { return []; })])
+        .then(function (results) { renderArticles(homeNews, results[0].concat(results[1], results[2]), 6); })
         .catch(function () { renderEmpty(homeNews, fileProtocolMessage()); });
     }
 
@@ -192,6 +202,17 @@
         .catch(function () {
           renderEmpty(infoCal, fileProtocolMessage());
         });
+    }
+
+    /* 정보실: 영상 해설 */
+    var videoGrid = document.querySelector("[data-render='videos']");
+    if (videoGrid) {
+      fetchJSON("videos")
+        .then(function (items) {
+          if (!items.length) return renderEmpty(videoGrid, "첫 영상 해설 글을 준비하고 있습니다.");
+          renderArticles(videoGrid, items);
+        })
+        .catch(function () { renderEmpty(videoGrid, "첫 영상 해설 글을 준비하고 있습니다."); });
     }
 
     /* 정보실: 절세정보 아카이브 */

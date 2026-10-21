@@ -2,7 +2,7 @@
 /* ============================================================
    대한세무법인 — build-posts.js
 
-   assets/data/tax-tips.json · law-updates.json 의 각 게시글을
+   assets/data/tax-tips.json · law-updates.json · videos.json 의 각 게시글을
    검색엔진이 읽을 수 있는 개별 HTML 페이지(post/<slug>.html)로 생성하고,
    sitemap.xml 을 다시 만듭니다.
 
@@ -59,8 +59,12 @@ function formatDate(iso) {
 const rebase = (url) => (/^(https?:)?\/\/|^mailto:|^tel:|^#/.test(url) ? url : "../" + url);
 
 const catName = (a) => a.category || "공지";
-const catAnchor = (a) => (a.category === "세법개정" ? "law" : "tips");
-const tagClass = (a) => (a.category === "세법개정" ? "tag tag--gold" : "tag");
+const catAnchor = (a) => (a.youtubeId ? "video" : a.category === "세법개정" ? "law" : "tips");
+const tagClass = (a) => (a.youtubeId ? "tag tag--video" : a.category === "세법개정" ? "tag tag--gold" : "tag");
+
+/* 영상 글(videos.json — YT 오토메이션이 대표님 승인 후 올림)은 유튜브 썸네일을 대표 이미지로 쓴다 */
+const ogImage = (a) =>
+  a.youtubeId ? `https://i.ytimg.com/vi/${a.youtubeId}/hqdefault.jpg` : `${ORIGIN}/assets/img/og-default.png`;
 
 /* 대략적인 낱말 수 — Article.wordCount 용 */
 const wordCount = (a) => String(a.body || a.summary || "").trim().split(/\s+/).filter(Boolean).length;
@@ -89,10 +93,12 @@ function relatedPicks(a, all) {
 /* ---------- 데이터 ---------- */
 
 function loadArticles() {
-  const files = ["tax-tips.json", "law-updates.json"];
+  const files = ["tax-tips.json", "law-updates.json", "videos.json"];
   const all = [];
   for (const f of files) {
-    const items = JSON.parse(fs.readFileSync(path.join(DATA, f), "utf8"));
+    const p = path.join(DATA, f);
+    if (!fs.existsSync(p)) continue; // videos.json 은 첫 영상 글이 올라오기 전엔 없을 수 있다
+    const items = JSON.parse(fs.readFileSync(p, "utf8"));
     if (!Array.isArray(items)) throw new Error(`${f} 이 배열이 아닙니다.`);
     all.push(...items);
   }
@@ -137,16 +143,16 @@ const head = (a) => {
   <meta property="og:url" content="${url}">
   <meta property="og:title" content="${esc(a.title)}">
   <meta property="og:description" content="${esc(desc)}">
-  <meta property="og:image" content="${ORIGIN}/assets/img/og-default.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image" content="${ogImage(a)}">
+  <meta property="og:image:width" content="${a.youtubeId ? 480 : 1200}">
+  <meta property="og:image:height" content="${a.youtubeId ? 360 : 630}">
   <meta property="og:image:alt" content="대한세무법인">
   <meta property="article:published_time" content="${esc(a.date)}">
   <meta property="article:section" content="${esc(a.category || "세무정보")}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(a.title)}">
   <meta name="twitter:description" content="${esc(desc)}">
-  <meta name="twitter:image" content="${ORIGIN}/assets/img/og-default.png">
+  <meta name="twitter:image" content="${ogImage(a)}">
 
   <link rel="alternate" type="application/rss+xml" title="대한세무법인 세무정보" href="../rss.xml">
   <link rel="icon" type="image/png" href="../favicon.png">
@@ -166,7 +172,7 @@ ${JSON.stringify(
           description: clip(a.summary || a.body, 300),
           url,
           mainEntityOfPage: url,
-          image: `${ORIGIN}/assets/img/og-default.png`,
+          image: ogImage(a),
           datePublished: a.date,
           dateModified: a.verifiedDate || a.date,
           inLanguage: "ko-KR",
@@ -179,6 +185,21 @@ ${JSON.stringify(
             ? { citation: a.source.map((s) => ({ "@type": "CreativeWork", name: s.label, url: s.url })) }
             : {}),
         },
+        ...(a.youtubeId
+          ? [
+              {
+                "@type": "VideoObject",
+                "@id": `${url}#video`,
+                name: a.title,
+                description: clip(a.summary || a.body, 300),
+                thumbnailUrl: `https://i.ytimg.com/vi/${a.youtubeId}/hqdefault.jpg`,
+                uploadDate: a.date,
+                embedUrl: `https://www.youtube.com/embed/${a.youtubeId}`,
+                contentUrl: `https://www.youtube.com/watch?v=${a.youtubeId}`,
+                publisher: { "@id": `${ORIGIN}/#organization` },
+              },
+            ]
+          : []),
         /* 화면에 보이는 이동경로와 항목·순서가 정확히 일치해야 한다.
            (예전에는 화면엔 카테고리를, 구조화 데이터엔 글 제목을 넣어 어긋나 있었다) */
         {
@@ -276,13 +297,68 @@ const FOOTER = `
   </a>
 
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/inquiry.js"></script>
 </body>
 </html>
 `;
 
 /* ---------- 본문 ---------- */
 
+/* 영상 글 본문은 간단한 마크다운으로 받는다:
+   "## 소제목", "### 작은 제목", "- 목록", "**굵게**", 빈 줄로 문단 구분 */
+function inlineMD(t) {
+  return esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+}
+function markdownHTML(md) {
+  const out = [];
+  for (const block of String(md || "").split(/\n{2,}/)) {
+    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+    if (!lines.length) continue;
+    let para = [];
+    let list = [];
+    const flushP = () => {
+      if (para.length) out.push(`          <p>${para.map(inlineMD).join("<br>")}</p>`);
+      para = [];
+    };
+    const flushL = () => {
+      if (list.length) out.push(`          <ul>\n${list.map((l) => `            <li>${inlineMD(l)}</li>`).join("\n")}\n          </ul>`);
+      list = [];
+    };
+    for (const l of lines) {
+      let m;
+      if ((m = /^(#{2,3})\s+(.+)$/.exec(l))) {
+        flushP(); flushL();
+        out.push(`          <h${m[1].length}>${inlineMD(m[2])}</h${m[1].length}>`);
+      } else if ((m = /^[-*·]\s+(.+)$/.exec(l))) {
+        flushP(); list.push(m[1]);
+      } else {
+        flushL(); para.push(l);
+      }
+    }
+    flushP(); flushL();
+  }
+  return out.join("\n");
+}
+
+/* 유튜브 영상 — 클릭 전엔 썸네일만 보여 주어 페이지가 가볍다 (assets/js/inquiry.js 가 재생기로 바꿈) */
+function videoHTML(a) {
+  if (!a.youtubeId) return "";
+  const id = esc(a.youtubeId);
+  return `
+        <div class="post__video">
+          <a class="post__video-link" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener"
+             data-youtube="${id}" aria-label="영상 재생: ${esc(a.title)}">
+            <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+            <span class="post__video-play" aria-hidden="true"></span>
+          </a>
+        </div>
+        <p class="post__video-note">영상 내용을 글로 옮겼습니다. 영상이 편하신 분은 위에서 바로 보실 수 있습니다.</p>`;
+}
+
 function bodyHTML(a) {
+  if (a.youtubeId) {
+    return { paras: markdownHTML(a.body || a.summary), linkBtn: "", sources: "", verified: "" };
+  }
   const paras = String(a.body || a.summary || "")
     .split(/\n{2,}/)
     .map((p) => p.trim())
@@ -378,6 +454,44 @@ ${picks
 `;
 }
 
+/* 글 하단 문의 — 「체납 자가진단 접수명단」 구글 시트로 모인다 (assets/js/inquiry.js) */
+function inquiryHTML(a) {
+  return `        <section class="post__cta inquiry" aria-labelledby="inq-heading">
+          <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
+          <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
+            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <form class="inquiry__form" data-inquiry novalidate
+                data-post-title="${esc(a.title)}" data-post-slug="${esc(a.slug)}" data-post-category="${esc(catName(a))}">
+            <div class="inquiry__row">
+              <label class="inquiry__field">
+                <span>성함</span>
+                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
+              </label>
+              <label class="inquiry__field">
+                <span>휴대폰 번호</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
+              </label>
+            </div>
+            <label class="inquiry__field">
+              <span>문의 내용</span>
+              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
+            </label>
+            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="inquiry__agree">
+              <input type="checkbox" name="agree">
+              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
+            </label>
+            <p class="inquiry__err" role="alert" hidden></p>
+            <div class="post__cta-actions">
+              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
+              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+            </div>
+          </form>
+          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+        </section>`;
+}
+
 function renderPost(a, all) {
   const { paras, linkBtn, sources, verified } = bodyHTML(a);
   return `${head(a)}
@@ -402,20 +516,14 @@ ${HEADER}
 
         <h1 class="post__title">${esc(a.title)}</h1>
 ${a.summary ? `        <p class="post__summary">${esc(a.summary)}</p>` : ""}
+${videoHTML(a)}
 
         <div class="post__body">
 ${paras}
         </div>
 ${linkBtn}${sources}${verified}
 
-        <div class="post__cta">
-          <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            카카오톡 채널로 문의해 주시면 확인해 드립니다.</p>
-          <div class="post__cta-actions">
-            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-          </div>
-        </div>
+${inquiryHTML(a)}
 
 ${postNavHTML(a, all)}
 

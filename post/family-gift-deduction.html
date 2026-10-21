@@ -148,6 +148,7 @@
         <h1 class="post__title">가족 간 증여, 10년 단위 증여재산공제를 활용하세요</h1>
         <p class="post__summary">배우자 6억원, 성년 자녀 5천만원, 미성년 자녀 2천만원 등 관계별 공제 한도가 10년 단위로 적용됩니다. 혼인·출산 시에는 추가 공제도 받을 수 있습니다.</p>
 
+
         <div class="post__body">
           <p>증여세는 증여받는 사람을 기준으로 직전 10년간 같은 사람에게서 받은 재산을 합산해 계산하며, 국세청 기준 관계별 공제 한도는 배우자 6억원, 직계존속(부모·조부모)으로부터 받는 성년 자녀 5천만원(미성년 자녀는 2천만원), 직계비속(자녀)으로부터 받는 부모 5천만원, 기타친족(4촌 이내 혈족·3촌 이내 인척) 1천만원입니다.</p>
           <p>2024년부터는 혼인·출산 공제가 추가되어, 혼인일 전후 2년 또는 자녀 출생일부터 2년 이내에 직계존속으로부터 증여받으면 기본공제(5천만원)에 더해 최대 1억원을 추가로 공제받을 수 있습니다. 한 번에 큰 금액을 증여하기보다 10년 주기로 나누어 증여하면 공제를 여러 번 활용할 수 있고, 부동산처럼 가치가 오르는 자산은 증여 시점의 평가액이 중요합니다.</p>
@@ -160,14 +161,40 @@
           </ul>
         </section>
 
-        <div class="post__cta">
+        <section class="post__cta inquiry" aria-labelledby="inq-heading">
+          <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
           <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            카카오톡 채널로 문의해 주시면 확인해 드립니다.</p>
-          <div class="post__cta-actions">
-            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-          </div>
-        </div>
+            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <form class="inquiry__form" data-inquiry novalidate
+                data-post-title="가족 간 증여, 10년 단위 증여재산공제를 활용하세요" data-post-slug="family-gift-deduction" data-post-category="절세정보">
+            <div class="inquiry__row">
+              <label class="inquiry__field">
+                <span>성함</span>
+                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
+              </label>
+              <label class="inquiry__field">
+                <span>휴대폰 번호</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
+              </label>
+            </div>
+            <label class="inquiry__field">
+              <span>문의 내용</span>
+              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
+            </label>
+            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="inquiry__agree">
+              <input type="checkbox" name="agree">
+              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
+            </label>
+            <p class="inquiry__err" role="alert" hidden></p>
+            <div class="post__cta-actions">
+              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
+              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+            </div>
+          </form>
+          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+        </section>
 
 
         <nav class="post-nav" aria-label="이전·다음 글">
@@ -277,5 +304,6 @@
   </a>
 
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/inquiry.js"></script>
 </body>
 </html>
