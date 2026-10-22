@@ -27,7 +27,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.65;word-break:keep-all}
   .wrap{max-width:640px;margin:0 auto;padding:0 16px 56px}
-  header{background:var(--brand);color:#fff;padding:36px 16px 30px;text-align:center}
+  header{background:var(--brand);color:#fff;padding:36px 16px 42px;text-align:center}
   header .brand{font-size:13px;letter-spacing:.06em;opacity:.85;margin-bottom:10px}
   header h1{font-size:25px;font-weight:900;margin:0 0 10px;line-height:1.35}
   header p{margin:0;font-size:15px;opacity:.92}
@@ -64,6 +64,52 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .done-box h2{font-size:20px;margin:6px 0 8px}
   footer{text-align:center;font-size:12px;color:var(--sub);margin-top:28px}
   .note{font-size:12px;color:var(--sub);margin-top:14px}
+
+  /* 세무사 소개 카드 */
+  .intro{display:grid;grid-template-columns:132px 1fr;gap:16px;align-items:end;padding:0 18px 0 0;overflow:hidden;margin-top:-18px;position:relative;box-shadow:0 8px 24px rgba(94,13,38,.10);animation:rise .6s .1s both}
+  .intro .ph{align-self:stretch;position:relative;min-height:190px}
+  .intro img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 10%;display:block}
+  .intro .tx{padding:18px 0}
+  .intro .eyebrow{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.04em}
+  .intro h2{font-size:19px;font-weight:900;line-height:1.4;margin:4px 0 6px;color:var(--brand-dark)}
+  .intro p{margin:0;font-size:14px;color:var(--ink)}
+  .intro .who{display:block;margin-top:8px;font-size:12px;color:var(--sub)}
+
+  /* 한 문항씩 넘기는 설문 */
+  .progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),#c2185b);border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .step-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);margin:8px 0 18px}
+  .step-meta b{color:var(--brand)}
+  #quiz .q{display:none;margin:0}
+  #quiz .q.active{display:block;animation:slideIn .42s cubic-bezier(.2,.8,.2,1)}
+  #quiz .q.active.back{animation-name:slideBack}
+  #quiz .q.active .opt{animation:rise .38s both;animation-delay:calc(var(--i,0) * 55ms + 80ms)}
+  .opt{transition:border-color .2s,background .2s,transform .12s,box-shadow .2s}
+  .opt:active{transform:scale(.98)}
+  .opt:has(input:checked){box-shadow:0 0 0 3px rgba(138,21,56,.12)}
+  .opt input:checked{animation:pop .3s}
+  .nav{display:flex;gap:10px;margin-top:20px}
+  .nav .btn{margin-top:0}
+  .btn-ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand);flex:0 0 96px}
+  .btn{transition:transform .12s,opacity .2s}
+  .btn:active{transform:scale(.98)}
+  [hidden]{display:none!important}
+  .shake{animation:shake .35s}
+
+  /* 진단 중 */
+  #analyzing{display:none;text-align:center;padding:36px 18px}
+  .spinner{width:46px;height:46px;margin:0 auto 14px;border-radius:50%;border:4px solid var(--brand-soft);border-top-color:var(--brand);animation:spin .8s linear infinite}
+  #anaText{font-weight:700;color:var(--brand-dark);min-height:1.6em}
+  .type{animation:rise .5s both}
+
+  @keyframes slideIn{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:none}}
+  @keyframes slideBack{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:none}}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+  @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  @media (max-width:380px){.intro{grid-template-columns:108px 1fr}.intro h2{font-size:17px}}
 </style>
 </head>
 <body>
@@ -77,8 +123,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <div class="wrap">
 
+  <!-- 세무사 소개 -->
+  <section class="card intro">
+    <div class="ph"><img src="/assets/img/tax-accountants.jpg" alt="대한세무법인 세무사" width="480" height="546"></div>
+    <div class="tx">
+      <div class="eyebrow">대한세무법인 세무사</div>
+      <h2>새로운 시작,<br>누구에게나 가능합니다</h2>
+      <p>수많은 사례에서 많은 분들이 새 출발을 하셨습니다. 저희와 함께하세요.</p>
+      <span class="who">세무사 이석제 · 임성진</span>
+    </div>
+  </section>
+
   <!-- 1단계: 자가진단 -->
   <form id="quiz" class="card" novalidate>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="step-meta"><span>질문 <b id="stepNo">1</b> / <span id="stepAll">6</span></span><span id="stepHint">1분이면 끝나요</span></div>
     <div class="q">
       <div class="q-title">1. 밀린 세금은 어떤 세금인가요?</div>
       <div class="q-hint">해당되는 것 모두 선택</div>
@@ -122,7 +181,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <label class="opt"><input type="checkbox" name="status" value="아직 조치 없음">아직 아무 조치도 없다</label>
       </div>
     </div>
-    <div class="q">
+    <div class="q" data-optional>
       <div class="q-title">6. 현재 압류된 재산은 무엇인가요?</div>
       <div class="q-hint">해당되는 것 모두 선택 (압류된 재산이 없으면 건너뛰세요)</div>
       <div class="opts">
@@ -133,9 +192,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <label class="opt"><input type="checkbox" name="seized" value="기타">기타</label>
       </div>
     </div>
-    <button class="btn" type="submit">결과 확인하기</button>
+    <div class="nav">
+      <button class="btn btn-ghost" type="button" id="prevBtn" hidden>이전</button>
+      <button class="btn" type="button" id="nextBtn">다음</button>
+      <button class="btn" type="submit" id="doneBtn" hidden>결과 확인하기</button>
+    </div>
     <div class="err" id="quizErr">모든 질문에 답해 주세요.</div>
   </form>
+
+  <!-- 진단 중 -->
+  <section id="analyzing" class="card" aria-live="polite">
+    <div class="spinner"></div>
+    <div id="anaText">답변을 확인하고 있습니다</div>
+  </section>
 
   <!-- 2단계: 결과 -->
   <section id="result" class="card" aria-live="polite">
@@ -195,6 +264,47 @@ const yearSel = document.getElementById('year');
 for (let y = thisYear; y >= thisYear - 25; y--) yearSel.add(new Option(y + '년', y));
 yearSel.add(new Option('그 이전', thisYear - 30));
 
+// ── 한 문항씩 보여 주기 ──
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const quiz = document.getElementById('quiz'), qs = [...quiz.querySelectorAll('.q')];
+const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'),
+      doneBtn = document.getElementById('doneBtn'), quizErr = document.getElementById('quizErr');
+let cur = 0;
+document.getElementById('stepAll').textContent = qs.length;
+const answered = q => q.hasAttribute('data-optional') ||
+  (q.querySelector('select') ? !!q.querySelector('select').value : !!q.querySelector('input:checked'));
+function go(i, dir) {
+  qs[cur].classList.remove('active', 'back');
+  cur = i;
+  const q = qs[cur];
+  q.querySelectorAll('.opt').forEach((o, k) => o.style.setProperty('--i', k));
+  void q.offsetWidth;                                   // 애니메이션 다시 시작
+  q.classList.add('active'); if (dir < 0) q.classList.add('back');
+  document.getElementById('bar').style.width = ((cur + 1) / qs.length * 100) + '%';
+  document.getElementById('stepNo').textContent = cur + 1;
+  document.getElementById('stepHint').textContent = cur === qs.length - 1 ? '마지막 질문이에요' : '1분이면 끝나요';
+  prevBtn.hidden = cur === 0;
+  nextBtn.hidden = cur === qs.length - 1;
+  doneBtn.hidden = cur !== qs.length - 1;
+  quizErr.style.display = 'none';
+  if (quiz.getBoundingClientRect().top < 0) quiz.scrollIntoView({ behavior: 'smooth' });
+}
+function next() {
+  if (!answered(qs[cur])) {
+    quizErr.textContent = '답을 선택해 주세요.'; quizErr.style.display = 'block';
+    qs[cur].classList.remove('shake'); void qs[cur].offsetWidth; qs[cur].classList.add('shake');
+    return;
+  }
+  if (cur < qs.length - 1) go(cur + 1, 1);
+}
+nextBtn.addEventListener('click', next);
+prevBtn.addEventListener('click', () => cur > 0 && go(cur - 1, -1));
+qs.forEach((q, i) => q.addEventListener('change', e => {     // 하나만 고르는 문항은 고르면 바로 다음으로
+  if ((e.target.type === 'radio' || e.target.tagName === 'SELECT') && i === cur && i < qs.length - 1)
+    setTimeout(() => cur === i && next(), REDUCED ? 0 : 380);
+}));
+go(0, 1);
+
 const src = (new URLSearchParams(location.search).get('src') || '직접방문').slice(0, 40);
 let answers = null, matched = [];
 
@@ -216,15 +326,17 @@ document.getElementById('quiz').addEventListener('submit', e => {
   const a = { tax: all('tax'), amount: val('amount'), year: yearSel.value, biz: val('biz'),
               status: all('status'), seized: all('seized') };
   if (!a.tax.length || !a.amount || !a.year || !a.biz || !a.status.length) {
-    document.getElementById('quizErr').style.display = 'block'; return;
+    quizErr.textContent = '앞 질문 중 답하지 않은 것이 있습니다. 「이전」으로 확인해 주세요.';
+    quizErr.style.display = 'block'; return;
   }
   document.getElementById('quizErr').style.display = 'none';
   answers = a; matched = judge(a);
 
   const list = document.getElementById('resList'); list.innerHTML = '';
   const items = matched.length ? matched.map(k => TYPES[k]) : [FALLBACK];
-  items.forEach(t => {
+  items.forEach((t, k) => {
     const d = document.createElement('div'); d.className = 'type' + (t.urgent ? ' urgent' : '');
+    d.style.animationDelay = (k * 140 + 150) + 'ms';
     d.innerHTML = `<h3>${t.urgent ? '<span class="tag">긴급</span>' : ''}${t.title}</h3><p>${t.text}</p>`;
     list.appendChild(d);
   });
@@ -232,8 +344,15 @@ document.getElementById('quiz').addEventListener('submit', e => {
     matched.length ? `${matched.length}가지 가능성이 열려 있습니다` : '진단 결과';
   document.getElementById('resSub').textContent = matched.length ? '해당 여부는 서류로 확인해야 확정됩니다.' : '';
   f.style.display = 'none';
-  ['result', 'contact'].forEach(id => document.getElementById(id).style.display = 'block');
-  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  const ana = document.getElementById('analyzing'), anaText = document.getElementById('anaText');
+  const msgs = ['체납 기간을 확인하고 있습니다', '압류 상황을 살펴보고 있습니다', '해당 제도를 찾고 있습니다'];
+  ana.style.display = 'block'; ana.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  msgs.forEach((m, i) => setTimeout(() => anaText.textContent = m, i * 550));
+  setTimeout(() => {
+    ana.style.display = 'none';
+    ['result', 'contact'].forEach(id => document.getElementById(id).style.display = 'block');
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  }, REDUCED ? 200 : 1700);
   (window.dataLayer = window.dataLayer || []).push({ event: 'chenap_result', chenap_types: matched.join(',') || 'none' });
 });
 
