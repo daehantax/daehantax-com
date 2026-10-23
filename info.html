@@ -22,8 +22,8 @@
   <!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>세무정보실 | 대한세무법인 — 세무일정·절세정보·세법개정</title>
-  <meta name="description" content="대한세무법인 세무정보실. 2026년 연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <title>세무정보실 | 대한세무법인 — 업종별 절세정보·세법개정</title>
+  <meta name="description" content="대한세무법인 세무정보실. 음식점·프리랜서·건설업·상속증여 등 업종별 절세정보와 영상 해설, 세법개정 소식을 골라 보세요.">
   <!-- 게시글 공유 주소(?post=…)가 중복 페이지로 잡히지 않도록 -->
   <link rel="canonical" href="https://daehantax.com/info.html">
 
@@ -33,14 +33,14 @@
   <meta property="og:locale" content="ko_KR">
   <meta property="og:url" content="https://daehantax.com/info.html">
   <meta property="og:title" content="세무정보실 | 대한세무법인">
-  <meta property="og:description" content="연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <meta property="og:description" content="업종별 절세정보와 영상 해설, 세법개정 소식을 골라 보세요.">
   <meta property="og:image" content="https://daehantax.com/assets/img/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="대한세무법인">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="세무정보실 | 대한세무법인">
-  <meta name="twitter:description" content="연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항을 한곳에서 확인하세요.">
+  <meta name="twitter:description" content="업종별 절세정보와 영상 해설, 세법개정 소식을 골라 보세요.">
   <meta name="twitter:image" content="https://daehantax.com/assets/img/og-default.png">
 
   <link rel="alternate" type="application/rss+xml" title="대한세무법인 세무정보" href="https://daehantax.com/rss.xml">
@@ -58,7 +58,7 @@
         "@id": "https://daehantax.com/info.html#webpage",
         "url": "https://daehantax.com/info.html",
         "name": "세무정보실 | 대한세무법인",
-        "description": "연간 세무일정 캘린더, 절세정보, 세법개정 소식, 공지사항.",
+        "description": "업종별 절세정보, 영상 해설, 세법개정 소식.",
         "inLanguage": "ko-KR",
         "isPartOf": { "@id": "https://daehantax.com/#website" },
         "publisher": { "@id": "https://daehantax.com/#organization" }
@@ -107,75 +107,26 @@
   <main id="main">
 
     <!-- ===== 페이지 히어로 ===== -->
-    <section class="page-hero" aria-labelledby="info-hero-heading">
+    <section class="page-hero page-hero--compact" aria-labelledby="info-hero-heading">
       <div class="container container--wide">
         <p class="eyebrow">Tax Library</p>
         <h1 id="info-hero-heading">세무정보실</h1>
-        <p>연간 세무일정과 업종별 절세정보, 영상 해설, 세법개정 소식을 한곳에 모았습니다.
-          음식점·프리랜서·도시개발 조합·상속증여까지, 우리 업종 글만 골라 보실 수 있습니다.</p>
+        <p>우리 업종에 해당하는 글만 골라 보세요. 절세정보, 영상 해설, 세법개정 소식을 업종별로 나눠 두었습니다.</p>
       </div>
     </section>
 
-    <!-- ===== 특집: 2026년 세제개편안 바로가기 ===== -->
-    <section class="promo-banner" aria-labelledby="promo-heading">
-      <div class="container container--wide promo-banner__inner">
-        <div class="promo-banner__text">
-          <span class="promo-banner__badge">NEW · 2026. 8. 3. 발표</span>
-          <h2 class="promo-banner__title" id="promo-heading">2026년 세제개편안 — 소득세·법인세·부가가치세 정리</h2>
-          <p class="promo-banner__desc">부양가족 공제 요건 완화, 신용카드 공제 축소, 카드매출 부가세 세액공제 축소까지.
-            우리 사업과 생활에 영향이 있는 항목만 표와 그림으로 정리했습니다. (국회 확정 전 정부안입니다)</p>
-        </div>
-        <a class="btn btn--gold" href="tax-reform-2026.html">개편안 정리 보러가기</a>
-      </div>
-    </section>
-
-    <!-- ===== 세무일정 캘린더 ===== -->
-    <section class="section" id="calendar" aria-labelledby="calendar-heading">
+    <!-- ===== 업종별 세무정보 =====
+         · 업종은 글 제목·태그의 낱말로 자동 분류됩니다 → assets/data/industries.json
+         · 맨 앞에 고정할 특집(묶음 글)은 assets/data/features.json 에 적습니다 -->
+    <section class="section section--tight-top" id="archive" aria-label="업종별 세무정보">
       <div class="container container--wide">
-        <div class="section-head reveal">
-          <div>
-            <p class="zone-kicker">세무일정</p>
-            <h2 class="headline" id="calendar-heading">연간 세무일정</h2>
-            <p class="lede">월을 선택하면 해당 월의 주요 국세 신고·납부 기한이 표시됩니다.</p>
-          </div>
-        </div>
-        <div class="reveal">
-          <div class="month-nav" data-render="month-nav" role="group" aria-label="월 선택"></div>
-          <div class="month-panel">
-            <div class="cal-grid" data-render="calendar-full">
-              <p class="data-empty">세무일정을 불러오는 중입니다…</p>
-            </div>
-          </div>
-          <p class="cal-note" data-cal-note>기한이 토요일·공휴일인 경우 다음 영업일까지 신고·납부할 수 있습니다.</p>
-        </div>
-
-        <div class="reveal" style="margin-top: var(--space-block);">
-          <h3 class="headline headline--sm" style="margin-bottom: 1.5rem;">상시 신고 항목</h3>
-          <div class="cal-grid" data-render="calendar-anytime"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 업종별 세무정보 (영상 해설 · 절세정보 · 세법개정 · 경영지원) =====
-         업종은 글 제목·태그의 낱말로 자동 분류됩니다 → assets/data/industries.json -->
-    <section class="section section--off section--line-top" id="archive" aria-labelledby="archive-heading">
-      <div class="container container--wide">
-        <div class="section-head">
-          <div>
-            <p class="zone-kicker">업종별 세무정보</p>
-            <h2 class="headline" id="archive-heading">우리 업종 글만 골라 보세요</h2>
-            <p class="lede">업종을 고르면 그 업종에 해당하는 글만 보입니다. 업종과 관계없이 모두에게 해당하는 글은 「공통」에 있습니다.
-              일반적인 안내이며, 개별 적용 여부는 상담으로 확인해 주세요.</p>
-          </div>
-          <div class="section-head__side">
-            <a class="link-arrow" href="https://www.youtube.com/@taxdh_tv" target="_blank" rel="noopener">유튜브 채널 가기</a>
-          </div>
-        </div>
         <div class="archive" data-render="archive">
           <p class="data-empty">게시글을 불러오는 중입니다…</p>
         </div>
-        <!-- 예전 주소(info.html#video · #tips · #law)로 들어와도 이 목록으로 옵니다 -->
-        <span id="video" hidden></span><span id="tips" hidden></span><span id="law" hidden></span>
+        <p class="archive__note">게시글은 일반적인 안내입니다. 우리 회사에 어떻게 적용되는지는 상담으로 확인해 주세요.
+          · <a href="https://www.youtube.com/@taxdh_tv" target="_blank" rel="noopener">유튜브 채널 가기</a></p>
+        <!-- 예전 주소(info.html#video · #tips · #law · #calendar)로 들어와도 이 목록으로 옵니다 -->
+        <span id="video" hidden></span><span id="tips" hidden></span><span id="law" hidden></span><span id="calendar" hidden></span>
       </div>
     </section>
 
