@@ -1499,4 +1499,4 @@ a.service-card:hover { background: var(--bg-off); }
 section[id], article[id] { scroll-margin-top: calc(var(--header-h) + 8px); }
 
 /* 체납 페이지 인용구 속 강조 (버건디) */
-.pull__promise { color: #8B1E2D; font-weight: 800; white-space: nowrap; }
+.chapter p.pull strong.pull__promise, .pull__promise { color: #8B1E2D; font-weight: 800; white-space: nowrap; }
