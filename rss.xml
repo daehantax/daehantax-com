@@ -6,8 +6,24 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Wed, 21 Oct 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026년 베트남 내국수출입 부가세 소급 환급 정리</title>
+      <link>https://daehantax.com/post/video-20261021-0718.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261021-0718.html</guid>
+      <description>베트남 국세국이 2026년 9월 소급 적용 지침을 내리면서, 2022년 말부터 2025년 6월까지 막혀 있던 내국수출입 부가세 환급 길이 열렸습니다.</description>
+      <category>영상해설</category>
+      <pubDate>Fri, 23 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>세무조사 장부 일시보관, 2025년 1,386건 — 확인할 3가지</title>
+      <link>https://daehantax.com/post/video-20261019-0614.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261019-0614.html</guid>
+      <description>세무조사 중 장부를 세무서로 가져가는 일시보관이 2023년 896건에서 2025년 1,386건으로 늘었습니다. 법정 사유 5가지와 14일 반환 원칙을 안내합니다.</description>
+      <category>영상해설</category>
+      <pubDate>Fri, 23 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>상속세 물납·연부연납 요건과 기한 정리 (2026)</title>
       <link>https://daehantax.com/post/video-20261016-0609.html</link>
@@ -230,22 +246,6 @@
       <guid isPermaLink="true">https://daehantax.com/post/july-vat-input-checklist.html</guid>
       <description>신용카드 매입, 전자세금계산서, 현금영수증 등 공제 가능한 매입 자료를 신고 전에 한 번 더 점검하면 납부세액을 줄일 수 있습니다.</description>
       <category>절세정보</category>
-      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>간이과세 배제지역, 26년 만에 전면 재정비 — 7월부터 544곳 해제</title>
-      <link>https://daehantax.com/post/simplified-vat-exclusion-area-overhaul-2026.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/simplified-vat-exclusion-area-overhaul-2026.html</guid>
-      <description>국세청이 2000년 지역기준 도입 이후 처음으로 간이과세 배제지역을 원점에서 전면 재검토해, 전국 1,176개 배제지역 중 544개(46.3%)를 해제하는 내용의 고시(국세청고시 제2026-19호)를 2026년 7월 1일부터 시행하고 있습니다. 해당 지역 영세사업자는 2026년 2기 과세기간부터 간이과세를 적용받을 수 있습니다.</description>
-      <category>세법개정</category>
-      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>납부지연가산세 산출방식, 일 단위에서 월 단위로 전환</title>
-      <link>https://daehantax.com/post/late-payment-penalty-monthly.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/late-payment-penalty-monthly.html</guid>
-      <description>국세를 지정납부기한까지 내지 못했을 때 붙는 납부지연가산세의 계산 방식이 일(日) 단위에서 월(月) 단위로 바뀌었습니다. 2026년 7월 1일 이후 지정납부기한이 도래하는 분부터 적용됩니다.</description>
-      <category>세법개정</category>
       <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
