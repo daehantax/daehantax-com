@@ -26,7 +26,7 @@
 
     // 데스크톱 리사이즈 시 초기화
     window.addEventListener("resize", function () {
-      if (window.innerWidth > 860 && gnb.classList.contains("is-open")) {
+      if (window.innerWidth > 1080 && gnb.classList.contains("is-open")) {
         gnb.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
       }
@@ -36,8 +36,9 @@
   /* ---------- 현재 페이지 내비게이션 표시 ---------- */
   var path = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll(".gnb a[href]").forEach(function (a) {
-    var href = a.getAttribute("href").split("#")[0];
-    if (href === path) a.setAttribute("aria-current", "page");
+    var raw = a.getAttribute("href");
+    if (raw.indexOf("#") !== -1) return; // 메인 화면 안의 구역 링크(#company 등)는 표시하지 않는다
+    if (raw === path) a.setAttribute("aria-current", "page");
   });
 
   /* ---------- 스크롤 리빌 ---------- */
@@ -74,6 +75,17 @@
       phone_label: (a.textContent || "").replace(/\s+/g, " ").trim().slice(0, 100)
     });
   });
+
+  /* ---------- 메인 화면: 영상 위 투명 헤더 → 스크롤하면 흰 헤더 ---------- */
+  var overlay = document.querySelector(".site-header--overlay");
+  if (overlay) {
+    var onScroll = function () {
+      overlay.classList.toggle("is-scrolled", window.scrollY > 40 || (gnb && gnb.classList.contains("is-open")));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    if (toggle) toggle.addEventListener("click", onScroll);
+    onScroll();
+  }
 
   /* ---------- 푸터 연도 ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) {

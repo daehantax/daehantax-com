@@ -137,6 +137,139 @@
     });
   }
 
+  /* ---------- 세무정보실: 업종별 목록 ----------
+     업종은 assets/data/industries.json 의 낱말이 글 제목·태그에 들어 있으면 자동으로 정해진다.
+     글에 "industry": ["restaurant"] 처럼 적혀 있으면 그것이 우선한다. 어디에도 안 걸리면 '공통'. */
+
+  var TYPES = [
+    { id: "all", name: "전체" },
+    { id: "video", name: "영상 해설" },
+    { id: "tips", name: "절세정보" },
+    { id: "law", name: "세법개정" },
+    { id: "support", name: "경영지원" }
+  ];
+
+  function typeOf(a) {
+    if (a.youtubeId) return "video";
+    if (a.category === "세법개정") return "law";
+    if (a.category === "경영지원") return "support";
+    return "tips";
+  }
+
+  function industriesOf(a, inds) {
+    if (Array.isArray(a.industry) && a.industry.length) return a.industry;
+    var hay = [a.title || ""].concat(a.tags || []).join(" ");
+    var hits = inds.filter(function (i) {
+      return (i.keywords || []).some(function (k) { return k && hay.indexOf(k) !== -1; });
+    }).map(function (i) { return i.id; });
+    return hits.length ? hits : ["common"];
+  }
+
+  function readState() {
+    var h = location.hash.replace(/^#/, "");
+    var st = { ind: "all", type: "all" };
+    if (h === "video" || h === "tips" || h === "law") { st.type = h; return st; }
+    h.split("&").forEach(function (kv) {
+      var m = /^(ind|type)=([a-z]+)$/.exec(kv);
+      if (m) st[m[1]] = m[2];
+    });
+    return st;
+  }
+
+  function renderArchive(root, inds, items) {
+    var nameOf = {};
+    inds.forEach(function (i) { nameOf[i.id] = i.name; });
+    items = items.filter(function (it) { return it && it.slug; }).sort(byDateDesc);
+    items.forEach(function (it) { it.__ind = industriesOf(it, inds); it.__type = typeOf(it); });
+
+    var st = readState();
+    if (st.ind !== "all" && !nameOf[st.ind]) st.ind = "all";
+
+    root.innerHTML = "";
+    var indRow = el("div", "filter");
+    indRow.setAttribute("role", "group");
+    indRow.setAttribute("aria-label", "업종 고르기");
+    indRow.appendChild(el("span", "filter__label", "업종"));
+    var typeRow = el("div", "filter");
+    typeRow.setAttribute("role", "group");
+    typeRow.setAttribute("aria-label", "글 종류 고르기");
+    typeRow.appendChild(el("span", "filter__label", "글 종류"));
+    var info = el("p", "archive__info");
+    var grid = el("div", "article-grid");
+    root.appendChild(indRow);
+    root.appendChild(typeRow);
+    root.appendChild(info);
+    root.appendChild(grid);
+
+    function chip(row, key, id, label, count) {
+      var b = el("button", null, label);
+      b.type = "button";
+      b.dataset.key = key;
+      b.dataset.id = id;
+      if (count != null) {
+        b.appendChild(el("span", "cnt", String(count)));
+        if (!count) b.classList.add("is-empty");
+      }
+      b.addEventListener("click", function () {
+        st[key] = id;
+        try { history.replaceState(null, "", "#ind=" + st.ind + "&type=" + st.type); } catch (e) {}
+        draw();
+        (window.dataLayer = window.dataLayer || []).push({ event: "info_filter", filter_key: key, filter_value: id });
+      });
+      row.appendChild(b);
+    }
+
+    chip(indRow, "ind", "all", "전체", items.length);
+    inds.forEach(function (i) {
+      var n = items.filter(function (it) { return it.__ind.indexOf(i.id) !== -1; }).length;
+      chip(indRow, "ind", i.id, i.name, n);
+    });
+    TYPES.forEach(function (t) { chip(typeRow, "type", t.id, t.name); });
+
+    function draw() {
+      root.querySelectorAll(".filter button").forEach(function (b) {
+        b.setAttribute("aria-pressed", st[b.dataset.key] === b.dataset.id ? "true" : "false");
+      });
+      var list = items.filter(function (it) {
+        return (st.ind === "all" || it.__ind.indexOf(st.ind) !== -1) && (st.type === "all" || it.__type === st.type);
+      });
+      var indName = st.ind === "all" ? "전체 업종" : nameOf[st.ind];
+      var typeName = TYPES.filter(function (t) { return t.id === st.type; })[0].name;
+      info.innerHTML = "";
+      var left = el("span");
+      left.appendChild(el("strong", null, indName));
+      left.appendChild(document.createTextNode(" · " + typeName + " — 글 " + list.length + "건"));
+      info.appendChild(left);
+      var desc = inds.filter(function (i) { return i.id === st.ind; })[0];
+      if (desc && desc.desc) info.appendChild(el("span", null, desc.desc));
+
+      grid.innerHTML = "";
+      if (!list.length) {
+        var box = el("div", "archive-empty");
+        box.setAttribute("data-ask-host", "");
+        box.appendChild(el("p", null, indName + " 글은 지금 준비하고 있습니다. 궁금한 내용을 남겨 주시면 담당 세무사가 답을 드리고, 같은 질문이 많으면 글로도 정리해 올리겠습니다."));
+        var ask = el("button", "btn btn--solid btn--sm", "이 업종 상담 의뢰하기");
+        ask.type = "button";
+        ask.setAttribute("data-ask", "세무정보실 · " + indName);
+        ask.setAttribute("data-ask-title", "세무정보실 업종 문의 · " + indName);
+        box.appendChild(ask);
+        grid.appendChild(box);
+        return;
+      }
+      list.forEach(function (it) {
+        var card = articleCard(it);
+        // 업종 표시 (공통이 아닌 첫 업종)
+        var ind = it.__ind.filter(function (x) { return x !== "common"; })[0];
+        if (ind && nameOf[ind]) card.querySelector(".article-card__meta").appendChild(el("span", "tag tag--ind", nameOf[ind]));
+        grid.appendChild(card);
+      });
+    }
+    draw();
+
+    // 예전 주소(#tips 등)나 업종 주소로 들어오면 목록 위치로 내려 준다
+    if (location.hash) setTimeout(function () { root.scrollIntoView({ block: "start" }); }, 50);
+  }
+
   /* ---------- 페이지별 초기화 ---------- */
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -204,31 +337,17 @@
         });
     }
 
-    /* 정보실: 영상 해설 */
-    var videoGrid = document.querySelector("[data-render='videos']");
-    if (videoGrid) {
-      fetchJSON("videos")
-        .then(function (items) {
-          if (!items.length) return renderEmpty(videoGrid, "첫 영상 해설 글을 준비하고 있습니다.");
-          renderArticles(videoGrid, items);
-        })
-        .catch(function () { renderEmpty(videoGrid, "첫 영상 해설 글을 준비하고 있습니다."); });
-    }
-
-    /* 정보실: 절세정보 아카이브 */
-    var tipsGrid = document.querySelector("[data-render='tax-tips']");
-    if (tipsGrid) {
-      fetchJSON("tax-tips")
-        .then(function (items) { renderArticles(tipsGrid, items); })
-        .catch(function () { renderEmpty(tipsGrid, fileProtocolMessage()); });
-    }
-
-    /* 정보실: 세법개정 아카이브 */
-    var lawGrid = document.querySelector("[data-render='law-updates']");
-    if (lawGrid) {
-      fetchJSON("law-updates")
-        .then(function (items) { renderArticles(lawGrid, items); })
-        .catch(function () { renderEmpty(lawGrid, fileProtocolMessage()); });
+    /* 정보실: 업종별 목록 (영상 해설 · 절세정보 · 세법개정 · 경영지원 통합) */
+    var archive = document.querySelector("[data-render='archive']");
+    if (archive) {
+      Promise.all([
+        fetchJSON("industries"),
+        fetchJSON("tax-tips"),
+        fetchJSON("law-updates"),
+        fetchJSON("videos").catch(function () { return []; })
+      ])
+        .then(function (r) { renderArchive(archive, r[0].industries || [], r[1].concat(r[2], r[3])); })
+        .catch(function () { renderEmpty(archive, fileProtocolMessage()); });
     }
 
     /* 정보실: 공지사항 */

@@ -29,6 +29,7 @@ const STATIC_LASTMOD = {
   "about.html": "2026-08-12",
   "services.html": "2026-08-12",
   "tax-reform-2026.html": "2026-08-12",
+  "relief.html": "2026-10-23",
 };
 
 /* ---------- 유틸 ---------- */
@@ -264,9 +265,11 @@ const HEADER = `<body>
       </a>
       <nav class="gnb" id="gnb" aria-label="주 메뉴">
         <a href="../index.html">홈</a>
-        <a href="../about.html">세무법인 소개</a>
-        <a href="../services.html">서비스 안내</a>
+        <a href="../index.html#company">회사 지원</a>
+        <a href="../index.html#property">재산 세금</a>
+        <a href="../relief.html">체납 해결</a>
         <a href="../info.html" aria-current="page">세무정보실</a>
+        <a href="../about.html">세무법인 소개</a>
         <a class="gnb__cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
       </nav>
       <a class="btn btn--kakao btn--sm header-cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
@@ -301,9 +304,12 @@ const FOOTER = `
           <h3>Menu</h3>
           <ul>
             <li><a href="../index.html">홈</a></li>
+            <li><a href="../index.html#company">회사 지원</a></li>
+            <li><a href="../index.html#property">재산 세금</a></li>
+            <li><a href="../relief.html">체납 해결</a></li>
+            <li><a href="../info.html">세무정보실</a></li>
             <li><a href="../about.html">세무법인 소개</a></li>
             <li><a href="../services.html">서비스 안내</a></li>
-            <li><a href="../info.html">세무정보실</a></li>
           </ul>
         </div>
       </div>
@@ -558,41 +564,19 @@ ${picks
 `;
 }
 
-/* 글 하단 문의 — 「체납 자가진단 접수명단」 구글 시트로 모인다 (assets/js/inquiry.js) */
+/* 글 하단 의뢰 — 버튼을 누르면 입력 칸이 펼쳐지고, 「체납 자가진단 접수명단」 구글 시트로 모인다
+   (assets/js/inquiry.js 가 입력 칸을 만든다) */
 function inquiryHTML(a) {
   return `        <section class="post__cta inquiry" aria-labelledby="inq-heading">
           <h2 class="inquiry__title" id="inq-heading">이 글에 대해 궁금하신 점이 있으신가요?</h2>
           <p>이 내용이 고객님의 사업과 자산에 실제로 어떻게 적용되는지는 상황마다 다릅니다.
-            궁금하신 점을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
-          <form class="inquiry__form" data-inquiry novalidate
-                data-post-title="${esc(a.title)}" data-post-slug="${esc(a.slug)}" data-post-category="${esc(catName(a))}">
-            <div class="inquiry__row">
-              <label class="inquiry__field">
-                <span>성함</span>
-                <input type="text" name="name" autocomplete="name" placeholder="홍길동" maxlength="40">
-              </label>
-              <label class="inquiry__field">
-                <span>휴대폰 번호</span>
-                <input type="tel" name="phone" autocomplete="tel" inputmode="numeric" placeholder="010-0000-0000" maxlength="20">
-              </label>
-            </div>
-            <label class="inquiry__field">
-              <span>문의 내용</span>
-              <textarea name="question" rows="4" maxlength="450" placeholder="상황을 간단히 적어 주시면 더 정확히 안내해 드릴 수 있습니다."></textarea>
-            </label>
-            <div class="inquiry__hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
-            <label class="inquiry__agree">
-              <input type="checkbox" name="agree">
-              <span>상담 연락을 위해 성함·휴대폰 번호·문의 내용을 수집하는 데 동의합니다. 상담 목적으로만 쓰며, 상담 종료 후 1년이 지나면 파기합니다.</span>
-            </label>
-            <p class="inquiry__err" role="alert" hidden></p>
-            <div class="post__cta-actions">
-              <button class="btn btn--solid btn--sm" type="submit">문의 남기기</button>
-              <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
-              <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
-            </div>
-          </form>
-          <p class="inquiry__done" hidden>접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>
+            상황을 남겨 주시면 담당 세무사가 확인한 뒤 연락드립니다.</p>
+          <div class="post__cta-actions" data-ask-host>
+            <button class="btn btn--solid btn--sm" type="button" data-ask="${esc(catName(a))}"
+                    data-ask-title="${esc(a.title)}" data-ask-slug="${esc(a.slug)}">의뢰하기</button>
+            <a class="btn btn--kakao btn--sm" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡으로 문의하기</a>
+            <a class="btn btn--sm" href="tel:031-783-8877">전화 031-783-8877</a>
+          </div>
         </section>`;
 }
 
@@ -699,6 +683,7 @@ function renderSitemap(all) {
     { loc: `${ORIGIN}/info.html`, lastmod: newest, changefreq: "weekly", priority: "0.9" },
     { loc: `${ORIGIN}/about.html`, lastmod: STATIC_LASTMOD["about.html"], changefreq: "monthly", priority: "0.8" },
     { loc: `${ORIGIN}/services.html`, lastmod: STATIC_LASTMOD["services.html"], changefreq: "monthly", priority: "0.8" },
+    { loc: `${ORIGIN}/relief.html`, lastmod: STATIC_LASTMOD["relief.html"], changefreq: "monthly", priority: "0.9" },
     { loc: `${ORIGIN}/tax-reform-2026.html`, lastmod: STATIC_LASTMOD["tax-reform-2026.html"], changefreq: "monthly", priority: "0.7" },
     ...all.map((a) => ({
       loc: `${ORIGIN}/post/${a.slug}.html`,
@@ -763,7 +748,7 @@ function main() {
   const rssChanged = writeIfChanged("rss.xml", renderRSS(all));
 
   console.log(`게시글 ${all.length}건 → post/*.html (변경 ${written}건)`);
-  console.log(`sitemap.xml → URL ${all.length + 5}개${smChanged ? " (갱신)" : " (변경 없음)"}`);
+  console.log(`sitemap.xml → URL ${all.length + 6}개${smChanged ? " (갱신)" : " (변경 없음)"}`);
   console.log(`rss.xml → 최근 ${Math.min(all.length, RSS_MAX_ITEMS)}건${rssChanged ? " (갱신)" : " (변경 없음)"}`);
 }
 

@@ -85,9 +85,11 @@
       </a>
       <nav class="gnb" id="gnb" aria-label="주 메뉴">
         <a href="index.html">홈</a>
-        <a href="about.html">세무법인 소개</a>
-        <a href="services.html">서비스 안내</a>
+        <a href="index.html#company">회사 지원</a>
+        <a href="index.html#property">재산 세금</a>
+        <a href="relief.html">체납 해결</a>
         <a href="info.html" aria-current="page">세무정보실</a>
+        <a href="about.html">세무법인 소개</a>
         <a class="gnb__cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
       </nav>
       <a class="btn btn--kakao btn--sm header-cta" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카톡 상담</a>
@@ -1019,9 +1021,10 @@
         <h2 id="cta-heading">우리 회사에는 어떤 항목이 영향을 줄까?</h2>
         <p>업종·지역·법인 규모에 따라 챙겨야 할 항목이 완전히 달라집니다.
           카카오톡 채널로 문의해 주시면 고객님의 상황에 해당하는 항목만 추려 정리해 드립니다.</p>
-        <div class="cta-banner__actions">
+        <div class="cta-banner__actions" data-ask-host>
           <a class="btn btn--kakao" href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank" rel="noopener">카카오톡 채널로 상담하기</a>
           <a class="btn btn--ghost-light" href="tel:031-783-8877">전화 상담 031-783-8877</a>
+          <button class="btn btn--ghost-light" type="button" data-ask="일반 상담" data-ask-title="세제개편안 · 의뢰">의뢰 남기기</button>
         </div>
       </div>
     </section>
@@ -1051,9 +1054,12 @@
           <h3>Menu</h3>
           <ul>
             <li><a href="index.html">홈</a></li>
+            <li><a href="index.html#company">회사 지원</a></li>
+            <li><a href="index.html#property">재산 세금</a></li>
+            <li><a href="relief.html">체납 해결</a></li>
+            <li><a href="info.html">세무정보실</a></li>
             <li><a href="about.html">세무법인 소개</a></li>
             <li><a href="services.html">서비스 안내</a></li>
-            <li><a href="info.html">세무정보실</a></li>
           </ul>
         </div>
       </div>
@@ -1074,5 +1080,6 @@
 
   <script src="assets/js/main.js"></script>
   <script src="assets/js/data-render.js"></script>
+  <script src="assets/js/inquiry.js"></script>
 </body>
 </html>
