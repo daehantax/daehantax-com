@@ -6,8 +6,24 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Fri, 23 Oct 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>가상자산 과세 2년 유예 검토, 2026년 1월 시행 여부 정리</title>
+      <link>https://daehantax.com/post/video-20261026-0916.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261026-0916.html</guid>
+      <description>내년 1월 시행 예정인 가상자산 과세를 2년 유예하는 방향이 검토되고 있지만 확정이 아닙니다. 소득세법이 바뀌지 않으면 내년 1월 1일부터 과세가 시작됩니다.</description>
+      <category>영상해설</category>
+      <pubDate>Mon, 26 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>카드매출세액공제 1.3% 2026년 말 종료, 2027년은?</title>
+      <link>https://daehantax.com/post/video-20261026-0636.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261026-0636.html</guid>
+      <description>신용카드매출전표 등 발행세액공제 1.3%·연 1,000만원 우대가 2026년 12월 31일로 끝납니다. 정부안은 1.2%·연 500만원이고, 개정이 없으면 1%·500만원입니다.</description>
+      <category>영상해설</category>
+      <pubDate>Mon, 26 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>2026년 베트남 내국수출입 부가세 소급 환급 정리</title>
       <link>https://daehantax.com/post/video-20261021-0718.html</link>
@@ -231,22 +247,6 @@
       <description>카페·제과업 등에서 원료로 쓰는 수입 커피두·코코아두 등의 부가가치세 면제 혜택이 2025년 말 종료 예정에서 2027년 12월 31일까지 2년 연장되었습니다.</description>
       <category>세법개정</category>
       <pubDate>Thu, 02 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>노란우산공제 납입한도, 7월 1일부터 분기 300만원→연 1,800만원 자유납입으로 확대</title>
-      <link>https://daehantax.com/post/noran-umbrella-limit-expanded.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/noran-umbrella-limit-expanded.html</guid>
-      <description>노란우산공제의 부금 납입 방식이 분기별 300만원(연 1,200만원) 한도에서 연간 1,800만원 한도 내 자유 납입으로 바뀌었습니다. 소득공제 한도(사업소득 구간별 200만~600만원)는 별도로 그대로입니다.</description>
-      <category>절세정보</category>
-      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>7월 부가가치세 확정신고, 매입세액 빠짐없이 챙기세요</title>
-      <link>https://daehantax.com/post/july-vat-input-checklist.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/july-vat-input-checklist.html</guid>
-      <description>신용카드 매입, 전자세금계산서, 현금영수증 등 공제 가능한 매입 자료를 신고 전에 한 번 더 점검하면 납부세액을 줄일 수 있습니다.</description>
-      <category>절세정보</category>
-      <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
 </rss>
