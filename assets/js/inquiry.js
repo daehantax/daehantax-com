@@ -55,11 +55,14 @@
       '  <p class="inquiry__err" role="alert" hidden></p>' +
       '  <div class="ask-panel__actions">' +
       '    <button class="btn btn--solid btn--sm" type="submit">의뢰 접수하기</button>' +
-      '    <a class="btn btn--kakao btn--sm" href="' + KAKAO + '" target="_blank" rel="noopener">카톡으로 의뢰하기</a>' +
       '    <a class="btn btn--sm" href="tel:' + TEL + '">전화 ' + TEL + "</a>" +
       "  </div>" +
       "</form>" +
       '<p class="inquiry__done" hidden>의뢰가 접수됐습니다. 영업일 기준 하루 안에 담당 세무사가 연락드립니다. 모르는 번호라도 받아 주세요.</p>';
+
+    // 버튼에 data-ask-placeholder 가 있으면 의뢰 내용 예시 문구를 그것으로 바꿉니다
+    var ph = btn.getAttribute("data-ask-placeholder");
+    if (ph) panel.querySelector("textarea[name=question]").placeholder = ph;
 
     var form = panel.querySelector("form");
     bindForm(form, panel.querySelector(".inquiry__done"), {
