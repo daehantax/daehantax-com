@@ -6,8 +6,24 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Mon, 26 Oct 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 28 Oct 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ISA 비과세 200만원·9.9% 분리과세, 세금 얼마나 줄까</title>
+      <link>https://daehantax.com/post/video-20261028-0625.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261028-0625.html</guid>
+      <description>ISA는 3년 의무가입 대신 일반형 200만원(서민·농어민형 400만원)까지 비과세하고, 초과분은 9.9%로 끝나는 계좌입니다. 계좌 안 손익 통산도 됩니다.</description>
+      <category>영상해설</category>
+      <pubDate>Wed, 28 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>국내생산세액공제 신설, 생산한 만큼 해마다 공제</title>
+      <link>https://daehantax.com/post/video-20261026-0939.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261026-0939.html</guid>
+      <description>정부가 국내생산세액공제 신설을 발표했습니다. 반도체·이차전지 등 전략 품목을 국내에서 만들어 판 만큼 해마다 법인세·소득세를 공제받는 제도로, 아직 정부안입니다.</description>
+      <category>영상해설</category>
+      <pubDate>Wed, 28 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>가상자산 과세 2년 유예 검토, 2026년 1월 시행 여부 정리</title>
       <link>https://daehantax.com/post/video-20261026-0916.html</link>
@@ -231,22 +247,6 @@
       <description>면세농산물을 구입해 쓰는 음식점업 등에 적용되는 의제매입세액공제 우대 공제한도의 적용기한이 2027년 12월 31일까지 연장되었습니다.</description>
       <category>세법개정</category>
       <pubDate>Sat, 04 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>병·캔 포장 단순가공식료품, 2026년부터 부가가치세 과세 전환</title>
-      <link>https://daehantax.com/post/packaged-food-vat-taxable.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/packaged-food-vat-taxable.html</guid>
-      <description>두부·메주·간장·된장·고추장 등 병·캔에 포장된 단순가공식료품에 한시적으로 적용되던 부가가치세 면제가 2025년 12월 31일자로 종료되어, 2026년 거래분부터 과세로 전환됩니다.</description>
-      <category>세법개정</category>
-      <pubDate>Fri, 03 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>수입 미가공식료품(커피·코코아두) 부가가치세 면제, 2027년까지 연장</title>
-      <link>https://daehantax.com/post/imported-food-vat-extended.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/imported-food-vat-extended.html</guid>
-      <description>카페·제과업 등에서 원료로 쓰는 수입 커피두·코코아두 등의 부가가치세 면제 혜택이 2025년 말 종료 예정에서 2027년 12월 31일까지 2년 연장되었습니다.</description>
-      <category>세법개정</category>
-      <pubDate>Thu, 02 Jul 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
 </rss>
