@@ -14,6 +14,7 @@
  .lbl{font-size:13px;color:#666;margin-bottom:6px}
  #post{font-size:16px;line-height:1.8} #post img{max-width:100%}
  .tip{font-size:14px;color:#444;line-height:1.7}
+ .sm{padding:5px 10px;font-size:13px;background:#eef0f4;margin:2px}
  .ok{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 18px;border-radius:20px;display:none}
 </style></head><body>
 <div class="bar"><b>네이버 블로그 붙여넣기</b>
@@ -25,12 +26,15 @@
 <div class="wrap">
  <div class="box tip">
   <b>순서</b>: ① 제목 복사 → ② 글쓰기 새 창에서 제목 칸에 붙여넣기 → ③ 본문 복사 → 본문 칸에 붙여넣기 → ④ 태그 복사 → 태그 칸에 붙여넣기 → 발행<br>
-  · 사진·소제목·링크(홈페이지·카카오톡)가 함께 들어갑니다. 사진이 회색으로 보이면 몇 초 기다리시면 네이버가 가져옵니다.<br>
-  · 영상 카드를 크게 넣으려면 <button onclick="cp('v')" style="padding:4px 10px;font-size:13px;background:#eef0f4">영상 주소 복사</button> 후 본문 맨 위 빈 줄에 붙여 넣으세요 (유튜브가 <b>공개</b>여야 보입니다).<br>
+  · 사진·소제목·굵은 글씨가 함께 들어갑니다. 사진이 회색으로 보이면 몇 초 기다리시면 네이버가 가져옵니다.<br>
+  · <b>태그</b>: 본문 맨 끝의 <b>#태그</b> 줄을 네이버가 태그로 자동 등록합니다. 태그 칸은 비워 두셔도 됩니다.<br>
+  · <b>누르는 링크 만들기</b>(네이버는 붙여 넣은 글의 링크를 지웁니다): 아래 버튼으로 주소를 복사해 <b>본문 빈 줄에 따로 붙여 넣으면</b> 네이버가 누를 수 있는 <b>링크 카드</b>로 바꿉니다.<br>
+  &nbsp; <button onclick="cp('v')" class="sm">영상 주소</button> <button onclick="cp('k')" class="sm">카카오톡 상담 주소</button> <button onclick="cp('h')" class="sm">홈페이지 주소</button>
+  &nbsp;(영상은 유튜브가 <b>공개</b>여야 카드가 보입니다)<br>
   · 카테고리: <b>세무조사 (없으면 세무컨설팅)</b> 를 권합니다.
  </div>
  <div class="box"><div class="lbl">제목</div><div id="t" style="font-size:20px;font-weight:bold">국세청 세무조사 중점검증항목 10가지, 2026년 공개 내용</div></div>
- <div class="box"><div class="lbl">본문 (이 모양 그대로 붙습니다)</div><div id="post"><p style="text-align:center"><a href="https://youtu.be/xeLqDeYTUyA" target=_blank><img src="https://daehantax.com/naver/1028_0628/thumb.jpg" alt="국세청 세무조사 중점검증항목 10가지, 2026년 공개 내용" style="max-width:100%;border-radius:8px"></a></p><p style="text-align:center">▶ <a href="https://youtu.be/xeLqDeYTUyA" target="_blank"><b>영상으로 보기 (유튜브)</b></a></p><p>국세청이 2026년 4월 2일 반복해서 과세되는 10개 유형을 공개했습니다. 법인세와 소득세 쪽이 7개, 부가가치세 쪽이 3개입니다. 국세청 홈페이지 &#x27;세무조사 중점검증항목&#x27; 게시판에서 유형별 유의사항과 과세사례, 질의응답까지 확인하실 수 있습니다. 같은 날 정기조사 시기선택제도 함께 알려졌습니다.</p>
+ <div class="box"><div class="lbl">본문 (이 모양 그대로 붙습니다)</div><div id="post"><p style="text-align:center"><img src="https://daehantax.com/naver/1028_0628/thumb.jpg" alt="국세청 세무조사 중점검증항목 10가지, 2026년 공개 내용" style="max-width:100%;border-radius:8px"></p><p style="text-align:center">▶ 영상으로 보기 (유튜브)<br>https://youtu.be/xeLqDeYTUyA</p><p>국세청이 2026년 4월 2일 반복해서 과세되는 10개 유형을 공개했습니다. 법인세와 소득세 쪽이 7개, 부가가치세 쪽이 3개입니다. 국세청 홈페이지 &#x27;세무조사 중점검증항목&#x27; 게시판에서 유형별 유의사항과 과세사례, 질의응답까지 확인하실 수 있습니다. 같은 날 정기조사 시기선택제도 함께 알려졌습니다.</p>
 <p><br></p><h3 style="font-size:22px;font-weight:bold;color:#1f2a44;border-left:6px solid #b3123a;padding-left:10px;margin:24px 0 12px">왜 미리 공개했을까요</h3>
 <p>조사를 마치고 추징하는 방식보다, 먼저 알려서 제대로 신고하게 하자는 뜻입니다.</p>
 <p>2026년 4월 2일 국세청장이 한국경제인협회 간담회에 나왔습니다. 그 자리에서 올해를 세무조사 대전환의 원년이라고 밝혔고, 반복 과세 10개 유형을 공개하겠다고 발표했습니다. 같은 날 보도자료도 나왔습니다.</p>
@@ -96,9 +100,9 @@
 <p>✔ 부가가치세 3개는 사실과 다른 세금계산서, 과세·면세 구분 오류, 개인적 공급 등 신고 누락입니다.</p>
 <p>✔ 정기조사 대상자는 3개월 범위에서 달을 고를 수 있지만, 사전통지는 조사 시작 20일 전에 그대로 옵니다.</p>
 <p>✔ 공개된 10개 외의 항목도 검증 대상이고, 업종과 규모에 따라 먼저 볼 항목이 다릅니다.</p>
-<p>우리 회사는 어디부터 봐야 할지 궁금하시면 아래 문의란이나 카카오톡으로 문의해 주시기 바랍니다.</p><p><br></p><hr><div style="border:2px solid #b3123a;border-radius:10px;padding:16px 18px;margin:16px 0;background:#fff7f9"><p style="font-size:19px;font-weight:bold;color:#b3123a;margin:0 0 8px">대한세무법인 상담 안내</p><p>👉 <a href="https://daehantax.com/?src=naver" target="_blank"><b>대한세무법인 홈페이지</b></a></p><p>💬 <a href="http://pf.kakao.com/_ddxbxcu/chat" target="_blank"><b>카카오톡으로 바로 상담하기</b></a></p><p>📞 전화 상담 031-783-8877</p><p>🏢 <a href="https://daehantax.com/?src=naver" target="_blank">대한세무법인 홈페이지</a></p></div></div></div>
- <div class="box"><div class="lbl">태그</div><div id="g">세무조사, 국세청, 중점검증항목, 법인카드사적사용, 가지급금, 가공인건비, 세금계산서, 부가가치세, 법인세, 세무조사준비</div></div>
- <div class="box" style="display:none"><div id="v">https://youtu.be/xeLqDeYTUyA</div></div>
+<p>우리 회사는 어디부터 봐야 할지 궁금하시면 아래 문의란이나 카카오톡으로 문의해 주시기 바랍니다.</p><p><br></p><hr><p style="font-size:19px;font-weight:bold;color:#b3123a">대한세무법인 상담 안내</p><p>👉 대한세무법인 홈페이지<br>https://daehantax.com/?src=naver</p><p>💬 카카오톡 바로 상담<br>http://pf.kakao.com/_ddxbxcu/chat</p><p>📞 전화 상담 031-783-8877</p><p><br></p><p>#세무조사 #국세청 #중점검증항목 #법인카드사적사용 #가지급금 #가공인건비 #세금계산서 #부가가치세 #법인세 #세무조사준비</p></div></div>
+ <div class="box"><div class="lbl">태그</div><div id="g">#세무조사 #국세청 #중점검증항목 #법인카드사적사용 #가지급금 #가공인건비 #세금계산서 #부가가치세 #법인세 #세무조사준비</div></div>
+ <div class="box" style="display:none"><div id="v">https://youtu.be/xeLqDeYTUyA</div><div id="k">http://pf.kakao.com/_ddxbxcu/chat</div><div id="h">https://daehantax.com/?src=naver</div></div>
 </div>
 <div class="ok" id="ok">복사했습니다</div>
 <script>
