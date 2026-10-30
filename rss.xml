@@ -6,8 +6,24 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Wed, 28 Oct 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>법인카드 사적 사용, 세무조사 중점검증 1번 항목과 입증 방법</title>
+      <link>https://daehantax.com/post/video-20261028-1108.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261028-1108.html</guid>
+      <description>국세청이 2026년 4월 2일 공개한 세무조사 반복 과세 10개 유형 중 첫 번째가 법인카드 사적 사용입니다. 주말·집 근처 사용도 업무용 입증 자료가 있으면 인정받습니다.</description>
+      <category>영상해설</category>
+      <pubDate>Fri, 30 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>세무조사 중점검증항목 10가지 (2026년 국세청 공개)</title>
+      <link>https://daehantax.com/post/video-20261028-0628.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261028-0628.html</guid>
+      <description>국세청이 2026년 4월 2일 반복 과세 10개 유형을 공개했습니다. 법인세·소득세 7개, 부가가치세 3개를 항목별로 정리했습니다.</description>
+      <category>영상해설</category>
+      <pubDate>Fri, 30 Oct 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>ISA 비과세 200만원·9.9% 분리과세, 세금 얼마나 줄까</title>
       <link>https://daehantax.com/post/video-20261028-0625.html</link>
@@ -231,22 +247,6 @@
       <description>유튜버·인플루언서 등 미디어 콘텐츠 창작업도 2026년 4월 1일 이후 신고분부터 현금매출명세서 제출 대상에 포함됩니다.</description>
       <category>세법개정</category>
       <pubDate>Tue, 07 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>2026년 세제개편안, 이달 말 발표 예정</title>
-      <link>https://daehantax.com/post/tax-reform-2026-preview.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/tax-reform-2026-preview.html</guid>
-      <description>지난해 &#39;2025년 세제개편안&#39;이 7월 31일 발표되어 2026년 1월부터 시행된 것처럼, &#39;2026년 세제개편안&#39;도 이달 말 발표되어 국회 심의를 거쳐 2027년 시행이 예상됩니다. 사업 계획에 영향이 큰 항목은 미리 챙겨 안내드리겠습니다.</description>
-      <category>세법개정</category>
-      <pubDate>Mon, 06 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>음식점업 등 의제매입세액공제 우대한도, 2027년까지 연장</title>
-      <link>https://daehantax.com/post/restaurant-deemed-input-vat.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/restaurant-deemed-input-vat.html</guid>
-      <description>면세농산물을 구입해 쓰는 음식점업 등에 적용되는 의제매입세액공제 우대 공제한도의 적용기한이 2027년 12월 31일까지 연장되었습니다.</description>
-      <category>세법개정</category>
-      <pubDate>Sat, 04 Jul 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
 </rss>
