@@ -6,8 +6,16 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Fri, 30 Oct 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>개인계좌 매출누락, 국세청 중점검증항목 2번째(2026)</title>
+      <link>https://daehantax.com/post/video-20261028-1240.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/video-20261028-1240.html</guid>
+      <description>국세청이 2026년 4월 2일 공개한 세무조사 중점검증항목 10가지 중 두 번째가 대표자 등 개인계좌를 통한 매출신고 누락입니다. 자료 수집 경로와 세금 부담을 정리합니다.</description>
+      <category>영상해설</category>
+      <pubDate>Mon, 02 Nov 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>법인카드 사적 사용, 세무조사 중점검증 1번 항목과 입증 방법</title>
       <link>https://daehantax.com/post/video-20261028-1108.html</link>
@@ -239,14 +247,6 @@
       <description>국내 사업자의 판매·결제를 대행·중개하는 해외 플랫폼(비거주자·외국법인)도 국세청에 거래 자료를 제출해야 합니다. 2025년 7월 1일 이후 대행·중개분부터 이미 적용 중입니다.</description>
       <category>세법개정</category>
       <pubDate>Thu, 09 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>거짓세금계산서 가산세, 공급가액의 4%로 인상</title>
-      <link>https://daehantax.com/post/false-tax-invoice-penalty.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/false-tax-invoice-penalty.html</guid>
-      <description>실제 거래 없이 가공 세금계산서를 발급·수취하는 행위에 대한 가산세율이 공급가액의 3%에서 4%로 인상되었습니다. 2026년 1월 1일 이후 발급·수취분부터 적용됩니다.</description>
-      <category>세법개정</category>
-      <pubDate>Wed, 08 Jul 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
 </rss>
