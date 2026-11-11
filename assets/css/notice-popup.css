@@ -1,0 +1,33 @@
+/* =========================================================
+   메인 안내 팝업 (개포 래미안 블레스티지 청산금 양도세 신고)
+   - assets/js/notice-popup.js 가 열고 닫는다.
+   ========================================================= */
+.npop { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.npop[hidden] { display: none; }
+.npop__dim { position: absolute; inset: 0; background: rgba(11, 18, 48, .62); }
+.npop__box {
+  position: relative; width: 100%; max-width: 480px; max-height: calc(100vh - 32px); overflow-y: auto;
+  background: #fff; color: var(--ink); border-top: 6px solid var(--gold); border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .35); font-family: var(--font-sans);
+}
+.npop__head { background: var(--navy); color: #fff; padding: 22px 24px 18px; }
+.npop__tag { display: inline-block; font-size: var(--fs-xs); font-weight: 700; color: var(--navy); background: var(--gold-soft); padding: 3px 8px; border-radius: 2px; margin-bottom: 10px; }
+.npop__title { margin: 0; font-size: 1.3rem; line-height: 1.4; font-weight: 800; }
+.npop__sub { margin: 6px 0 0; font-size: var(--fs-small); color: #D5DAEA; }
+.npop__close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 0; background: transparent; color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.npop__body { padding: 20px 24px 8px; font-size: .95rem; line-height: 1.65; }
+.npop__deadline { margin: 0 0 18px; padding: 12px 14px; background: #FFF6E6; border-left: 4px solid var(--gold); font-weight: 700; }
+.npop__deadline strong { color: #B3261E; font-size: 1.1rem; }
+.npop h3 { margin: 0 0 8px; font-size: 1rem; color: var(--navy); }
+.npop ol { margin: 0 0 18px; padding-left: 1.4em; list-style: decimal; }
+.npop ol li { margin-bottom: 4px; }
+.npop ol small { color: var(--gray-500); }
+.npop__contact { list-style: none; margin: 0 0 12px; padding: 0; }
+.npop__contact li { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.npop__contact li span { flex: 0 0 96px; color: var(--gray-500); font-size: var(--fs-small); }
+.npop__contact a { color: var(--navy); font-weight: 700; text-decoration: none; }
+.npop__note { margin: 0 0 16px; padding: 10px 12px; background: var(--bg-off); font-size: var(--fs-small); }
+.npop__foot { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: var(--bg-off); font-size: var(--fs-small); }
+.npop__foot label { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--gray-700); }
+.npop__foot button { border: 0; background: var(--navy); color: #fff; padding: 8px 18px; border-radius: 2px; font-weight: 700; cursor: pointer; }
+body.npop-open { overflow: hidden; }

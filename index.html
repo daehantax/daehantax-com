@@ -53,6 +53,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/notice-popup.css">
 
   <!-- 구조화 데이터 — 검색결과의 사업체 정보(지도·전화·주소) 노출용 -->
   <script type="application/ld+json">
@@ -423,10 +424,46 @@
     </div>
   </footer>
 
+  <!-- ===== 안내 팝업: 개포 래미안 블레스티지 청산금 양도세 신고 (12/1까지 자동 노출) ===== -->
+  <div class="npop" id="notice-popup" role="dialog" aria-modal="true" aria-labelledby="npop-title" hidden>
+    <div class="npop__dim" data-npop-close></div>
+    <div class="npop__box">
+      <div class="npop__head">
+        <span class="npop__tag">조합원 안내</span>
+        <h2 class="npop__title" id="npop-title">개포 래미안 블레스티지<br>청산금 양도세 신고 안내</h2>
+        <p class="npop__sub">조합 청산금 경정청구 관련 · 양도소득세 신고 준비</p>
+        <button class="npop__close" type="button" aria-label="닫기" data-npop-close>&times;</button>
+      </div>
+      <div class="npop__body">
+        <p class="npop__deadline">양도세 신고 마감 : <strong>12월 1일(화)까지</strong></p>
+
+        <h3>준비서류</h3>
+        <ol>
+          <li>조합원 정산금 내역 (요약) 및 첨부 1~7</li>
+          <li>취득 시 매매계약서 <small>(오래되어 없는 경우 생략)</small></li>
+          <li>주민등록초본 <small>(주소 변동 전체 나오게)</small></li>
+        </ol>
+
+        <h3>서류 보내실 곳</h3>
+        <ul class="npop__contact">
+          <li><span>임성진 세무사</span><a href="tel:010-8958-8687">010-8958-8687</a></li>
+          <li><span>이석제 세무사</span><a href="tel:010-2654-9880">010-2654-9880</a></li>
+          <li><span>팩스</span>031-783-8877</li>
+          <li><span>이메일</span><a href="mailto:tax@taxdh.net?subject=%EA%B0%9C%ED%8F%AC%EB%A0%88%EB%AF%B8%EC%95%88%20%EB%B8%94%EB%A0%88%EC%8A%A4%ED%8B%B0%EC%A7%80%20-%20">tax@taxdh.net</a></li>
+        </ul>
+        <p class="npop__note">이메일 제목 : <b>“개포레미안 블레스티지 - 성함”</b><br>또는 위 휴대폰 번호로 <b>카카오톡 사진</b> 전송도 됩니다.</p>
+      </div>
+      <div class="npop__foot">
+        <label><input type="checkbox" id="npop-today"> 오늘 하루 보지 않기</label>
+        <button type="button" data-npop-close>닫기</button>
+      </div>
+    </div>
+  </div>
 
   <script src="assets/js/main.js"></script>
   <script src="assets/js/hero.js"></script>
   <script src="assets/js/data-render.js"></script>
   <script src="assets/js/inquiry.js"></script>
+  <script src="assets/js/notice-popup.js"></script>
 </body>
 </html>
