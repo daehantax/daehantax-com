@@ -4,7 +4,7 @@
    - "오늘 하루 보지 않기" 체크 후 닫으면 그날은 안 뜬다
    ========================================================= */
 (function () {
-  var END_DATE = new Date('2026-12-02T00:00:00+09:00'); // 12월 1일까지 노출
+  var END_DATE = new Date('2026-12-01T00:00:00+09:00'); // 11월 30일까지 노출
   var KEY = 'npop-gaepo-hide-until';
 
   var pop = document.getElementById('notice-popup');
