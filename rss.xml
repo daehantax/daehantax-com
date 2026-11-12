@@ -6,8 +6,16 @@
     <link>https://daehantax.com/info.html</link>
     <description>대한세무법인이 전하는 절세정보와 세법개정 소식.</description>
     <language>ko</language>
-    <lastBuildDate>Mon, 02 Nov 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://daehantax.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>재건축 단계별 회계·세무 ① 정비구역 지정까지 — 조합이 생기기 전 챙길 것</title>
+      <link>https://daehantax.com/post/reconstruction-stage1-zoning.html</link>
+      <guid isPermaLink="true">https://daehantax.com/post/reconstruction-stage1-zoning.html</guid>
+      <description>재건축은 정비구역 지정·고시로 첫 단계가 끝납니다. 2025년 개정으로 준공 30년 지난 단지는 재건축진단 없이 착수할 수 있습니다. 준비위원회 모금액은 예수금으로 관리하고, 투기과열지구에서는 조합설립인가 후 매수하면 조합원이 될 수 없다는 점을 미리 알아야 합니다.</description>
+      <category>절세정보</category>
+      <pubDate>Thu, 12 Nov 2026 09:00:00 +0900</pubDate>
+    </item>
     <item>
       <title>개인계좌 매출누락, 국세청 중점검증항목 2번째(2026)</title>
       <link>https://daehantax.com/post/video-20261028-1240.html</link>
@@ -239,14 +247,6 @@
       <description>중고자동차를 매입해 되파는 사업자의 의제매입세액공제(10/110)에 공제한도가 새로 생기고, 초과분은 1년간 이월공제가 허용됩니다. 2026년 7월 1일 이후 개시하는 과세기간분부터 적용됩니다.</description>
       <category>세법개정</category>
       <pubDate>Fri, 10 Jul 2026 09:00:00 +0900</pubDate>
-    </item>
-    <item>
-      <title>해외 플랫폼도 국세청에 거래자료 제출 — 2025년 7월부터 시행 중</title>
-      <link>https://daehantax.com/post/overseas-platform-reporting.html</link>
-      <guid isPermaLink="true">https://daehantax.com/post/overseas-platform-reporting.html</guid>
-      <description>국내 사업자의 판매·결제를 대행·중개하는 해외 플랫폼(비거주자·외국법인)도 국세청에 거래 자료를 제출해야 합니다. 2025년 7월 1일 이후 대행·중개분부터 이미 적용 중입니다.</description>
-      <category>세법개정</category>
-      <pubDate>Thu, 09 Jul 2026 09:00:00 +0900</pubDate>
     </item>
   </channel>
 </rss>
