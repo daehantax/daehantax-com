@@ -459,12 +459,16 @@ function bodyHTML(a) {
   if (a.youtubeId) {
     return { paras: markdownHTML(a.body || a.summary), linkBtn: "", sources: "", verified: "" };
   }
-  const paras = String(a.body || a.summary || "")
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-    .map((p) => `          <p>${esc(p).replace(/\n/g, "<br>")}</p>`)
-    .join("\n");
+  /* "format": "markdown" 인 글(예: 재건축 단계별 연재)은 표·소제목·상자를 그대로 살린다 */
+  const paras =
+    a.format === "markdown"
+      ? markdownHTML(a.body || a.summary)
+      : String(a.body || a.summary || "")
+          .split(/\n{2,}/)
+          .map((p) => p.trim())
+          .filter(Boolean)
+          .map((p) => `          <p>${esc(p).replace(/\n/g, "<br>")}</p>`)
+          .join("\n");
 
   const linkBtn =
     a.link && a.link.url
