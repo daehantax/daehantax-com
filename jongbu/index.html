@@ -77,6 +77,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .house-top button{border:0;background:none;color:var(--warn);font:inherit;font-size:16px;font-weight:700;cursor:pointer;padding:6px}
   .house .label{margin-top:12px}
   .house select{width:100%;padding:13px 12px;border:2px solid var(--line);border-radius:12px;font:inherit;font-size:19px;font-weight:700;background:#fff;color:var(--ink)}
+  #houses .h-ownerBox{display:none}
+  #houses.with-owner .h-ownerBox{display:block}
   .add{display:block;width:100%;margin-top:12px;padding:15px;border:2px dashed var(--navy);border-radius:12px;background:#fff;color:var(--navy);font:inherit;font-size:19px;font-weight:800;cursor:pointer}
   .btn-sm{display:inline-block;border:0;border-radius:10px;background:var(--navy);color:#fff;font:inherit;font-size:16px;font-weight:700;padding:10px 16px;cursor:pointer;text-decoration:none}
 
@@ -187,13 +189,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
 
       <div id="shareBox" hidden>
-        <label class="label" for="share">이 집의 내 지분 <small>(부부 반반이면 50)</small></label>
+        <label class="label" for="share">이 집의 내 지분 <small id="shareNote">(부부 반반이면 50)</small></label>
         <div class="pct"><input id="share" type="text" inputmode="decimal" value="50" maxlength="5"><b>%</b></div>
       </div>
 
       <div id="multiBox" hidden>
-        <p class="label" style="margin-bottom:4px">내 명의로 된 <u>다른 집</u>을 모두 넣어 주세요</p>
-        <p class="hint">종부세는 <b>사람별</b>로 계산합니다. 배우자 명의 집은 넣지 마세요.</p>
+        <p class="label" style="margin-bottom:4px" id="housesLabel">내 명의로 된 <u>다른 집</u>을 모두 넣어 주세요</p>
+        <p class="hint" id="housesHint">종부세는 <b>사람별</b>로 계산합니다. 배우자 명의 집은 넣지 마세요.</p>
         <div id="houses"></div>
         <button type="button" class="add" id="addHouse">＋ 집 추가</button>
 
@@ -340,6 +342,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       '<div class="money"><input class="h-eok" type="text" inputmode="numeric" maxlength="3" placeholder="0" aria-label="억"><b>억</b>' +
       '<input class="h-man" type="text" inputmode="numeric" maxlength="5" placeholder="0" aria-label="만원"><b>만원</b></div>' +
       '<span class="label">내 지분</span><div class="pct"><input class="h-share" type="text" inputmode="decimal" value="100" maxlength="5"><b>%</b></div>' +
+      '<div class="h-ownerBox"><span class="label">누구 명의인가요?</span><select class="h-owner" aria-label="명의">' +
+      '<option value="me">세금 낼 분 (본인)</option><option value="spouse">배우자</option></select></div>' +
       '<span class="label">집 종류</span><select class="h-kind" aria-label="집 종류">' +
       KINDS.map(function (k) { return '<option value="' + k[0] + '">' + k[1] + '</option>'; }).join('') + '</select>';
     asDigits(d.querySelector('.h-eok')); asMoney(d.querySelector('.h-man'));
@@ -355,7 +359,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       return {
         price: num(d.querySelector('.h-eok').value) * EOK + num(d.querySelector('.h-man').value) * MAN,
         share: Math.min(100, Math.max(0, num(d.querySelector('.h-share').value))) / 100,
-        kind: d.querySelector('.h-kind').value
+        kind: d.querySelector('.h-kind').value,
+        owner: d.querySelector('.h-owner').value
       };
     }).filter(function (h) { return h.price > 0; });
   }
@@ -379,7 +384,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   function syncMode() {
     var m = val('mode');
     $('shareBox').hidden = (m === 'single');
-    $('multiBox').hidden = (m !== 'multi');
+    $('multiBox').hidden = (m === 'single');
+    $('houses').classList.toggle('with-owner', m === 'couple');
+    $('housesLabel').innerHTML = m === 'couple'
+      ? '부부에게 <u>다른 집</u>이 있으면 넣어 주세요 <small>(없으면 비워 두세요)</small>'
+      : '내 명의로 된 <u>다른 집</u>을 모두 넣어 주세요';
+    $('housesHint').innerHTML = m === 'couple'
+      ? '상속주택·이사용 새집·지방 저가주택은 <b>배우자 명의여도</b> 1주택 특례가 유지됩니다. 일반 주택이 있으면 특례를 받을 수 없습니다.'
+      : '종부세는 <b>사람별</b>로 계산합니다. 배우자 명의 집은 넣지 마세요.';
     if (m === 'multi' && !document.querySelector('#houses .house')) addHouse();
     if (m === 'multi' && $('share').value === '50') $('share').value = '100';
     if (m === 'couple' && $('share').value === '100') $('share').value = '50';
@@ -416,23 +428,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   function render(r) {
     var h = '';
     if (r.mode === 'couple') {
-      var eachWin = r.better === 'each', spWin = r.better === 'special';
-      h += '<p class="res-title">부부 공동명의 — 두 가지 방법 비교</p>' +
-        '<div class="cmp">' +
-        '<div class="' + (eachWin ? 'win' : '') + '"><h3>각자 9억씩 공제' + (eachWin ? '<span class="tag">유리</span>' : '') + '</h3>' +
-        '<p>' + (r.eachTotal ? approx(r.eachTotal) : '0원') + '</p><small>부부 합계 (본인 ' + comma(r.me.total) + '원 + 배우자 ' + comma(r.spouse.total) + '원)</small></div>' +
-        '<div class="' + (spWin ? 'win' : '') + '"><h3>1주택 특례 신청' + (spWin ? '<span class="tag">유리</span>' : '') + '</h3>' +
-        '<p>' + (r.special.total ? approx(r.special.total) : '0원') + '</p><small>12억 공제 + 고령·장기보유 공제 ' + Math.round(r.special.creditRate * 100) + '%</small></div>' +
-        '</div>';
-      if (!r.eachTotal && !r.special.total) h += '<p class="zero" style="margin-top:14px">어느 방법으로도 올해 종부세가 나오지 않습니다.</p>';
-      else if (spWin) h += '<p class="advice">특례를 신청하면 ' + approx(r.diff) + ' 덜 냅니다. 고지서가 ‘각자 계산’으로 나왔다면 12월 15일까지 바로잡을 수 있습니다.</p>';
-      else if (eachWin) h += '<p class="advice">지금처럼 각자 내는 쪽이 ' + approx(r.diff) + ' 유리합니다. 특례를 이미 신청하셨다면 다시 검토해 보세요.</p>';
-      else h += '<p class="advice">두 방법의 세금이 같습니다.</p>';
-      h += '<details class="steps"><summary>계산 과정 보기</summary>' +
-        '<p style="margin:12px 0 0;font-weight:700">각자 계산 — 본인</p>' + rows(r.me, false) +
-        '<p style="margin:16px 0 0;font-weight:700">각자 계산 — 배우자</p>' + rows(r.spouse, false) +
-        '<p style="margin:16px 0 0;font-weight:700">1주택 특례</p>' + rows(r.special, true) + '</details>';
-      last = Math.min(r.eachTotal, r.special.total);
+      var eachCard = function (win) {
+        return '<div class="' + (win ? 'win' : '') + '"><h3>각자 9억씩 공제' + (win ? '<span class="tag">유리</span>' : '') + '</h3>' +
+          '<p>' + (r.eachTotal ? approx(r.eachTotal) : '0원') + '</p><small>부부 합계 (본인 ' + comma(r.me.total) + '원 + 배우자 ' + comma(r.spouse.total) + '원)</small></div>';
+      };
+      var eachSteps = '<p style="margin:12px 0 0;font-weight:700">각자 계산 — 본인</p>' + rows(r.me, false) +
+        '<p style="margin:16px 0 0;font-weight:700">각자 계산 — 배우자</p>' + rows(r.spouse, false);
+      if (!r.eligible) {
+        // 일반 주택이 더 있어 공동명의 특례를 받을 수 없는 경우
+        h += '<p class="res-title">부부 공동명의 + 다른 일반 주택</p><div class="cmp">' + eachCard(false) + '</div>' +
+          '<p class="advice">부부 중 한 분이라도 <b>일반 주택</b>을 더 갖고 있으면 1주택 특례를 받을 수 없어, 각자 9억 공제로 계산했습니다. 그 집이 상속주택·이사용 새집·등록임대주택에 해당하면 ‘집 종류’를 바꿔 다시 계산해 보세요.</p>' +
+          '<details class="steps"><summary>계산 과정 보기</summary>' + eachSteps + '</details>';
+        last = r.eachTotal;
+      } else {
+        var eachWin = r.better === 'each', spWin = r.better === 'special', sp = r.special;
+        h += '<p class="res-title">부부 공동명의 — 두 가지 방법 비교</p><div class="cmp">' + eachCard(eachWin) +
+          '<div class="' + (spWin ? 'win' : '') + '"><h3>1주택 특례 신청' + (spWin ? '<span class="tag">유리</span>' : '') + '</h3>' +
+          '<p>' + (sp.total ? approx(sp.total) : '0원') + '</p><small>12억 공제 + 고령·장기보유 공제 ' + Math.round(sp.creditRate * 100) + '%' +
+          (sp.spouse.pub ? ' · 배우자 명의 집 ' + comma(sp.spouse.total) + '원 포함' : '') + '</small></div></div>';
+        if (r.specialN) h += '<p class="res-note">상속주택 등 ' + r.specialN + '채는 누구 명의든 1주택 특례가 유지됩니다. (2026년 2월 시행령 개정)</p>';
+        if (!r.eachTotal && !sp.total) h += '<p class="zero" style="margin-top:14px">어느 방법으로도 올해 종부세가 나오지 않습니다.</p>';
+        else if (spWin) h += '<p class="advice">특례를 신청하면 ' + approx(r.diff) + ' 덜 냅니다. 고지서가 ‘각자 계산’으로 나왔다면 12월 15일까지 바로잡을 수 있습니다.</p>';
+        else if (eachWin) h += '<p class="advice">지금처럼 각자 내는 쪽이 ' + approx(r.diff) + ' 유리합니다. 특례를 이미 신청하셨다면 다시 검토해 보세요.</p>';
+        else h += '<p class="advice">두 방법의 세금이 같습니다.</p>';
+        h += '<details class="steps"><summary>계산 과정 보기</summary>' + eachSteps +
+          '<p style="margin:16px 0 0;font-weight:700">1주택 특례 — 세금 낼 분</p>' + rows(sp.taxpayer, true) +
+          (sp.spouse.pub ? '<p style="margin:16px 0 0;font-weight:700">1주택 특례 — 배우자 명의 집</p>' + rows(sp.spouse, false) : '') + '</details>';
+        last = Math.min(r.eachTotal, sp.total);
+      }
     } else if (r.mode === 'multi' && r.eligible) {
       var win = r.diff > 0;
       h += '<p class="res-title">' + summary(r) + '</p>' +
@@ -488,7 +511,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     render(JongbuCalc.compute({
       mode: mode, price: p,
       share: mode === 'single' ? 1 : share,
-      houses: mode === 'multi' ? houses() : [],
+      houses: mode === 'single' ? [] : houses(),
       age: val('age'), hold: val('hold')
     }));
     window.dataLayer = window.dataLayer || [];

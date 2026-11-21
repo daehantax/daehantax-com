@@ -71,7 +71,8 @@
            'multi'  (2주택 이상 — 본인 명의 기준)
      price    : 이 집 전체 공시가격(원)
      share    : 이 집의 본인 지분(0~1) — couple, multi 에서 사용
-     houses   : 본인 명의 다른 주택 목록 [{ price, share, kind }] — multi
+     houses   : 다른 주택 목록 [{ price, share, kind, owner }] — multi, couple
+                (owner 는 couple 에서만 사용: 'me' | 'spouse')
                 kind = 'normal'  일반 주택
                        'excl'    합산배제(등록임대·사원용·미분양 등) → 과세 제외
                        'inherit' 상속주택 특례 → 과세표준에는 합산, 주택 수에서는 제외
@@ -88,16 +89,41 @@
     }
 
     if (inp.mode === 'couple') {
+      /* 부부 공동명의 1주택 (+ 부부 각자 명의의 다른 집)
+         houses[].owner = 'me'(특례 신청 시 세금을 낼 분) | 'spouse'
+         · 합산배제 주택은 빠진다.
+         · 일반 주택이 하나라도 있으면 공동명의 특례는 받을 수 없다.
+         · 상속주택·이사용 새집·지방 저가주택은 누구 명의든 특례가 유지된다
+           (2026.2. 시행령 개정 — 납세의무자가 아닌 배우자 보유분도 허용). */
       var share = inp.share == null ? 0.5 : inp.share;
-      var me = personTax({ pub: price * share, deduct: RULES.deductGeneral });
-      var spouse = personTax({ pub: price * (1 - share), deduct: RULES.deductGeneral });
-      var special = personTax({ pub: price, deduct: RULES.deductOneHouse, ageRate: ageRate, holdRate: holdRate });
+      var own = { me: { pub: 0, counted: 1, sp: 0 }, spouse: { pub: 0, counted: 1, sp: 0 } };
+      var anyNormal = false, exclN = 0, spN = 0;
+      (inp.houses || []).forEach(function (h) {
+        var o = own[h.owner === 'spouse' ? 'spouse' : 'me'];
+        var v = (h.price || 0) * (h.share == null ? 1 : h.share);
+        if (h.kind === 'excl') { exclN++; return; }
+        o.pub += v;
+        if (h.kind === 'inherit' || h.kind === 'temp' || h.kind === 'rural') { o.sp += v; spN++; }
+        else { o.counted++; anyNormal = true; }
+      });
+      // ① 각자 계산: 각자 9억 공제, 자기 명의 집을 모두 더한다
+      var me = personTax({ pub: price * share + own.me.pub, deduct: RULES.deductGeneral, three: own.me.counted >= 3 });
+      var spouse = personTax({ pub: price * (1 - share) + own.spouse.pub, deduct: RULES.deductGeneral, three: own.spouse.counted >= 3 });
       var eachTotal = me.total + spouse.total;
-      return {
-        mode: 'couple', me: me, spouse: spouse, eachTotal: eachTotal, special: special,
-        better: special.total < eachTotal ? 'special' : (special.total > eachTotal ? 'each' : 'same'),
-        diff: Math.abs(special.total - eachTotal)
-      };
+      var res = { mode: 'couple', me: me, spouse: spouse, eachTotal: eachTotal, eligible: !anyNormal,
+                  others: (inp.houses || []).length, excl: exclN, specialN: spN };
+      if (anyNormal) { res.better = 'each'; res.diff = 0; return res; }
+      // ② 공동명의 특례: 세금 낼 분이 이 집 전체 + 본인 명의 특례주택을 12억 공제로 계산,
+      //    세액공제는 이 집 몫에만. 배우자 명의 특례주택은 배우자가 따로(9억 공제) 낸다.
+      var tPub = price + own.me.sp;
+      var taxpayer = personTax({ pub: tPub, deduct: RULES.deductOneHouse, ageRate: ageRate, holdRate: holdRate,
+                                 creditShare: tPub ? price / tPub : 1 });
+      var spouseOwn = personTax({ pub: own.spouse.sp, deduct: RULES.deductGeneral });
+      var spTotal = taxpayer.total + spouseOwn.total;
+      res.special = { taxpayer: taxpayer, spouse: spouseOwn, total: spTotal, creditRate: taxpayer.creditRate };
+      res.better = spTotal < eachTotal ? 'special' : (spTotal > eachTotal ? 'each' : 'same');
+      res.diff = Math.abs(spTotal - eachTotal);
+      return res;
     }
 
     /* ---- 2주택 이상 ---- */
