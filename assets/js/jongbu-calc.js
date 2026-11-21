@@ -90,11 +90,14 @@
 
     if (inp.mode === 'couple') {
       /* 부부 공동명의 1주택 (+ 부부 각자 명의의 다른 집)
-         houses[].owner = 'me'(특례 신청 시 세금을 낼 분) | 'spouse'
+         houses[].owner = 'me' | 'spouse'
          · 합산배제 주택은 빠진다.
          · 일반 주택이 하나라도 있으면 공동명의 특례는 받을 수 없다.
-         · 상속주택·이사용 새집·지방 저가주택은 누구 명의든 특례가 유지된다
-           (2026.2. 시행령 개정 — 납세의무자가 아닌 배우자 보유분도 허용). */
+         · 상속주택·이사용 새집·지방 저가주택(특례주택)은 "세금 낼 분(납세의무자)"이
+           가진 경우에만 특례가 유지된다. 납세의무자의 배우자가 다른 주택을 가지면 불가.
+           2026.2.27. 시행령 개정으로 지분과 관계없이 납세의무자를 고를 수 있으므로,
+           특례주택을 가진 사람을 납세의무자로 정한 것으로 보고 계산한다.
+         · 따라서 특례주택이 부부 양쪽에 나뉘어 있으면 특례를 받을 수 없다. */
       var share = inp.share == null ? 0.5 : inp.share;
       var own = { me: { pub: 0, counted: 1, sp: 0 }, spouse: { pub: 0, counted: 1, sp: 0 } };
       var anyNormal = false, exclN = 0, spN = 0;
@@ -110,19 +113,20 @@
       var me = personTax({ pub: price * share + own.me.pub, deduct: RULES.deductGeneral, three: own.me.counted >= 3 });
       var spouse = personTax({ pub: price * (1 - share) + own.spouse.pub, deduct: RULES.deductGeneral, three: own.spouse.counted >= 3 });
       var eachTotal = me.total + spouse.total;
-      var res = { mode: 'couple', me: me, spouse: spouse, eachTotal: eachTotal, eligible: !anyNormal,
+      var split = own.me.sp > 0 && own.spouse.sp > 0;
+      var res = { mode: 'couple', me: me, spouse: spouse, eachTotal: eachTotal,
+                  eligible: !anyNormal && !split, reason: anyNormal ? 'normal' : (split ? 'split' : ''),
                   others: (inp.houses || []).length, excl: exclN, specialN: spN };
-      if (anyNormal) { res.better = 'each'; res.diff = 0; return res; }
-      // ② 공동명의 특례: 세금 낼 분이 이 집 전체 + 본인 명의 특례주택을 12억 공제로 계산,
-      //    세액공제는 이 집 몫에만. 배우자 명의 특례주택은 배우자가 따로(9억 공제) 낸다.
-      var tPub = price + own.me.sp;
+      if (!res.eligible) { res.better = 'each'; res.diff = 0; return res; }
+      // ② 공동명의 특례: 세금 낼 분 한 사람이 이 집 전체 + 본인 명의 특례주택을 합산해
+      //    12억 공제로 계산한다. 고령·장기보유 공제는 이 집 몫의 세액에만 적용.
+      var payer = own.spouse.sp > 0 ? 'spouse' : 'me';
+      var tPub = price + own[payer].sp;
       var taxpayer = personTax({ pub: tPub, deduct: RULES.deductOneHouse, ageRate: ageRate, holdRate: holdRate,
                                  creditShare: tPub ? price / tPub : 1 });
-      var spouseOwn = personTax({ pub: own.spouse.sp, deduct: RULES.deductGeneral });
-      var spTotal = taxpayer.total + spouseOwn.total;
-      res.special = { taxpayer: taxpayer, spouse: spouseOwn, total: spTotal, creditRate: taxpayer.creditRate };
-      res.better = spTotal < eachTotal ? 'special' : (spTotal > eachTotal ? 'each' : 'same');
-      res.diff = Math.abs(spTotal - eachTotal);
+      res.special = { taxpayer: taxpayer, total: taxpayer.total, creditRate: taxpayer.creditRate, payer: payer };
+      res.better = taxpayer.total < eachTotal ? 'special' : (taxpayer.total > eachTotal ? 'each' : 'same');
+      res.diff = Math.abs(taxpayer.total - eachTotal);
       return res;
     }
 
