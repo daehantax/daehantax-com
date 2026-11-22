@@ -1,5 +1,5 @@
 /* =========================================================
-   메인 안내 팝업 (개포 래미안 블레스티지 청산금 양도세 신고)
+   메인 안내 팝업 (공지 여러 개를 탭으로 표시)
    - assets/js/notice-popup.js 가 열고 닫는다.
    ========================================================= */
 .npop { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 16px; }
@@ -10,11 +10,18 @@
   background: #fff; color: var(--ink); border-top: 6px solid var(--gold); border-radius: 6px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, .35); font-family: var(--font-sans);
 }
+/* 공지 탭 — 공지가 2개 이상일 때만 보인다 */
+.npop__tabs { display: flex; gap: 4px; padding: 10px 52px 0 12px; background: var(--navy-deep); }
+.npop__tabs[hidden] { display: none; }
+.npop__tab { flex: 1; border: 0; border-radius: 6px 6px 0 0; padding: 11px 8px; background: rgba(255, 255, 255, .12); color: #D5DAEA; font: inherit; font-size: .95rem; font-weight: 700; cursor: pointer; }
+.npop__tab.is-on { background: var(--navy); color: #fff; box-shadow: inset 0 3px 0 var(--gold); }
+.npop__panel[hidden] { display: none; }
+.npop__cta { display: block; margin: 0 0 14px; padding: 15px; border-radius: 4px; background: var(--gold); color: #fff; font-size: 1.15rem; font-weight: 800; text-align: center; text-decoration: none; }
 .npop__head { background: var(--navy); color: #fff; padding: 22px 24px 18px; }
 .npop__tag { display: inline-block; font-size: var(--fs-xs); font-weight: 700; color: var(--navy); background: var(--gold-soft); padding: 3px 8px; border-radius: 2px; margin-bottom: 10px; }
 .npop__title { margin: 0; font-size: 1.3rem; line-height: 1.4; font-weight: 800; }
 .npop__sub { margin: 6px 0 0; font-size: var(--fs-small); color: #D5DAEA; }
-.npop__close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 0; background: transparent; color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.npop__close { position: absolute; z-index: 1; top: 6px; right: 8px; width: 36px; height: 36px; border: 0; background: transparent; color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; }
 .npop__body { padding: 20px 24px 8px; font-size: .95rem; line-height: 1.65; }
 .npop__deadline { margin: 0 0 18px; padding: 12px 14px; background: #FFF6E6; border-left: 4px solid var(--gold); font-weight: 700; }
 .npop__deadline strong { color: #B3261E; font-size: 1.1rem; }

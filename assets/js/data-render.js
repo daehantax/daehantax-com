@@ -133,6 +133,12 @@
       s.appendChild(el("span", "notice-item__date", formatDate(item.date)));
       d.appendChild(s);
       d.appendChild(el("p", "notice-item__body", item.body || ""));
+      // 공지에 "link": { "label": "…", "url": "…" } 가 있으면 바로가기 버튼을 붙인다
+      if (item.link && item.link.url) {
+        var a = el("a", "btn notice-item__link", item.link.label || "자세히 보기");
+        a.href = item.link.url;
+        d.appendChild(a);
+      }
       container.appendChild(d);
     });
   }
